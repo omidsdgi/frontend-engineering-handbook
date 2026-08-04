@@ -1435,3 +1435,321 @@ Chapter 31 — IIFE (Immediately Invoked Function Expression)
 * Golden Answers
 * Conclusion
 
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+### Part 04 — Objects
+
+## Chapter 32 — Objects Fundamentals
+
+
+# Block 01 — Introduction to Objects
+اهداف فصل *
+* Object چیست؟
+* Why Objects Matter?
+* Real World Representation
+* Primitive vs Object Review
+
+# Block 02 — Creating Objects
+* Object Literal Syntax
+* Properties
+* Values
+* Key-Value Structure
+
+# Block 03 — Accessing Object Properties
+* Dot Notation
+* Bracket Notation
+* Dynamic Property Access
+* When to Use Each
+
+# Block 04 — Adding and Modifying Properties
+* Creating New Properties
+* Updating Values
+* Deleting Properties
+
+# Block 05 — Object Methods Introduction
+* Function as Property
+* Method Concept
+* this Introduction Review
+
+# Block 06 — Object References
+* Objects as Reference Values
+* Copying Objects
+* Mutation Behavior
+
+# Block 07 — Object Design Principles
+* Data Organization
+* Naming Properties
+* Avoiding Complex Objects
+
+# Block 08 — Chapter Review
+* Summary
+* Key Takeaways
+* Technical Interview
+* Golden Answers
+* Conclusion
+
+////////////////////////////////////////////////////////////////////////////////////////////////////
+
+Chapter 33 — Object Methods
+
+# Block 01 — Methods Fundamentals
+* اهداف فصل
+* Function vs Method
+* Object Behavior
+
+# Block 02 — Creating Methods
+* Method Syntax
+* Function Property
+* ES6 Method Shorthand
+
+# Block 03 — this Inside Methods
+* Method Invocation
+* Implicit Binding
+* Object Context
+
+# Block 04 — Method Chaining Introduction
+* Returning this
+* Chainable Methods
+* Practical Patterns
+
+# Block 05 — Object Methods and Arrow Functions
+* Why Arrow Functions Are Different
+* Losing this Context
+
+# Block 06 — Professional Object Design
+* Encapsulation Introduction
+* Organizing Behavior
+
+# Block 07 — Chapter Review
+* Summary
+* Interview
+* Golden Answers
+* Conclusion
+
+////////////////////////////////////////////////////////////////////
+
+## Chapter 34 — Object.keys, values and entries
+
+# Block 01 — Object Built-in Methods
+اهداف فصل* 
+* Why Built-in Object Methods?
+* Iterating Over Objects
+
+# Block 02 — Object.keys()
+* Returning Keys
+* Array Result
+* Common Usage
+
+# Block 03 — Object.values()
+* Returning Values
+* Working With Data
+
+# Block 04 — Object.entries()
+* Key-Value Pairs
+* Destructuring Connection
+
+# Block 05 — Object Iteration Patterns
+* for...of
+* Looping Object Data
+* Practical Examples
+
+# Block 06 — Chapter Review
+* Summary
+* Interview
+* Golden Answers
+* Conclusion
+
+///////////////////////////////////////////////////////////
+
+## Chapter 35 — Object Destructuring
+
+# Block 01 — Introduction to Destructuring
+اهداف فصل *
+* Extracting Values
+* Why Destructuring Exists?
+
+# Block 02 — Basic Object Destructuring
+* Property Matching
+* Creating Variables
+* Naming Rules
+
+# Block 03 — Renaming Properties
+* Alias Syntax
+* Avoiding Name Conflicts
+
+# Block 04 — Default Values
+* Missing Properties
+* Fallback Values
+
+# Block 05 — Nested Destructuring
+* Nested Objects
+* Extracting Deep Values
+
+# Block 06 — Function Parameters Destructuring
+* Passing Objects
+* Cleaner Function APIs
+
+# Block 07 — Practical Usage
+* React Props Connection
+* Configuration Objects
+* Modern JavaScript Style
+
+# Block 08 — Chapter Review
+* Summary
+* Interview
+* Golden Answers
+* Conclusion
+
+/////////////////////////////////////////////////////////////////////////
+
+## Chapter 36 — Optional Chaining
+
+# Block 01 — Problem Before Optional Chaining
+اهداف فصل *
+* Accessing Nested Data
+* Undefined Errors
+
+# Block 02 — Optional Chaining Operator
+* ?. Syntax
+* Property Access
+* Method Calls
+
+# Block 03 — Optional Chaining Behavior
+* null
+* undefined
+* Short Circuiting
+
+# Block 04 — Optional Chaining With Objects
+* Nested Objects
+* API Data
+* Safe Access
+
+# Block 05 — Optional Chaining With Functions and Arrays
+* Function Calls
+* Array Access
+* Common Patterns
+
+# Block 06 — Best Practices
+* When to Use
+* Avoiding Overuse
+* Code Readability
+
+# Block 07 — Chapter Review
+* Summary
+* Interview
+* Golden Answers
+* Conclusion
+
+//////////////////////////////////////////////////////////////////////////////////////
+
+## Chapter 37 — Nullish Coalescing Operator
+
+# Block 01 — Introduction to Nullish Values
+اهداف فصل *
+* null
+* undefined
+* Missing Data
+
+# Block 02 — Problem With OR Operator
+* Falsy Values
+* Default Values Issue
+* Unexpected Results
+
+# Block 03 — Nullish Coalescing Operator
+* ?? Syntax
+* Difference With ||
+* Practical Examples
+
+# Block 04 — Combining Operators
+* Optional Chaining + Nullish Coalescing
+* Safe Data Handling
+
+# Block 05 — Real World Usage
+* API Responses
+* Configuration Values
+* User Data
+
+# Block 06 — Chapter Review
+* Summary
+* Interview
+* Golden Answers
+* Conclusion
+
+///////////////////////////////////////////////////////////////////////////////////////
+
+##Chapter 38 — Object Spread and Rest
+
+# Block 01 — Introduction to Spread Operator
+اهداف فصل *
+* Expanding Objects
+* Copying Data
+
+# Block 02 — Object Spread
+* Creating Copies
+* Merging Objects
+* Updating Properties
+
+# Block 03 — Object Rest Pattern
+* Collecting Remaining Properties
+* Removing Properties
+
+# Block 04 — Shallow Copy Limitations
+* Nested Objects
+* Reference Behavior
+* Deep Copy Introduction
+
+# Block 05 — Practical Patterns
+* Updating State
+* Immutable Updates
+* React Connection
+
+# Block 06 — Chapter Review
+* Summary
+* Interview
+* Golden Answers
+* Conclusion
+
+///////////////////////////////////////////////////////////////////////////////////////////////////
+
+## Chapter 39 — Object Review and Practical Patterns
+
+# Block 01 — Object Concepts Review
+* Object Creation
+* Properties
+* Methods
+* References
+
+# Block 02 — Working With Real Data
+* API Objects
+* Configuration Objects
+* Data Modeling
+
+# Block 03 — Object Transformation Patterns
+* Extracting Data
+* Updating Objects
+* Combining Objects
+
+# Block 04 — Clean Object Design
+* Naming
+* Organization
+* Avoiding Complexity
+
+# Block 05 — Interview Preparation
+* Common Questions
+* Object Behavior
+* Reference Questions
+
+# Block 06 — Chapter Review
+* Summary
+* Key Takeaways
+* Technical Interview
+* Golden Answers
+* Conclusion
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+Part 05 — OOP
+
+
