@@ -3363,3 +3363,361 @@ Chapter 69 — Introduction to DOM
 - Technical Interview
 - Golden Answers
 - Conclusion
+
+//////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////
+
+### Part 09 — Asynchronous JavaScript
+
+//////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////
+
+## Chapter 79 — Introduction to Asynchronous JavaScript
+
+# Block 01 — Introduction to Async JavaScript
+اهداف فصل- 
+- Synchronous Programming Review
+- Asynchronous Programming چیست؟
+- Why Async Matters?
+
+# Block 02 — Long Running Operations
+- Network Requests
+- Timers
+- File Operations
+- User Interactions
+
+# Block 03 — JavaScript Single Thread
+- Single Thread Concept
+- One Task at a Time
+- Runtime Limitations
+
+# Block 04 — Blocking vs Non-Blocking Code
+- Blocking Operations
+- Non-Blocking Operations
+- User Experience Impact
+
+# Block 05 — JavaScript Runtime Review
+- Engine
+- Web APIs
+- Callback Queue
+- Event Loop Introduction
+
+# Block 06 — Chapter Review
+- Summary
+- Key Takeaways
+- Technical Interview
+- Golden Answers
+- Conclusion
+
+//////////////////////////////////////////
+
+##Chapter 80 — The Event Loop
+
+# Block 01 — Event Loop Fundamentals
+اهداف فصل -
+- Why Event Loop Exists?
+- Runtime Coordination
+
+# Block 02 — Components of Event Loop
+- Call Stack
+- Web APIs
+- Callback Queue
+
+# Block 03 — Task Execution Order
+- Stack Execution
+- Queue Processing
+- Timing Behavior
+
+# Block 04 — Microtasks and Macrotasks
+- Microtask Queue
+- Promise Callbacks
+- Timer Callbacks
+
+# Block 05 — Event Loop Examples
+- setTimeout
+- Promise
+- Console Ordering
+
+# Block 06 — Debugging Async Code
+- Reading Execution Order
+- Common Confusions
+
+# Block 07 — Chapter Review
+- Summary
+- Interview
+- Golden Answers
+- Conclusion
+
+/////////////////////////////////////////////////////////////////////
+
+## Chapter 81 — AJAX and HTTP Communication
+
+# Block 01 — Introduction to AJAX
+- اهداف فصل
+- AJAX چیست؟
+- Asynchronous JavaScript And XML
+- Evolution of Web Applications
+
+# Block 02 — Client Server Communication
+- Request
+- Response
+- HTTP Basics
+
+# Block 03 — XMLHttpRequest
+- Historical API
+- Creating Requests
+- Handling Responses
+
+# Block 04 — Request States
+- readyState
+- Status Codes
+- Error Handling
+
+# Block 05 — Limitations of XMLHttpRequest
+- Callback Style
+- Complex Code
+- Promise Motivation
+
+# Block 06 — Chapter Review
+- Summary
+- Interview
+- Golden Answers
+- Conclusion
+
+//////////////////////////////////////////////
+
+## Chapter 82 — Fetch API
+
+# Block 01 — Introduction to Fetch
+اهداف فصل -
+- Modern HTTP API
+- Fetch vs XMLHttpRequest
+
+# Block 02 — Making Requests
+- fetch()
+- URL
+- Request Options
+
+# Block 03 — Working With Responses
+- Response Object
+- json()
+- Parsing Data
+
+# Block 04 — Fetch Error Handling
+- Network Errors
+- HTTP Errors
+- Response Validation
+
+# Block 05 — Working With APIs
+- REST APIs
+- JSON Data
+- Real Applications
+
+# Block 06 — Practical Patterns
+- Loading States
+- Error States
+- Data Rendering
+
+# Block 07 — Chapter Review
+- Summary
+- Interview
+- Golden Answers
+- Conclusion
+
+///////////////////////////////////////////////////////////
+
+## Chapter 83 — Promises Fundamentals
+
+# Block 01 — Promise Introduction
+اهداف فصل -
+- Problem With Callbacks
+- Promise Concept
+
+# Block 02 — Promise States
+- Pending
+- Fulfilled
+- Rejected
+
+# Block 03 — Creating Promises
+- Promise Constructor
+- resolve()
+- reject()
+
+# Block 04 — Consuming Promises
+- then()
+- catch()
+- finally()
+
+# Block 05 — Promise Lifecycle
+- State Transition
+- Asynchronous Resolution
+
+# Block 06 — Promise and Event Loop
+- Microtask Queue
+- Execution Order
+
+# Block 07 — Chapter Review
+- Summary
+- Interview
+- Golden Answers
+- Conclusion
+
+/////////////////////////////////////////
+
+## Chapter 84 — Promise Chaining
+
+# Block 01 — Promise Chain Concept
+اهداف فصل -
+- Multiple Async Operations
+- Sequential Flow
+
+# Block 02 — Returning Promises
+- then() Return Value
+- Passing Results
+
+# Block 03 — Chaining Multiple Requests
+- Dependent Requests
+- Data Flow
+
+# Block 04 — Error Propagation
+- catch Position
+- Handling Failures
+
+# Block 05 — Promise Combinators Introduction
+- Promise.all()
+- Promise.race()
+- Promise.allSettled()
+
+# Block 06 — Common Promise Mistakes
+- Missing Return
+- Nested then()
+
+# Block 07 — Chapter Review
+- Summary
+- Interview
+- Golden Answers
+- Conclusion
+/////////////////////////////////////////////////////////
+
+## Chapter 85 — Async Await
+
+# Block 01 — Introduction to Async Await
+اهداف فصل -
+Syntactic Improvement
+- Promise-Based Nature
+
+# Block 02 — async Functions
+- async Keyword
+- Automatic Promise Return
+
+# Block 03 — await Keyword
+- Waiting for Promise
+- Execution Suspension
+
+# Block 04 — Async Error Handling
+- try/catch
+- Handling Rejections
+
+# Block 05 — Async Function Patterns
+- Sequential Execution
+- Parallel Execution
+
+# Block 06 — Async Await and APIs
+- Fetch Integration
+- Real Application Pattern
+
+# Block 07 — Chapter Review
+- Summary
+- Interview
+- Golden Answers
+- Conclusion
+
+////////////////////////////////////////////////////////////////////////////////////////
+
+Chapter 86 — Error Handling in Asynchronous JavaScript
+
+# Block 01 — Error Handling Fundamentals
+- اهداف فصل
+- Why Errors Matter?
+- Runtime Errors
+
+# Block 02 — Promise Errors
+- Rejection
+- catch()
+- Error Objects
+
+# Block 03 — Async Await Errors
+- try/catch
+- finally
+
+# Block 04 — Custom Errors
+- throw
+- Error Classes Introduction
+
+# Block 05 — Production Error Handling
+- User Feedback
+- Logging
+- Recovery Strategies
+
+# Block 06 — Chapter Review
+- Summary
+- Interview
+- Golden Answers
+- Conclusion
+
+///////////////////////////////////////////////////////////////////////////////////////
+
+## Chapter 87 — Advanced Async Patterns
+
+# Block 01 — Introduction to Advanced Async Patterns
+- اهداف فصل
+- مقدمه
+- Why Advanced Async Patterns Matter?
+- ارتباط با فصل‌های 79 تا 86
+- مرور مسیر تکامل برنامه‌نویسی ناهمگام
+- نقش الگوهای Async در توسعه Frontend مدرن
+
+# Block 02 — Parallel vs Sequential Execution
+- Sequential Execution
+- Parallel Execution
+- Performance Considerations
+- Promise.all()
+
+# Block 03 — Async Data Loading Patterns
+- Loading State
+- Error State
+- Empty State
+- Success State
+- User Experience Considerations
+
+# Block 04 — Race Conditions and Request Management
+- Race Conditions
+- Multiple Simultaneous Requests
+- Preventing Unexpected Results
+- Managing Request Order
+
+# Block 05 — Request Cancellation
+- AbortController
+- Canceling Fetch Requests
+- Cleaning Up Pending Requests
+- Resource Management
+
+# Block 06 — Async JavaScript in Frontend Applications
+- Data Fetching Patterns
+- Search Autocomplete
+- Infinite Scrolling
+- Dashboard Applications
+- Best Practices
+
+ Block 07 — Jonas Async Section Review
+- مرور مهم‌ترین مفاهیم این Part
+- Common Mistakes
+- Professional Patterns
+- Interview Preparation
+
+# Block 08 — Chapter Review
+- Summary
+- Key Takeaways
+- Technical Interview
+- Golden Answers
+- Conclusion
