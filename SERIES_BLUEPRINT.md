@@ -1,640 +1,514 @@
-Front-End Engineering Handbook
-Volume I
+# Writing Block Strategy
+
+تمام Chapterها قبل از تولید محتوا باید به Writing Blockهای مستقل تقسیم شوند.
+
+## Writing Block Rules
+
+- هر Block باید یک مفهوم آموزشی مشخص داشته باشد.
+- هر Block باید قابلیت تولید در یک گفتگوی مستقل را داشته باشد.
+- هر Block نباید مفهومی خارج از Concept Flow فصل را معرفی کند.
+- ترتیب Blockها باید مطابق مسیر آموزشی Jonas Schmedtmann باشد.
+- هر Block باید شامل:
+    - Explanation
+    - Practical Examples
+    - Technical Notes
+    - Common Mistakes (در صورت نیاز)
+      باشد.
+
+## Chapter Completion Flow
+
+برای هر Chapter:
+
+1. ابتدا Blueprint فصل بررسی می‌شود.
+2. Blockها به ترتیب تولید می‌شوند.
+3. پس از پایان آخرین Block:
+    - Summary
+    - Key Takeaways
+    - Technical Interview
+    - Golden Answers
+    - Chapter Conclusion
+      تولید می‌شود.
+4. سپس Chapter بعدی شروع خواهد شد.
+
+////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////
+
+### Part 01 — JavaScript Fundamental
+
+## Chapter 01 — What is JavaScript?
+
+Writing Blocks
+
+# Block 01 — Introduction and JavaScript Overview
+*  اهداف فصل
+*  مقدمه
+*  JavaScript چیست؟
+*  چرا JavaScript ساخته شد؟
+*  جایگاه JavaScript در Web Development
+*  High-Level Language
+
+# Block 02 — JavaScript Characteristics
+*  Garbage-Collected
+*  Interpreted vs Compiled
+*  Just-In-Time Compilation (معرفی اولیه)
+*  Multi-Paradigm
+
+# Block 03 — Programming Paradigms
+* Procedural Programming
+* Object-Oriented Programming
+* Functional Programming
+* Prototype-Based Programming
+
+# Block 04 — JavaScript Ecosystem
+* ECMAScript
+* JavaScript vs ECMAScript
+* Browser JavaScript
+* Server-Side JavaScript
+* Node.js Introduction
+
+# Block 05 — Jonas Perspective and Professional View
+* چرا Jonas ابتدا Fundamentals را آموزش می‌دهد؟
+* JavaScript به عنوان زبان Frontend
+اهمیت Understanding Behind The Scenes * 
+
+# Block 06 — Chapter Review
+* Summary
+* Key Takeaways
+* Technical Interview
+* Golden Answers
+* Conclusion
+/////////////////////////////////////////////////////
+
+## Chapter 02 — Values and Variables
+
+# Block 01 — Values
+مفهوم Value *
+* Data Representation
+* Literal Values
+* Runtime Values
+
+# Block 02 — Variables Fundamentals
+* Variable چیست؟
+* Memory Concept
+* Reference Name
+* Storage Model
+
+# Block 03 — Variable Lifecycle* 
+* Declaration
+* Initialization
+* Assignment
+* Reassignment
+
+# Block 04 — Naming and Best Practices
+* Identifier Rules
+* Naming Convention
+* Clean Code Principles
+* Common Mistakes
+
+# Block 05 — Chapter Review
+* Summary
+* Key Takeaways
+* Technical Interview
+* Golden Answers
+* Conclusion
+
+///////////////////////////////////////
+
+## Chapter 03 — Data Types
+
+# Block 01 — Type System
+* مفهوم Type
+* Why Types Matter
+* Static vs Dynamic Typing
+* JavaScript Dynamic Typing
+
+# Block 02 — Primitive Data Types
+* Number
+* String
+* Boolean
+* Undefined
+* Null
+
+# Block 03 — Advanced Primitive Types
+* Symbol
+* BigInt
+
+# Block 04 — Objects and References
+* Object Type
+* Primitive vs Reference Values
+* Memory Behavior
+
+# Block 05 — Chapter Review
+* Summary
+* Interview
+* Golden Answers
+* Conclusion
+
+//////////////////////////////////////////
+
+## Chapter 04 — let, const and var
+
+#Block 01 — Variable History
+* var
+* Problems with var
+* ES6 Revolution
+
+# Block 02 — let
+* Block Scope
+* Reassignment
+* Use Cases
+
+# Block 03 — const
+* Constant Binding
+* Object Mutation
+* Best Practice
+
+# Block 04 — Comparison and Professional Usage
+* var vs let vs const
+* Temporal Dead Zone (Introduction)
+* Jonas Perspective
+* Modern JavaScript Recommendation
+
+# Block 05 — Chapter Review
+* Summary
+* Interview
+* Golden Answers
+* Conclusion
+
+* ////////////////////////////////////////////////
+
+Chapter 05 — Operators
+
+# Block 01 — Introduction to Operators
+اهداف فصل* 
+* مفهوم Operator
+* Operand چیست؟
+* Expression چیست؟
+* Statement چیست؟
+نقش Operators در JavaScript *
+
+# Block 02 — Arithmetic Operators
+* Addition
+* Subtraction
+* Multiplication
+* Division
+* Remainder Operator
+* Exponentiation
+* Increment
+* Decrement
+
+# Block 03 — Assignment Operators
+* Basic Assignment
+* Compound Assignment
+* +=
+* -=
+* *=
+* /=
+* Modern Usage
+
+# Block 04 — Comparison Operators
+* Greater Than
+* Less Than
+* Greater Than or Equal
+* Less Than or Equal
+* Equality Operators
+* Strict Equality
+* Loose Equality
+Type Coercion Introduction
+
+# Block 05 — Logical Operators
+* AND
+* OR
+* NOT
+* Short-Circuit Evaluation (Introduction)
+* Practical Patterns
+
+# Block 06 — Other Operators
+* Unary Operators
+* typeof
+* Conditional (Ternary) Operator
+* Operator Precedence
+
+# Block 07 — Professional Usage
+* Common Mistakes
+* Clean Code Considerations
+* Jonas Perspective
+
+# Block 08 — Chapter Review
+* Summary
+* Key Takeaways
+* Technical Interview
+* Golden Answers
+* Conclusion
+
+//////////////////////////////////////////////////
+
+## Chapter 06 — Strings and Template Literals
+
+
+# Block 01 — Introduction to Strings
+مفهوم * String
+* Text Representation
+* String Primitive Type
+* Creating Strings
+
+# Block 02 — String Basics
+* Single Quotes
+* Double Quotes
+* Backticks
+* Escape Characters
+* Special Characters
+
+# Block 03 — String Concatenation
+* Combining Strings
+* The + Operator
+* Type Coercion with Strings
+* Limitations of Concatenation
+
+# Block 04 — Template Literals
+* Introduction
+* String Interpolation
+* Multi-line Strings
+* Embedding Expressions
+
+# Block 05 — String Methods Introduction
+* length
+* Accessing Characters
+* Basic String Methods
+* Immutability Concept
+
+# Block 06 — Advanced Introduction
+* Tagged Templates
+* Use Cases
+* Real World Examples
+
+# Block 07 — Chapter Review
+* Summary
+* Key Takeaways
+* Technical Interview
+* Golden Answers
+* Conclusion
+
+////////////////////////////////////////////////////
+
+## Chapter 07 — Taking Decisions
+
+# Block 01 — Decision Making Fundamentals
+نامه‌نویسی و تصمیم‌گیری ** 
+* Control Flow
+* Conditional Execution
+
+# Block 02 — if Statement
+* Basic if
+* Condition Expression
+* Code Block
+* Multiple Conditions
+
+# Block 03 — if / else Statements
+* else
+* else if
+* Nested Conditions
+* Conditional Chains
+
+# Block 04 — Truthy and Falsy Values
+* Boolean Conversion
+* Truthy Values
+* Falsy Values
+* Common Mistakes
+
+# Block 05 — Equality and Conditions
+* Strict Equality
+* Loose Equality
+* Type Coercion
+* Best Practices
+
+# Block 06 — switch Statement
+* switch Syntax
+* case
+* break
+* default
+* When to Use switch
+
+# Block 07 — Conditional Patterns
+* Guard Clauses (Introduction)
+* Conditional Operator
+* Writing Cleaner Conditions
+
+# Block 08 — Chapter Review
+* Summary
+* Key Takeaways
+* Technical Interview
+* Golden Answers
+* Conclusion
+
+/////////////////////////////////////////////////
+
+## Chapter 08 — Loops
+
+# Block 01 — Loop Fundamentals
+* Why Loops?
+* Repeating Tasks
+* Iteration Concept
+* Infinite Loops
+
+# Block 02 — for Loop
+* Syntax
+* Initialization
+* Condition
+* Update Expression
+* Common Patterns
+
+# Block 03 — while Loop
+* Syntax
+* Difference with for
+* Practical Examples
+
+# Block 04 — do while Loop
+* Execution Before Condition
+* Use Cases
+* Comparison
+
+# Block 05 — Loop Control
+* break
+* continue
+* Early Exit
+* Skipping Iterations
+
+# Block 06 — Nested Loops
+* Loop Inside Loop
+* Execution Flow
+* Performance Considerations
+
+# Block 07 — Professional Practices
+* Avoiding Complex Loops
+* Readability
+* Common Mistakes
+
+# Block 08 — Chapter Review
+* Summary
+* Key Takeaways
+* Technical Interview
+* Golden Answers
+* Conclusion
+
+/////////////////////////////////////////////
+
+## Chapter 09 — Strict Mode
+
+# Block 01 — Introduction to Strict Mode
+اهداف * Strict Mode
+* Historical Background
+* Why JavaScript Needed Strict Mode
+
+# Block 02 — Enabling Strict Mode
+* "use strict"
+* Script Level
+* Function Level
+
+# Block 03 — Problems Strict Mode Solves
+* Accidental Globals
+* Silent Errors
+* Safer JavaScript
+
+# Block 04 — Common Strict Mode Errors
+* Invalid Assignments
+* this Behavior Introduction
+* Reserved Words
+
+# Block 05 — Modern JavaScript and Strict Mode
+* ES Modules
+* Strict Mode by Default
+* Best Practices
+
+# Block 06 — Chapter Review
+* Summary
+* Key Takeaways
+* Technical Interview
+* Golden Answers
+* Conclusion
+
+////////////////////////////////////////////////////
+
+## Chapter 10 — Developer Tools
+
+# Block 01 — Introduction to Developer Tools
+* Browser DevTools
+* * Why Developers Need Tools
+* * Debugging Mindset
+* 
+# Block 02 — Console Panel
+* console.log
+* * console.warn
+* * console.error
+* * console.table
+* * Debugging Values
+* 
+# Block 03 — Sources Panel
+* Opening Source Files
+* * Breakpoints
+* * Step Execution
+* * Watch Expressions
+* 
+# Block 04 — Debugger
+* debugger Statement
+* * Pause Execution
+* Inspect Variables
+* Call Stack Introduction
+
+# Block 05 — Network Panel
+* HTTP Requests
+* Fetch Requests
+* Response Inspection
+* Performance Basics
+
+# Block 06 — Performance Basics
+* Measuring Performance
+* Rendering
+* Runtime Analysis
+
+# Block 07 — Professional Debugging Workflow
+* Finding Bugs
+* Reading Errors
+* Debugging Strategy
+
+# Block 08 — Chapter Review
+* Summary
+* Key Takeaways
+* Technical Interview
+* Golden Answers
+* Conclusion
+
+////////////////////////////////////////////////////////
+
+## Chapter 11 — Coding Challenge
+
+# Block 01 — Challenge Introduction
+* هدف Challenge
+* Connecting Concepts
+* Problem Solving Approach
+
+# Block 02 — Problem Analysis
+* Understanding Requirements
+* Breaking Problems
+* Planning Solution
+
+# Block 03 — Implementation
+* Writing Code
+* Applying Fundamentals
+* Testing Solution
+
+# Block 04 — Code Review
+* Improving Solution
+* Alternative Approaches
+* Clean Code
+
+# Block 05 — Final Review
+* Concepts Covered
+* Interview Discussion
+* Chapter Conclusion
+
+//////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////
+
+### Part 02 — JavaScript Behind the Scenes
 
-JavaScript Engineering
-
-00-title-page
-
-01-preface
-
-02-how-to-use-this-book
-
-03-learning-roadmap
-
-04-book-conventions
-
-05-how-to-study-programming
-
-06-who-this-book-is-for
-
-07-before-you-start
-
-Part 01 — JavaScript Fundamentals
-
-Chapter 01
-What is JavaScript?
-
-Chapter 02
-Values and Variables
-
-Chapter 03
-Data Types
-
-Chapter 04
-let, const and var
-
-Chapter 05
-Operators
-
-Chapter 06
-Strings and Template Literals
-
-Chapter 07
-Taking Decisions
-
-Chapter 08
-Loops
-
-Chapter 09
-Strict Mode
-
-Chapter 10
-Developer Tools
-
-Chapter 11
-Coding Challenge
-
-Part 02 — Functions
-
-Chapter 12
-Functions
-
-Chapter 13
-Function Declaration
-
-Chapter 14
-Arrow Functions
-
-Chapter 15
-Default Parameters
-
-Chapter 16
-Callback Functions
-
-Chapter 17
-Higher Order Functions
-
-Chapter 18
-this Keyword
-
-Chapter 19
-Scope
-
-Chapter 20
-Scope Chain
-
-Chapter 21
-Hoisting
-
-Chapter 22
-Temporal Dead Zone
-
-Chapter 23
-Closures
-
-Chapter 24
-Coding Challenge
-
-Part 03 — Behind the Scenes
-
-Execution Context
-
-Call Stack
-
-Memory Heap
-
-Primitive vs Reference
-
-Garbage Collection
-
-JavaScript Runtime
-
-Event Loop
-
-Callback Queue
-
-Microtask Queue
-
-Execution Order
-
-Interview Questions
-
-Part 04 — Data Structures
-
-Arrays
-
-Objects
-
-Sets
-
-Maps
-
-Destructuring
-
-Spread
-
-Rest
-
-Optional Chaining
-
-Nullish Coalescing
-
-Short Circuiting
-
-Part 05 — Modern JavaScript
-
-Modules
-
-type="module"
-
-export
-
-export default
-
-import
-
-as
-
-Namespace Import
-
-Barrel Pattern
-
-Top Level Await
-
-Module Pattern
-
-Bundling
-
-Transpiling
-
-Babel
-
-Polyfill
-
-Minify
-
-Tree Shaking
-
-Part 06 — Asynchronous JavaScript
-
-AJAX
-
-XMLHttpRequest
-
-Fetch API
-
-Promises
-
-Promise Chaining
-
-Async Await
-
-Error Handling
-
-try/catch
-
-Promise.all
-
-Promise.allSettled
-
-Promise.race
-
-Promise.any
-
-AbortController
-
-Coding Challenge
-
-Part 07 — Object-Oriented Programming
-
-Objects
-
-Methods
-
-Constructor Function
-
-Prototype
-
-Prototype Chain
-
-Object.create()
-
-ES6 Classes
-
-Encapsulation
-
-Inheritance
-
-Polymorphism
-
-Part 08 — npm & Tooling
-
-npm
-
-package.json
-
-Dependencies
-
-Semantic Versioning
-
-Scripts
-
-Parcel
-
-Vite
-
-Babel
-
-Build Process
-
-Development Server
-
-Production Build
-
-Part 09 — JavaScript in the Browser
-
-DOM
-
-Selecting Elements
-
-Creating Elements
-
-Events
-
-Event Delegation
-
-Forms
-
-Intersection Observer
-
-Lifecycle
-
-Browser APIs
-
-Part 10 — Architecture
-
-Why Modules?
-
-Compose Software
-
-Code Organization
-
-Abstraction
-
-Reusability
-
-Coupling
-
-Cohesion
-
-Project Structure
-
-Clean Code
-
-Refactoring
-
-Part 11 — Real Projects
-
-Bankist
-
-Mapty
-
-Forkify
-
-Architecture Review
-
-Refactoring
-
-Performance
-
-Code Review
-
-Part 12 — JavaScript Interview Handbook
-
-Junior Interview
-
-Mid Interview
-
-Senior Interview
-
-Architecture Interview
-
-HR Questions
-
-Coding Interview
-
-Live Debugging
-
-Interview Checklist
-
-Appendix
-
-Glossary
-
-ECMAScript Timeline
-
-JavaScript Engine
-
-Browser Engines
-
-Node.js Overview
-
-Useful Resources
-
-MDN References
-
-Further Reading
-
-                                جلد ۲
-
-                            React Engineering
-
-React Thinking
-
-Components
-
-JSX
-
-Props
-
-State
-
-Events
-
-Rendering
-
-Lists
-
-Forms
-
-Controlled Components
-
-Component Composition
-
-State Management
-
-Context API
-
-Reducer
-
-Performance
-
-Custom Hooks
-
-Routing
-
-Data Fetching
-
-TanStack Query
-
-Authentication
-
-Architecture
-
-Testing
-
-Deployment
-
-Interview
-
-                                        جلد ۳
-                                    Next.js Engineering
-
-App Router
-
-Pages Router
-
-Server Components
-
-Client Components
-
-SSR
-
-SSG
-
-ISR
-
-Route Handlers
-
-Metadata
-
-Images
-
-Fonts
-
-SEO
-
-Caching
-
-Streaming
-
-Suspense
-
-Authentication
-
-Deployment
-
-Performance
-
-Architecture
-
-                                        جلد ۴
-                                    TypeScript Engineering
-
-
-Type System
-
-Interfaces
-
-Types
-
-Generics
-
-Utility Types
-
-Advanced Types
-
-Type Narrowing
-
-Declaration Files
-
-React + TypeScript
-
-Next.js + TypeScript
-
-                                جلد ۵
-                        Front-End Architecture
-
-Folder Structure
-
-Feature Based Architecture
-
-Atomic Design
-
-Container Pattern
-
-Presentational Pattern
-
-Hooks Architecture
-
-Dependency Injection
-
-Clean Architecture
-
-Refactoring
-
-Scalability
-
-                                    جلد ۶
-                                Testing Engineering
-Unit Testing
-
-Integration Testing
-
-E2E
-
-Vitest
-
-Jest
-
-RTL
-
-Playwright
-
-Cypress
-
-Mocking
-
-                                    جلد ۷
-                                Performance Engineering
-
-Critical Rendering Path
-
-Rendering Performance
-
-Bundle Analysis
-
-Tree Shaking
-
-Lazy Loading
-
-Suspense
-
-Memoization
-
-Image Optimization
-
-Core Web Vitals
-
-                                        جلد ۸
-                                        CSS Engineering
-
-Modern CSS
-
-Flexbox
-
-Grid
-
-Animations
-
-Responsive
-
-CSS Variables
-
-Architecture
-
-BEM
-
-Tailwind
-
-CSS Modules
-
-                                        جلد ۹
-                                    Git Engineering
-
-Git
-
-GitHub
-
-Branching
-
-Merge
-
-Rebase
-
-Cherry Pick
-
-Release
-
-Conventional Commits
-
-CI/CD
-
-                                    جلد ۱۰
-                                Front-End Interview Handbook
-JavaScript
-
-React
-
-Next.js
-
-TypeScript
-
-CSS
-
-HTML
-
-Browser
-
-Performance
-
-Architecture
-
-System Design
-
-HR
-                                            جلد ۱۱
-                                    Front-End Project Handbook
-
-Bankist
-
-Mapty
-
-Forkify
-
-Movie App
-
-Shopping
-
-Dashboard
-
-CMS
-
-Chat
-
-Blog
-
-Enterprise App
-
-                                            جلد ۱۲
-                                    Engineering Mindset
-
-Problem Solving
-
-Debugging
-
-Reading Code
-
-Writing Clean Code
-
-Refactoring
-
-Thinking
-
-Code Review
-
-Technical Leadership
-
-Career
-
-Learning
