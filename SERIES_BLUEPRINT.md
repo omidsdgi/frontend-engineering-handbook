@@ -1066,3 +1066,372 @@ Reference Sharing
 * Golden Answers
 * Conclusion
 
+//////////////////////////////////////////////////
+/////////////////////////////////////////////////
+
+### Part 03 — Functions
+
+## Chapter 23 — Function Fundamentals
+
+# Block 01 — Introduction to Functions
+اهداف فصل *
+* Function چیست؟
+چرا Function مهم است؟ *
+* Reusable Code
+* Function as Building Block
+
+# Block 02 — Function Declaration
+* Syntax
+* Function Name
+* Parameters
+* Arguments
+* Return Statement
+
+# Block 03 — Function Expression
+* Function as Value
+* Anonymous Functions
+* Assigning Functions
+* Difference with Declaration
+
+# Block 04 — Calling Functions
+* Function Invocation
+* Execution Context Creation
+* Passing Data
+* Returning Results
+
+# Block 05 — Parameters and Arguments
+* Primitive Parameters
+* Reference Parameters
+* Multiple Parameters
+* Default Parameters
+
+# Block 06 — Return Values
+* Returning Data
+* Early Return
+* Undefined Return
+* Function Output
+
+# Block 07 — Function Design Principles
+* Small Functions
+* Single Responsibility
+* Naming Functions
+* Avoiding Side Effects
+
+# Block 08 — Chapter Review
+* Summary
+* Key Takeaways
+* Technical Interview
+* Golden Answers
+* Conclusion
+
+/////////////////////////////////////////////////////////////////////////////////////////////
+
+
+## Chapter 24 — Function Expressions and Arrow Functions
+
+# Block 01 — Functions as Values
+* First-Class Concept Introduction
+* Assigning Functions
+* Storing Functions in Variables
+
+# Block 02 — Anonymous Functions
+* Why Anonymous Functions?
+* Common Usage
+* Limitations
+
+# Block 03 — Arrow Function Review
+* ES6 Syntax
+* Implicit Return
+* Cleaner Syntax
+
+# Block 04 — Choosing Function Syntax
+* Declaration vs Expression
+* Regular vs Arrow
+* Professional Guidelines
+
+# Block 05 — Functions and Hoisting
+* Declaration Hoisting
+* Expression Behavior
+* Arrow Function Behavior
+
+# Block 06 — Practical Patterns
+* Callback Preparation
+* Passing Functions
+* Modern JavaScript Style
+
+# Block 07 — Chapter Review
+* Summary
+* Interview
+* Golden Answers
+* Conclusion
+
+///////////////////////////////////////////////
+
+
+## Chapter 25 — First-Class Functions
+
+# Block 01 — Introduction to First-Class Functions
+اهداف فصل *
+* Functions as Values
+* Functions as Data
+
+# Block 02 — Assigning Functions
+* Variables
+* Object Properties
+* Array Elements
+
+# Block 03 — Passing Functions as Arguments
+* Function Parameters
+* Callback Concept Introduction
+* Real World Examples
+
+# Block 04 — Returning Functions
+* Functions Returning Functions
+* Function Factory Concept
+
+# Block 05 — Higher-Level Thinking
+* Treating Functions as Objects
+* Functional Programming Mindset
+
+# Block 06 — JavaScript APIs and First-Class Functions
+* Array Methods Preview
+* Event Handlers Preview
+* Asynchronous Preview
+
+# Block 07 — Chapter Review
+* Summary
+* Key Takeaways
+* Technical Interview
+* Golden Answers
+* Conclusion
+
+///////////////////////////////////////////////////////////
+
+## Chapter 26 — Higher-Order Functions
+
+# Block 01 — What is Higher-Order Function?
+اهداف فصل *
+* Definition
+* Function Receiving Function
+* Function Returning Function
+
+# Block 02 — Higher-Order Function Structure
+* Input Function
+* Callback
+* Return Function
+
+# Block 03 — Built-in Higher-Order Functions
+* Array Methods Introduction
+* map Preview
+* filter Preview
+* reduce Preview
+
+# Block 04 — Creating Custom Higher-Order Functions
+* Function Wrappers
+* Reusable Logic
+* Practical Examples
+
+# Block 05 — Abstraction with Functions
+* Removing Duplication
+* Separating Logic
+* Cleaner Code
+
+# Block 06 — Functional Programming Connection
+* Declarative Programming
+* Imperative vs Declarative
+
+# Block 07 — Common Mistakes
+* Confusing Callback and Higher-Order Function
+* Overusing Abstraction
+
+# Block 08 — Chapter Review
+* Summary
+* Interview
+* Golden Answers
+* Conclusion
+
+//////////////////////////////////////////
+
+## Chapter 27 — Callback Functions
+
+# Block 01 — Introduction to Callbacks
+اهداف فصل *
+* What is Callback?
+* Why Callbacks Exist?
+
+# Block 02 — Callback Execution Flow
+* Passing Function
+* Receiving Function
+* Executing Later
+
+# Block 03 — Synchronous Callbacks
+* Array Methods
+* Sorting
+* Custom Examples
+
+# Block 04 — Asynchronous Callback Introduction
+* setTimeout
+* Browser APIs
+* Event Handling
+
+# Block 05 — Callback Problems
+* Callback Hell
+* Nested Callbacks
+* Maintainability Issues
+
+# Block 06 — Modern Alternatives Introduction
+* Promise Preview
+* Async/Await Preview
+# Block 07 — Chapter Review
+* Summary
+* Interview
+* Golden Answers
+* Conclusion
+
+/////////////////////////////////////////////////
+
+## Chapter 28 — Returning Functions
+
+# Block 01 — Functions Returning Functions
+* Concept
+* Why Return a Function?
+* Practical Motivation
+
+# Block 02 — Function Factory Pattern
+* Creating Specialized Functions
+* Reusable Behavior
+
+# Block 03 — Returning Functions and Scope
+* Accessing Outer Variables
+* Preparing for Closures
+
+# Block 04 — Practical Examples
+* Configuration Functions
+* Utility Functions
+* Event Handlers
+
+# Block 05 — Chapter Review
+* Summary
+* Interview
+* Golden Answers
+* Conclusion
+
+///////////////////////////////////////////////////////////////////
+
+## Chapter 29 — call, apply and bind
+
+# Block 01 — Introduction to Explicit Binding
+اهداف فصل *
+* Problem with this
+* Controlling this Value
+
+# Block 02 — call Method
+* Syntax
+* Immediate Invocation
+* Passing Arguments
+
+# Block 03 — apply Method
+* Syntax
+* Array Arguments
+* Difference with call
+
+# Block 04 — bind Method
+* Creating New Function
+* Delayed Execution
+* Partial Application Introduction
+
+# Block 05 — Practical Use Cases
+* Object Reuse
+* Event Handlers
+* Function Borrowing
+
+# Block 06 — Common Mistakes
+* Losing this Context
+* Wrong Binding
+* Arrow Function Limitations
+
+# Block 07 — Chapter Review
+* Summary
+* Interview
+* Golden Answers
+* Conclusion
+
+//////////////////////////////////////////////////////
+
+Chapter 30 — Closures
+
+# Block 01 — Introduction to Closures
+اهداف فصل *
+* What is Closure?
+* Why Closures Matter?
+
+# Block 02 — Closure Mechanism
+* Function
+* Scope Chain
+* Remembering Variables
+
+# Block 03 — Closures and Execution Context
+* Connection with Previous Chapters
+* Environment Preservation
+
+# Block 04 — Practical Closure Examples
+* Private Variables
+* Function Factories
+* Counters
+
+# Block 05 — Closures in Real Applications
+* Event Handlers
+* Timers
+* State Management
+
+# Block 06 — Closures and Modern Frameworks
+* React State Concept Introduction
+* Hooks Connection
+
+# Block 07 — Common Closure Mistakes
+* Loop Problem
+* Memory Considerations
+
+# Block 08 — Jonas Perspective
+* Why Closures Are Essential
+* Senior JavaScript Understanding
+
+# Block 09 — Chapter Review
+* Summary
+* Key Takeaways
+* Technical Interview
+* Golden Answers
+* Conclusion
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+Chapter 31 — IIFE (Immediately Invoked Function Expression)
+
+# Block 01 — Introduction to IIFE
+اهداف فصل *
+* What is IIFE?
+* Historical Context
+
+# Block 02 — IIFE Syntax
+* Function Expression
+* Immediate Execution
+* Parameters
+
+# Block 03 — IIFE and Scope Isolation
+* Creating Private Scope
+* Avoiding Global Pollution
+
+# Block 04 — IIFE Before ES Modules
+* Module Pattern Introduction
+* Historical Importance
+
+# Block 05 — Modern Usage
+* Why Less Common Today?
+* ES Modules Replacement
+
+# Block 06 — Chapter Review
+* Summary
+* Interview
+* Golden Answers
+* Conclusion
+
