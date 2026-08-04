@@ -2114,4 +2114,465 @@ Chapter 33 — Object Methods
 * Golden Answers
 * Conclusion
 
+////////////////////////////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+### Part 06 — Arrays
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+## Chapter 49 — Arrays Fundamentals
+
+# Block 01 — Introduction to Arrays
+* اهداف فصل
+* Array چیست؟
+* Why Arrays Matter?
+* Collection of Data
+* Array as Object
+
+# Block 02 — Creating Arrays
+* Array Literal
+* new Array()
+* Empty Arrays
+* Nested Arrays Introduction
+
+# Block 03 — Array Elements
+* Index
+* Zero-Based Indexing
+* Accessing Elements
+* Updating Elements
+
+# Block 04 — Array Length
+* length Property
+* Dynamic Length
+* Adding Elements by Index
+
+# Block 05 — Arrays and References
+* Arrays Are Objects
+* Reference Values
+* Copying Arrays
+
+# Block 06 — Basic Array Operations
+* Adding Elements
+* Removing Elements
+* Updating Data
+
+# Block 07 — Chapter Review
+* Summary
+* Key Takeaways
+* Technical Interview
+* Golden Answers
+* Conclusion
+
+////////////////////////////////////////////////////////////
+
+## Chapter 50 — Array Methods Basics
+
+# Block 01 — Introduction to Array Methods
+* اهداف فصل
+* Built-in Methods
+* Method Invocation
+* Mutating vs Non-Mutating Methods
+
+# Block 02 — Adding and Removing Elements
+* push()
+* pop()
+* unshift()
+* shift()
+
+# Block 03 — Finding Elements
+* indexOf()
+* lastIndexOf()
+* includes()
+
+# Block 04 — Extracting and Modifying Arrays
+* slice()
+* splice()
+* Difference Between Them
+
+# Block 05 — Reverse and Join Methods
+* reverse()
+* join()
+* Practical Examples
+
+# Block 06 — Mutation Considerations
+* Side Effects
+* Immutable Patterns
+* React Connection Introduction
+
+# Block 07 — Chapter Review
+* Summary
+* Interview
+* Golden Answers
+* Conclusion
+
+/////////////////////////////////////////////////////////////////////
+
+## Chapter 51 — Array Iteration
+
+#Block 01 — Iteration Fundamentals
+اهداف فصل* 
+* Looping Through Arrays
+* Why Iteration Matters?
+
+#Block 02 — Traditional for Loop
+* Array Iteration
+* Accessing Index
+* Control Flow
+
+#Block 03 — for...of Loop
+* Iterable Concept
+* Cleaner Syntax
+* When to Use
+
+#Block 04 — forEach Method
+* Callback Introduction
+* Parameters
+* Execution Flow
+
+#Block 05 — forEach vs for Loop
+* Break Limitation
+* Readability
+* Use Cases
+
+#Block 06 — Professional Iteration Patterns
+* Choosing Correct Method
+* Avoiding Unnecessary Loops
+
+#Block 07 — Chapter Review
+* Summary
+* Interview
+* Golden Answers
+* Conclusion
+
+//////////////////////////////////////////////////////////////////
+
+## Chapter 52 — map Method
+
+# Block 01 — Introduction to map()
+* اهداف فصل
+* Transformation Concept
+* map vs Loop
+
+# Block 02 — map Execution Flow
+* Callback Function
+* Current Element
+* Return Value
+
+# Block 03 — Creating New Arrays
+* Original Array Preservation
+* Transformation
+
+# Block 04 — Practical map Patterns
+* Extracting Data
+* Formatting Data
+* Rendering Lists
+
+# Block 05 — map and Objects
+* Transforming Object Arrays
+* API Data
+
+# Block 06 — Common Mistakes
+* Missing Return 
+* Using map for Side Effects 
+
+# Block 07 — Chapter Review
+* Summary 
+* Interview 
+* Golden Answers 
+* Conclusion 
+
+/////////////////////////////////////////////////
+
+## Chapter 53 — filter Method
+
+# Block 01 — Introduction to filter()
+اهداف فصل *
+* Filtering Concept
+* Creating Subsets
+
+# Block 02 — filter Execution Flow
+* Callback Function
+* Boolean Result
+* Keeping Elements
+
+# Block 03 — Filtering Primitive Values
+* Numbers
+* Strings
+* Conditions
+
+# Block 04 — Filtering Objects
+* Search Patterns
+* Data Selection
+
+# Block 05 — Combining filter and map
+* Transformation Pipeline
+* Practical Data Processing
+
+# Block 06 — Common Mistakes
+* Returning Wrong Values
+* Mutating Data
+
+# Block 07 — Chapter Review
+* Summary
+* Interview
+* Golden Answers
+* Conclusion
+
+///////////////////////////////////////////////////////////////////
+
+## Chapter 54 — reduce Method
+
+# Block 01 — Introduction to reduce()
+اهداف فصل *
+* Reduction Concept
+* Why reduce is Powerful?
+
+# Block 02 — reduce Mechanics
+* Accumulator
+* Current Value
+* Initial Value
+
+# Block 03 — Calculating Values
+* Sum
+* Average
+* Counting
+
+# Block 04 — Building Data Structures
+* Objects
+* Groups
+* Maps
+
+# Block 05 — reduce vs Other Methods
+* map
+* filter
+* forEach
+* Choosing Correct Tool
+
+# Block 06 — Advanced reduce Patterns
+* Nested Data
+* Complex Transformations
+
+# Block 07 — Common Mistakes
+* Wrong Initial Value
+* Overcomplicated Logic
+
+# Block 08 — Chapter Review
+* Summary
+* Interview
+* Golden Answers
+* Conclusion
+
+///////////////////////////////////////////////////////////////////////
+
+## Chapter 55 — find, findIndex and includes
+
+# Block 01 — Searching Arrays
+* اهداف فصل
+* Finding Data
+* Search Patterns
+
+# Block 02 — find()
+* Returning Element
+* Callback Condition
+* First Match
+
+# Block 03 — findIndex()
+* Returning Index
+* Comparison with indexOf
+
+# Block 04 — includes()
+* Checking Existence
+* Primitive Values
+
+# Block 05 — some() and every()
+* Testing Conditions
+* Boolean Results
+
+# Block 06 — Practical Examples
+* Validation
+* Permissions
+* Filtering Logic
+
+# Block 07 — Chapter Review
+* Summary
+* Interview
+* Golden Answers
+* Conclusion
+
+///////////////////////////////////////////
+
+## Chapter 56 — sort Method
+
+# Block 01 — Introduction to sort()
+اهداف فصل *
+* Sorting Concept
+* Default Behavior
+
+# Block 02 — Sorting Numbers
+* Compare Function
+* Ascending
+* Descending
+
+# Block 03 — Sorting Objects
+* Property-Based Sorting
+* Dynamic Sorting
+
+# Block 04 — Mutation Problem
+* sort Mutates Original Array
+* Creating Copies
+
+# Block 05 — Advanced Sorting Patterns
+* Multiple Criteria
+* Custom Comparators
+
+# Block 06 — Chapter Review
+* Summary
+* Interview
+* Golden Answers
+* Conclusion
+
+/////////////////////////////////////////////////////////////
+
+## Chapter 57 — flat and flatMap
+
+# Block 01 — Nested Arrays
+اهداف فصل *
+* Arrays Inside Arrays
+* Data Complexity
+
+# Block 02 — flat()
+* Flattening Arrays
+* Depth Parameter
+
+# Block 03 — flatMap()
+* Combining map and flat
+* Transformation + Flattening
+
+# Block 04 — Practical Use Cases
+* API Data
+* Nested Structures
+
+# Block 05 — Chapter Review
+* Summary
+* Interview
+* Golden Answers
+* Conclusion
+
+//////////////////////////////////////////////////////////////
+
+## Chapter 58 — Array Creation Methods
+
+
+# Block 01 — Introduction to Array Creation
+* اهداف فصل
+* مقدمه
+* Why Array Creation Matters?
+* Creating Arrays in Modern JavaScript
+
+# Block 02 — Array Literals
+* Array Literal Syntax
+* Empty Arrays
+* Initial Values
+
+# Block 03 — Array Constructor
+* new Array()
+* Constructor Behavior
+* Common Pitfalls
+
+# Block 04 — Array.from()
+* Creating Arrays from Iterables
+* Mapping During Creation
+* Real-World Examples
+
+# Block 05 — Array.of()
+* Why Array.of() Exists
+* Difference from Array Constructor
+
+# Block 06 — Practical Array Creation Patterns
+* Generating Sequences
+* Creating Placeholder Arrays
+* Building Dynamic Data
+
+# Block 07 — Chapter Review
+* Summary
+* Key Takeaways
+* Technical Interview
+* Golden Answers
+* Conclusion
+////////////////////////////////////////////////////////////////////////////
+
+## Chapter 59 — Array Method Chaining
+
+# Block 01 — Introduction to Chaining
+اهداف فصل *
+* Method Pipeline
+* Declarative Style
+
+# Block 02 — Combining Array Methods
+* map + filter
+* filter + reduce
+* Multiple Transformations
+
+# Block 03 — Reading Chained Methods
+* Execution Order
+* Debugging Chains
+
+# Block 04 — Writing Clean Chains
+* Avoiding Long Chains
+* Splitting Logic
+
+# Block 05 — Real World Data Processing
+* API Response
+* Application State
+* UI Rendering
+
+# Block 06 — Chapter Review
+* Summary
+* Key Takeaways
+* Technical Interview
+* Golden Answers
+* Conclusion
+
+///////////////////////////////////////////////
+Chapter 60 — Advanced Array Patterns
+
+# Block 01 — Arrays in Modern JavaScript
+* Arrays Everywhere
+* Data Transformation
+
+# Block 02 — Immutable Array Operations
+* Spread Operator
+* Non-Mutating Patterns
+
+# Block 03 — Working With Object Arrays
+* Search
+* Update
+* Transform
+
+# Block 04 — Performance Considerations
+* Large Arrays
+* Multiple Iterations
+* Optimization Basics
+
+# Block 05 — Arrays in Frontend Applications
+* React Lists
+* State Updates
+* Rendering Data
+
+# Block 06 — Jonas Array Section Review
+* Main Concepts
+* Common Patterns
+* Interview Preparation
+
+# Block 07 — Chapter Review
+* Summary
+* Key Takeaways
+* Technical Interview
+* Golden Answers
+* Conclusion
+
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
