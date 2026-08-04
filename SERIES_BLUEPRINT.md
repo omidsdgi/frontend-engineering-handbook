@@ -3721,3 +3721,305 @@ Chapter 86 — Error Handling in Asynchronous JavaScript
 - Technical Interview
 - Golden Answers
 - Conclusion
+
+//////////////////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////////////////
+
+### Part 10 — Modern JavaScript
+
+## Chapter 88 — JavaScript Modules
+
+# Block 01 — Introduction to Modules
+- اهداف فصل
+- Why Modules?
+- Problem of Large Applications
+- Code Organization
+
+# Block 02 — Module Concepts
+- Module چیست؟
+- Encapsulation Review
+- Private vs Public Code
+
+# Block 03 — Before ES Modules
+- Global Scope Problems
+- Namespace Pattern
+- IIFE Module Pattern
+
+# Block 04 — ES Modules Introduction
+- ES6 Modules
+- Native Browser Support
+- Module Scope
+
+# Block 05 — Exporting Modules
+- Named Export
+- Default Export
+- Export Syntax
+
+# Block 06 — Importing Modules
+- Import Syntax
+- Importing Named Exports
+- Importing Default Exports
+
+# Block 07 — Module Execution
+- Module Loading
+- Strict Mode by Default
+- Top-Level Scope
+
+# Block 08 — Dynamic Imports
+- import()
+- Lazy Loading Introduction
+- Code Splitting Concept
+
+# Block 09 — Chapter Review
+- Summary
+- Key Takeaways
+- Technical Interview
+- Golden Answers
+- Conclusion
+
+////////////////////////////////////////////////////////////////////////////////
+
+Chapter 89 — CommonJS and Module Systems
+
+# Block 01 — JavaScript Module History
+اهداف فصل -
+- Need for Module Systems
+- Browser vs Server Environment
+
+# Block 02 — CommonJS
+- Node.js Module System
+- require()
+- module.exports
+
+# Block 03 — ES Modules vs CommonJS
+- Syntax Differences
+- Execution Differences
+- Use Cases
+
+# Block 04 — Node.js and Modules
+- Server-Side JavaScript
+- Package Ecosystem
+
+# Block 05 — Modern Recommendation
+- ES Modules Today
+- Compatibility Considerations
+
+# Block 06 — Chapter Review
+- Summary
+- Interview
+- Golden Answers
+- Conclusion
+
+/////////////////////////////////////////////////////////////////
+
+
+## Chapter 90 — NPM and Package Management
+
+# Block 01 — Introduction to NPM
+اهداف فصل -
+- Package Manager Concept
+- JavaScript Ecosystem
+
+# Block 02 — npm Registry
+- Packages
+- Dependencies
+- Open Source Ecosystem
+
+# Block 03 — package.json
+- Project Metadata
+- Scripts
+- Dependencies
+
+# Block 04 — Installing Packages
+- npm install
+- Local Dependencies
+- Global Dependencies
+
+# Block 05 — Dependency Management
+- dependencies
+- devDependencies
+- Versioning
+
+# Block 06 — Semantic Versioning
+- Major
+- Minor
+- Patch
+- Version Ranges
+
+# Block 07 — npm Scripts
+- Running Commands
+- Automation
+- Build Scripts
+
+# Block 08 — Alternative Package Managers
+- Yarn
+- pnpm
+- Differences Introduction
+
+# Block 09 — Chapter Review
+- Summary
+- Interview
+- Golden Answers
+
+/////////////////////////////////////////////////////
+
+
+## Chapter 91 — JavaScript Build Process
+
+# Block 01 — Introduction to Build Tools
+اهداف فصل -
+- Why Build Process?
+- Development vs Production
+
+# Block 02 — Source Code Transformation
+- Modern Syntax
+- Browser Compatibility
+- Optimization
+
+# Block 03 — Bundling Concept
+- Multiple Files
+- Single Bundle
+- Dependency Graph
+
+# Block 04 — Development Workflow
+- Local Server
+- Hot Reload
+- Development Experience
+
+# Block 05 — Production Workflow
+- Minification
+- Optimization
+- Deployment Preparation
+
+# Block 06 — Modern Frontend Pipeline
+- Source Code
+- Build Tool
+- Output Files
+
+# Block 07 — Chapter Review
+- Summary
+- Interview
+- Golden Answers
+- Conclusion
+
+////////////////////////////////////////////////////////////
+
+
+## Chapter 92 — Parcel Bundler
+
+# Block 01 — Introduction to Parcel
+اهداف فصل -
+- Zero Configuration Philosophy
+- Why Parcel?
+
+# Block 02 — Parcel Development Server
+- Starting Project
+- Automatic Reload
+- Development Workflow
+
+# Block 03 — Asset Processing
+- JavaScript
+- CSS
+- Images
+- Other Assets
+
+# Block 04 — Parcel Production Build
+- Bundling
+- Optimization
+- Output
+
+# Block 05 — Parcel Features
+- Code Splitting
+- Hot Module Replacement
+- Environment Variables
+
+# Block 06 — Chapter Review
+- Summary
+- Interview
+- Golden Answers
+- Conclusion
+
+////////////////////////////////////////////////////////////////
+Chapter 93 — Babel
+
+# Block 01 — Introduction to Babel
+- اهداف فصل
+- JavaScript Transpiler Concept
+- Why Babel Exists?
+
+# Block 02 — Syntax Transformation
+- Modern Syntax
+- Browser Compatibility
+- Transformation Process
+
+# Block 03 — Babel Configuration
+- Presets
+- Plugins
+- Configuration Files
+
+# Block 04 — Babel and Build Tools
+- Parcel Integration
+- Webpack Integration Introduction
+
+# Block 05 — Polyfills Introduction
+- Missing Browser Features
+- Core-js Concept
+- Runtime Support
+
+# Block 06 — Babel Limitations
+- Syntax vs Features
+- Browser APIs
+- Modern Compatibility
+
+# Block 07 — Chapter Review
+- Summary
+- Interview
+- Golden Answers
+- Conclusion
+
+///////////////////////////////////////////////////////////////////////////////////////
+
+## Chapter 94 — Modern JavaScript Development Workflow
+
+# Block 01 — Professional Project Structure
+اهداف فصل -
+- Organizing Files
+- Separation of Concerns
+
+# Block 02 — Development Dependencies
+- Tools
+- Linters
+- Formatters
+- Build Tools
+
+# Block 03 — Code Quality Tools
+- ESLint Introduction
+- Prettier Introduction
+- Automated Checks
+
+# Block 04 — Environment Management
+- Development Environment
+- Production Environment
+- Environment Variables
+
+# Block 05 — Debugging Modern Applications
+- Source Maps
+- Browser Tools
+- Error Tracking
+
+# Block 06 — Deployment Preparation
+- Production Build
+- Optimization
+- Performance
+
+# Block 07 — Jonas Modern JavaScript Review
+- Main Concepts
+- Professional Workflow
+- Interview Preparation
+
+# Block 08 — Chapter Review
+- Summary
+- Key Takeaways
+- Technical Interview
+- Golden Answers
+- Conclusion
