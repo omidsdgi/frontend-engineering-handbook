@@ -2914,3 +2914,452 @@ U- I Updates
 - Technical Interview
 - Golden Answers
 - Conclusion
+
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+### Part 08 — Advanced DOM
+
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+Chapter 69 — Introduction to DOM
+
+# Block 01 — Browser Environment
+اهداف فصل -
+- JavaScript خارج از Browser
+- Browser APIs
+- JavaScript Runtime Review
+
+# Block 02 — What is DOM?
+- Document Object Model
+- HTML as Document
+- DOM Tree
+- Nodes and Elements
+
+# Block 03 — DOM and JavaScript
+- Connecting JavaScript to HTML
+- DOM API
+- Browser Creates DOM
+
+# Block 04 — DOM Tree Structure
+- Document Node
+- Element Nodes
+- Text Nodes
+- Attributes
+
+# Block 05 — DOM vs HTML
+- Source Code vs Runtime Representation
+- Dynamic DOM Changes
+
+# Block 06 — Selecting Elements Introduction
+- Querying DOM
+- DOM References
+
+# Block 07 — Chapter Review
+- Summary
+- Key Takeaways
+- Technical Interview
+- Golden Answers
+- Conclusion
+
+//////////////////////////////////////////////////////////////////////
+
+## Chapter 70 — Selecting and Manipulating Elements
+
+# Block 01 — Selecting Elements
+اهداف فصل -
+- querySelector()
+- querySelectorAll()
+
+# Block 02 — Other Selection Methods
+- getElementById()
+- getElementsByClassName()
+- getElementsByTagName()
+
+# Block 03 — NodeLists and Collections
+- NodeList
+- HTMLCollection
+- Iteration Differences
+
+# Block 04 — Reading and Changing Content
+- textContent
+- innerHTML
+- innerText
+
+# Block 05 — Attributes
+- Reading Attributes
+- Changing Attributes
+- Data Attributes
+
+# Block 06 — Classes Manipulation
+- classList
+- add()
+- remove()
+- toggle()
+- contains()
+
+# Block 07 — Chapter Review
+- Summary
+- Interview
+- Golden Answers
+- Conclusion
+
+///////////////////////////////////////////////////////
+
+## Chapter 71 — Creating and Modifying DOM Elements
+
+# Block 01 — Creating Elements
+اهداف فصل -
+- createElement()
+- Creating Nodes
+
+# Block 02 — Adding Elements
+- append()
+- prepend()
+- before()
+- after()
+
+# Block 03 — Removing Elements
+- remove()
+- removeChild()
+
+# Block 04 — Moving Elements
+- DOM References
+- Reusing Existing Nodes
+
+# Block 05 — Dynamic Rendering
+- Creating UI From Data
+- Template Patterns
+
+# Block 06 — Performance Considerations
+- Multiple DOM Updates
+- Document Fragment Introduction
+
+# Block 07 — Chapter Review
+- Summary
+- Interview
+- Golden Answers
+- Conclusion
+
+//////////////////////////////////////////////////////////////////////
+
+## Chapter 72 — Styles and DOM Manipulation
+
+# Block 01 — Changing Styles
+اهداف فصل -
+- style Property
+- Inline Styles
+
+# Block 02 — Reading Computed Styles
+- getComputedStyle()
+- Browser Calculated Styles
+
+# Block 03 — CSS Classes vs Inline Styles
+- Separation of Concerns
+- Best Practices
+
+# Block 04 — CSS Variables and JavaScript
+- Reading Variables
+- Updating Themes
+
+# Block 05 — Building Dynamic UI States
+- Active States
+- Hidden Elements
+- Animations
+
+# Block 06 — Chapter Review
+- Summary
+- Interview
+- Golden Answers
+- Conclusion
+
+/////////////////////////////////////////////////////////////////////////////////////////
+
+## Chapter 73 — Events Fundamentals
+
+# Block 01 — Introduction to Events
+اهداف فصل -
+- User Interaction
+- Event-Driven Programming
+
+# Block 02 — Event Listeners
+- addEventListener()
+- Event Types
+- Callback Functions
+
+# Block 03 — Event Object
+- Event Parameter
+- Target
+- CurrentTarget
+
+# Block 04 — Common Events
+- Click
+- Input
+- Change
+- Submit
+- Keyboard Events
+
+# Block 05 — Event Handler Patterns
+- Named Functions
+- Anonymous Functions
+- Removing Listeners
+
+# Block 06 — Chapter Review
+- Summary
+- Interview
+- Golden Answers
+- Conclusion
+
+///////////////////////////////////////////////////////////////////
+
+## Chapter 74 — Event Propagation
+
+# Block 01 — Event Flow
+اهداف فصل
+- Event Propagation
+- Browser Event System
+
+# Block 02 — Capturing Phase
+- Event Capturing
+- Capture Option
+
+# Block 03 — Target Phase
+- Event Target
+- Event Execution
+
+# Block 04 — Bubbling Phase
+- Event Bubbling
+- Parent Handlers
+
+# Block 05 — Controlling Propagation
+- stopPropagation()
+- preventDefault()
+
+# Block 06 — Event Delegation Introduction
+- Why Delegation?
+- Dynamic Elements
+
+# Block 07 — Chapter Review
+- Summary
+- Interview
+- Golden Answers
+- Conclusion
+
+///////////////////////////////////////////////////////////////////////////
+
+##Chapter 75 — Event Delegation
+
+# Block 01 — Introduction to Event Delegation
+- اهداف فصل
+- مقدمه
+- Why Event Delegation Matters?
+- ارتباط با فصل قبل (Event Propagation)
+- مشکل تعداد زیاد Event Listenerها
+- مفهوم کلی Event Delegation
+- کاربرد Event Delegation در Frontend Applications
+
+# Block 02 — Delegation Concept
+- اهداف Event Delegation
+- Parent Event Handler
+- Handling Child Events
+- Relationship Between Bubbling and Delegation
+
+# Block 03 — How Event Delegation Works
+- Event Bubbling Review
+- event.target
+- event.currentTarget
+- Identifying Specific Elements
+
+# Block 04 — Practical Patterns
+- Dynamic Lists
+- Navigation Menus
+- Tables
+- Multiple Similar Elements
+
+# Block 05 — Benefits of Event Delegation
+- Performance Improvement
+- Reducing Event Listeners
+- Supporting Dynamic Content
+- Better Code Organization
+
+# Block 06 — Common Mistakes
+- Incorrect Target Selection
+- Nested Elements Problem
+- Missing Event Checks
+- Overusing Delegation
+
+# Block 07 — Event Delegation in Modern Frontend
+- Connection with Component-Based Development
+- Framework Event Systems Introduction
+- React Event Handling Perspective
+
+# Block 08 — Chapter Review
+- Summary
+- Key Takeaways
+- Technical Interview
+- Golden Answers
+- Conclusion
+
+//////////////////////////////////////////////////////////////////////////////////////////
+
+## Chapter 76 — DOM Traversing
+
+# Block 01 — Introduction to DOM Traversing
+- اهداف فصل
+- مقدمه
+- Why DOM Traversing Matters?
+- ارتباط با فصل‌های قبل (DOM Structure و Event Delegation)
+- مفهوم حرکت در درخت DOM
+- کاربرد DOM Traversing در Frontend Applications
+
+# Block 02 — Understanding DOM Relationships
+- DOM Tree Review
+- Parent-Child Relationship
+- Sibling Relationship
+- Node Relationships
+
+# Block 03 — Parent Navigation
+- parentNode
+- parentElement
+- تفاوت parentNode و parentElement
+
+# Block 04 — Child Navigation
+- children
+- childNodes
+- firstElementChild
+- lastElementChild
+- Accessing Child Elements
+
+# Block 05 — Sibling Navigation
+- nextElementSibling
+- previousElementSibling
+- Navigating Between Elements
+
+# Block 06 — Practical Traversing Patterns
+- Finding Related Elements
+- Component Interaction
+- Dynamic UI Manipulation
+
+# Block 07 — DOM Traversing Best Practices
+- Avoiding Complex Traversal
+- Combining Selection and Traversing
+- Maintainable DOM Code
+
+# Block 08 — Chapter Review
+- Summary
+- Key Takeaways
+- Technical Interview
+- Golden Answers
+- Conclusion
+
+/////////////////////////////////////////////////////
+
+## Chapter 77 — Forms and User Input
+
+# Block 01 — Introduction to Forms and User Input
+- اهداف فصل
+- مقدمه
+- Why Forms Matter?
+- ارتباط با فصل‌های قبل (DOM و Events)
+- نقش Forms در تعامل کاربر با Application
+- کاربرد Forms در Frontend Development
+
+# Block 02 — Forms Fundamentals
+- Form Element
+- Input Elements
+- Button Elements
+- Form Structure
+
+# Block 03 — Reading User Input
+- Accessing Input Values
+- value Property
+- Input Events
+- Change Events
+
+# Block 04 — Handling Form Submission
+- submit Event
+- preventDefault()
+- Default Browser Behavior
+- Processing Form Data
+
+# Block 05 — Form Validation
+- Client-Side Validation
+- Constraint Validation API
+- Required Fields
+- Validation Messages
+
+# Block 06 — Building Interactive Forms
+- Error States
+- Success States
+- User Feedback
+- Dynamic Messages
+
+# Block 07 — Real World Form Patterns
+- Login Forms
+- Search Forms
+- Registration Forms
+- Application Forms
+
+# Block 08 — Chapter Review
+- Summary
+- Key Takeaways
+- Technical Interview
+- Golden Answers
+- Conclusion
+
+//////////////////////////////////////////////////////////////////
+
+## Chapter 78 — DOM Components and UI Architecture
+
+# Block 01 — Introduction to DOM Components and UI Architecture
+- اهداف فصل
+- مقدمه
+- Why Component Thinking Matters?
+- ارتباط با فصل‌های قبل (DOM, Events, Forms)
+- مشکل مدیریت UIهای بزرگ با DOM مستقیم
+- مفهوم Component در JavaScript
+- ارتباط این مفهوم با توسعه Frontend مدرن
+
+# Block 02 — Thinking in Components
+- Component Concept
+- Reusable UI Units
+- Separation of UI Responsibilities
+- Component Boundaries
+
+# Block 03 — Building Simple Components
+- Creating UI Components with Functions
+- Generating Markup
+- DOM References
+- Component Initialization
+
+# Block 04 — Component State
+- What is Component State?
+- Managing Internal Data
+- Updating UI Based on State
+- Data and UI Synchronization
+
+# Block 05 — Event-Based Components
+- Handling Component Events
+- Event Listeners Inside Components
+- Component Communication
+- Encapsulation
+
+# Block 06 — Rendering Strategies
+- Initial Rendering
+- Updating Existing UI
+- Re-render Concept
+- Dynamic Content Management
+
+# Block 07 — Preparing for Modern Frameworks
+- Component-Based Architecture
+- DOM Abstraction Concept
+- Connection to React Components
+- Why Frameworks Exist?
+
+# Block 08 — Chapter Review
+- Summary
+- Key Takeaways
+- Technical Interview
+- Golden Answers
+- Conclusion
