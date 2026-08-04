@@ -35,6 +35,9 @@
 
 ### Part 01 — JavaScript Fundamental
 
+////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////
+
 ## Chapter 01 — What is JavaScript?
 
 Writing Blocks
@@ -511,6 +514,9 @@ Type Coercion Introduction
 /////////////////////////////////////////////////////////////////
 
 ### Part 02 — JavaScript Behind the Scenes
+
+////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////
 
 ## Chapter 12 — JavaScript Engine and Runtime
 
@@ -1066,10 +1072,13 @@ Reference Sharing
 * Golden Answers
 * Conclusion
 
-//////////////////////////////////////////////////
-/////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////
 
 ### Part 03 — Functions
+
+////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////
 
 ## Chapter 23 — Function Fundamentals
 
@@ -1166,7 +1175,6 @@ Reference Sharing
 * Conclusion
 
 ///////////////////////////////////////////////
-
 
 ## Chapter 25 — First-Class Functions
 
@@ -1435,10 +1443,13 @@ Chapter 31 — IIFE (Immediately Invoked Function Expression)
 * Golden Answers
 * Conclusion
 
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////
 
 ### Part 04 — Objects
+
+////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////
 
 ## Chapter 32 — Objects Fundamentals
 
@@ -1601,7 +1612,7 @@ Chapter 33 — Object Methods
 * Golden Answers
 * Conclusion
 
-/////////////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////
 
 ## Chapter 36 — Optional Chaining
 
@@ -1747,9 +1758,360 @@ Chapter 33 — Object Methods
 * Golden Answers
 * Conclusion
 
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////
 
-Part 05 — OOP
+### Part 05 — Object-Oriented Programming (OOP)
+
+////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////
+
+## Chapter 40 — Introduction to Object-Oriented Programming
+
+# Block 01 — Introduction to OOP
+اهداف فصل *
+* Programming Paradigms Review
+* Object-Oriented Programming چیست؟
+* Why OOP?
+
+# Block 02 — Core OOP Concepts
+* Objects
+* Classes
+* Instances
+* Properties
+* Methods
+
+# Block 03 — OOP Principles
+* Encapsulation
+* Abstraction
+* Inheritance
+* Polymorphism
+
+# Block 04 — OOP in JavaScript
+* JavaScript Multi-Paradigm Language
+* Prototype-Based Nature
+* Difference Between Class-Based and Prototype-Based
+
+# Block 05 — Object-Oriented Thinking
+* Modeling Real World Problems
+* Designing Objects
+* Responsibility of Objects
+
+# Block 06 — Jonas Perspective
+* Why Learn OOP?
+* OOP in Modern Frontend
+* OOP vs Functional Programming
+
+# Block 07 — Chapter Review
+* Summary
+* Key Takeaways
+* Technical Interview
+* Golden Answers
+* Conclusion
+
+///////////////////////////////////////////////////////////////////////
+
+##Chapter 41 — Prototypes
+
+# Block 01 — Introduction to Prototypes
+* اهداف فصل
+* Prototype چیست؟
+* Why Prototype Exists?
+
+# Block 02 — Object Prototype Relationship
+* Every Object Has a Prototype
+* Prototype Reference
+* Prototype Chain Introduction
+
+# Block 03 — Constructor Function Prototype
+* Prototype Property
+* Shared Methods
+* Memory Efficiency
+
+# Block 04 — Prototype Methods
+* Adding Methods to Prototype
+* Accessing Prototype Methods
+* Method Lookup
+
+# Block 05 — Built-in Prototypes
+* Array Prototype
+* Object Prototype
+* String Prototype
+
+# Block 06 — Prototype vs Object Properties
+* Own Properties
+* Inherited Properties
+* Property Lookup
+
+# Block 07 — Chapter Review
+* Summary
+* Interview
+* Golden Answers
+* Conclusion
+
+////////////////////////////////////////////////////////////////////////////
+
+## Chapter 42 — Prototype Chain
+
+# Block 01 — Prototype Chain Concept
+اهداف فصل *
+* Chain of Objects
+* Property Resolution
+
+# Block 02 — Property Lookup Process
+* Searching Own Properties
+* Moving Through Prototype
+* Final Result
+
+# Block 03 — Object.create()
+* Creating Objects From Prototype
+* Delegation Model
+* Practical Usage
+
+# Block 04 — Inheritance Through Prototypes
+* Prototype Delegation
+* Reusing Behavior
+
+# Block 05 — Prototype Chain and Classes
+* Class Syntax Connection
+* Hidden Prototype Behavior
+
+# Block 06 — Debugging Prototype Chain
+* DevTools
+* Inspecting Objects
+* Common Confusion
+
+# Block 07 — Chapter Review
+* Summary
+* Interview
+* Golden Answers
+* Conclusion
+
+///////////////////////////////////////////////////////////////////////////
+
+## Chapter 43 — Constructor Functions
+
+# Block 01 — Constructor Function Introduction
+اهداف فصل* 
+* Creating Multiple Objects
+* Constructor Pattern
+
+# Block 02 — Constructor Function Syntax
+* Function Convention
+* new Operator
+* Instance Creation
+
+# Block 03 — How new Works
+* Creating Empty Object
+* Linking Prototype
+* Binding this
+* Returning Object
+
+# Block 04 — Instance Properties
+* Own Properties
+* Initial Values
+* Object State
+
+# Block 05 — Adding Methods
+* Methods Inside Constructor
+* Problems
+* Prototype Methods
+
+# Block 06 — Constructor Functions and Inheritance
+* Prototype Chain
+* Sharing Behavior
+
+# Block 07 — Chapter Review
+* Summary
+* Interview
+* Golden Answers
+* Conclusion
+
+////////////////////////////////////////////
+
+## Chapter 44 — ES6 Classes
+
+# Block 01 — Introduction to Classes
+اهداف فصل *
+* Class Syntax
+* Class as Syntactic Sugar
+
+# Block 02 — Class Declaration
+* Class Keyword
+* Constructor Method
+* Creating Instances
+
+# Block 03 — Instance Methods
+* Methods in Classes
+* Prototype Storage
+* this Behavior
+
+# Block 04 — Class Fields
+* Public Fields
+* Initialization
+* Modern Syntax
+
+# Block 05 — Static Methods
+* Static Keyword
+* Class-Level Methods
+* Utility Methods
+
+# Block 06 — Getters and Setters
+* Accessor Properties
+* Controlled Access
+* Validation
+
+# Block 07 — Classes vs Constructor Functions
+* Syntax Difference
+* Same Prototype Mechanism
+* Modern Recommendation
+
+# Block 08 — Chapter Review
+* Summary
+* Interview
+* Golden Answers
+* Conclusion
+
+///////////////////////////////////////////////
+
+## Chapter 45 — Inheritance
+
+# Block 01 — Introduction to Inheritance
+اهداف فصل *
+* Code Reuse
+* Parent and Child Relationship
+
+# Block 02 — Prototype Inheritance
+* Delegation
+* Prototype Chain
+* Reusing Behavior
+
+# Block 03 — Class Inheritance
+* extends Keyword
+* Parent Class
+* Child Class
+
+# Block 04 — super Keyword
+* Calling Parent Constructor
+* Calling Parent Methods
+
+# Block 05 — Method Overriding
+* Replacing Behavior
+* Polymorphism Introduction
+
+# Block 06 — Inheritance Design
+* When to Use
+* Composition vs Inheritance Introduction
+
+# Block 07 — Chapter Review
+* Summary
+* Interview
+* Golden Answers
+* Conclusion
+
+//////////////////////////////////////////
+
+## Chapter 46 — Encapsulation
+
+# Block 01 — Introduction to Encapsulation
+اهداف فصل* 
+* Protecting Data
+* Controlling Access
+
+# Block 02 — Public vs Private Data
+* Public Properties
+* Private State
+* Information Hiding
+
+# Block 03 — Private Class Fields
+* Syntax
+* Private Properties
+* Private Methods
+
+# Block 04 — Encapsulation Patterns
+* Closures
+* Factory Functions
+* Classes
+
+# Block 05 — Getters and Setters
+* Controlled Mutation
+* Validation Logic
+
+# Block 06 — Real World Usage
+* Large Applications
+* Component Design
+* State Management
+
+# Block 07 — Chapter Review
+* Summary
+* Interview
+* Golden Answers
+* Conclusion
+
+////////////////////////////////////////////////////////////////
+
+## Chapter 47 — Static Methods and Properties
+
+# Block 01 — Static Concept
+* اهداف فصل
+* Instance vs Class Level
+
+# Block 02 — Static Methods
+* static Keyword
+* Calling Static Methods
+* Use Cases
+
+# Block 03 — Static Properties
+* Class State
+* Shared Information
+
+# Block 04 — Static vs Instance Members
+* Access Rules
+* Common Mistakes
+
+# Block 05 — Practical Patterns
+* Factory Methods
+* Utility Classes
+
+# Block 06 — Chapter Review
+* Summary
+* Interview
+* Golden Answers
+* Conclusion
+
+///////////////////////////////////////////////////
+
+## Chapter 48 — OOP Practical Project Patterns
+
+# Block 01 — Building Object Models
+* Identifying Objects
+* Defining Responsibilities
+
+# Block 02 — Designing Classes
+* Properties
+* Methods
+* Relationships
+
+# Block 03 — Applying OOP Principles
+* Encapsulation
+* Abstraction
+* Inheritance
+
+# Block 04 — OOP in Frontend Development
+* Components as Objects
+* State Management
+* Architecture Thinking
+
+# Block 05 — Jonas OOP Course Review
+* Main Concepts
+* Common Interview Topics
+* Professional Perspective
+
+# Block 06 — Chapter Review
+* Summary
+* Key Takeaways
+* Technical Interview
+* Golden Answers
+* Conclusion
 
 
