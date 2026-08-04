@@ -4023,3 +4023,444 @@ Chapter 93 — Babel
 - Technical Interview
 - Golden Answers
 - Conclusion
+
+/////////////////////////////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////////////
+
+### Part 11 — JavaScript Application Architecture
+
+Chapter 95 — Introduction to Application Architecture
+
+# Block 01 — From Code to Application
+اهداف فصل -
+- Difference Between Script and Application
+- Why Architecture Matters?
+- Growing Complexity
+
+# Block 02 — Software Architecture Fundamentals
+- Architecture چیست؟
+- Structure of Application
+- Responsibilities
+- Separation of Concerns
+
+# Block 03 — Problems Without Architecture
+- Spaghetti Code
+- Tight Coupling
+- Difficult Maintenance
+- Difficult Testing
+
+# Block 04 — JavaScript Application Challenges
+- DOM Manipulation
+- State Management
+- Async Operations
+- Multiple Features
+
+# Block 05 — Architecture Principles
+- Modularity
+- Reusability
+- Maintainability
+- Scalability
+
+# Block 06 — Preparing for MVC
+- Why Patterns?
+- Design Patterns Introduction
+- MVC Overview
+
+# Block 07 — Chapter Review
+- Summary
+- Key Takeaways
+- Technical Interview
+- Golden Answers
+- Conclusion
+
+///////////////////////////////////////////////////////////////////////
+
+
+## Chapter 96 — MVC Architecture
+
+# Block 01 — Introduction to MVC
+اهداف فصل -
+- MVC چیست؟
+- Why MVC Pattern?
+
+# Block 02 — Model Layer
+- Data Management
+- Business Logic
+- State Ownership
+
+# Block 03 — View Layer
+- UI Representation
+- Rendering Responsibility
+- User Interface Updates
+
+# Block 04 — Controller Layer
+- Application Coordinator
+- Connecting Model and View
+
+# Block 05 — MVC Data Flow
+- User Action
+- Controller
+- Model Update
+- View Rendering
+
+# Block 06 — MVC Advantages and Limitations
+- Maintainability
+- Separation
+- Complexity Management
+
+# Block 07 — MVC in Frontend Development
+- Traditional MVC
+- Framework Comparison
+- React Architecture Connection
+
+# Block 08 — Chapter Review
+- Summary
+- Interview
+- Golden Answers
+- Conclusion
+
+//////////////////////////////////////////////////////////////////
+
+## Chapter 97 — Application State Management
+
+# Block 01 — Introduction to Application State Management
+- اهداف فصل
+- مقدمه
+- Why State Management Matters?
+- ارتباط با فصل قبل (MVC Architecture)
+- State چیست؟
+- چرا Application بدون State قابل مدیریت نیست؟
+- نقش State در معماری Frontend مدرن
+
+# Block 02 — Understanding Application State
+- State vs Static Data
+- Mutable Data
+- Sources of State
+- Lifecycle of State
+
+# Block 03 — Local State vs Global State
+- Local State
+- Shared State
+- Global State
+- Choosing the Right Scope
+
+# Block 04 — Managing State in Vanilla JavaScript
+- Central State Object
+- Reading State
+- Updating State
+- Synchronizing State with UI
+
+# Block 05 — State Mutation and Best Practices
+- Direct Mutation
+- Immutable Thinking
+- Predictable Updates
+- Single Source of Truth
+
+# Block 06 — State and UI Rendering
+- Data Flow
+- Rendering Strategy
+- Keeping UI in Sync
+- Avoiding Inconsistent UI
+
+# Block 07 — Preparing for Modern Frameworks
+- State in React
+- Why React Introduced useState
+- Introduction to Global State Libraries
+- Connection to Redux, Context API and Zustand
+
+# Block 08 — Chapter Review
+- Summary
+- Key Takeaways
+- Technical Interview
+- Golden Answers
+- Conclusion
+
+//////////////////////////////////////////////////////////////////////////
+
+## Chapter 98 — Model Design
+
+#Block 01 — Introduction to Model Design
+- اهداف فصل
+- مقدمه
+- ارتباط با فصل قبل (Application State Management)
+- چرا Model مهم است؟
+- مسئولیت Model در معماری MVC
+- مشکل ترکیب Data و UI
+- نقش Model در پروژه Forkify
+- ارتباط Model با معماری Frameworkهای مدرن
+
+# Block 02 — Data Loading
+- API Communication
+- Async Model Methods
+- Error Handling
+
+# Block 03 — Data Transformation
+- Preparing Data
+- Formatting
+- Business Rules
+
+# Block 04 — Model State
+- Storing Application Data
+- Updating State
+
+# Block 05 — Model and External Data
+- APIs
+- Local Storage
+- Persistence
+
+# Block 06 — Chapter Review
+- Summary
+- Interview
+- Golden Answers
+- Conclusion
+
+///////////////////////////////////////
+
+Chapter 99 — View Architecture
+# Block 01 — Introduction to View Architecture
+- اهداف فصل
+- مقدمه
+- ارتباط با فصل قبل (Model Layer)
+- چرا View باید از Model جدا باشد؟
+- مسئولیت View در معماری MVC
+- مشکل قرار دادن Business Logic در UI
+- نقش View در پروژه Forkify
+- ارتباط View با Component-Based Development
+
+# Block 02 — Base View Pattern
+- Reusable View Class
+- Common Methods
+
+# Block 03 — Rendering Strategies
+- Generate Markup
+- Insert DOM
+- Update UI
+
+# Block 04 — Handling User Events
+- Event Listeners
+- User Interaction
+
+# Block 05 — View Components
+- Smaller Views
+- Reusable UI Parts
+
+# Block 06 — View and State
+- Receiving Data
+- Rendering Updates
+
+# Block 07 — Chapter Review
+- Summary
+- Interview
+- Golden Answers
+- Conclusion
+
+///////////////////////////////////////////////////////////////////////
+
+## Chapter 100 — Controller Pattern
+
+# Block 01 — Introduction to Controller Pattern
+- اهداف فصل
+- مقدمه
+- ارتباط با فصل‌های Model و View
+- چرا Controller به وجود آمد؟
+- Controller چه مشکلی را حل می‌کند؟
+- هماهنگی بین Model و View
+- نقش Controller در پروژه Forkify
+- مقایسه با Controller در Frameworkهای مدرن
+
+# Block 02 — Connecting Model and View
+- Calling Model Methods
+- Updating Views
+
+# Block 03 — Handling Events
+- User Actions
+- Controller Functions
+
+# Block 04 — Async Controller Logic
+- Awaiting Data
+- Error Handling
+- Loading States
+
+# Block 05 — Keeping Controller Clean
+- Avoiding Business Logic
+- Delegation
+
+# Block 06 — Chapter Review
+- Summary
+- Interview
+- Golden Answers
+- Conclusion
+
+//////////////////////////////////////////////////////
+
+## Chapter 101 — Publisher Subscriber Pattern
+
+# Block 01 — Introduction to Publisher–Subscriber Pattern
+- اهداف فصل
+- مقدمه
+- ارتباط با Controller
+- چرا Moduleها نباید مستقیماً به هم وابسته باشند؟
+- مفهوم Loose Coupling
+- نقش Pub/Sub در معماری نرم‌افزار
+- استفاده در پروژه Forkify
+- ارتباط با Event-Driven Architecture
+
+# Block 02 — Observer Pattern Concept
+- Publisher
+- Subscriber
+- Notification
+
+# Block 03 — Implementing Pub/Sub
+- Subscribe
+- Publish
+- Event Handling
+
+# Block 04 — Pub/Sub in Applications
+- State Updates
+- UI Synchronization
+
+# Block 05 — Pub/Sub and Frameworks
+- React Events
+- State Libraries
+
+# Block 06 — Chapter Review
+- Summary
+- Interview
+- Golden Answers
+- Conclusion
+
+///////////////////////////////////
+
+## Chapter 102 — Async Architecture
+
+# Block 01 — Introduction to Async Architecture
+- اهداف فصل
+- مقدمه
+- ارتباط با Async JavaScript و MVC
+- چالش‌های معماری برنامه‌های ناهمگام
+- هماهنگی بین API، State و UI
+- نقش Async Flow در تجربه کاربر
+- کاربرد در پروژه Forkify
+- ارتباط با معماری Frontend مدرن
+
+# Block 02 — Loading Process
+- User Action
+- Request
+- Response
+- Rendering
+
+# Block 03 — Error Flow
+- Error Propagation
+- User Feedback
+
+# Block 04 — Loading and Error States
+- UI States
+- User Experience
+
+# Block 05 — Async Code Organization
+- Separating Concerns
+- Reusable Async Functions
+
+# Block 06 — Chapter Review
+- Summary
+- Interview
+- Golden Answers
+- Conclusion
+
+/////////////////////////////////////////////////////////////////////////
+
+
+## Chapter 103 — Forkify Architecture Implementation
+
+# Block 01 — Introduction to Forkify Architecture
+- اهداف فصل
+- مقدمه
+- ارتباط با تمام فصل‌های Part 11
+- چرا Forkify به عنوان مطالعه موردی انتخاب شده است؟
+- مرور معماری کلی پروژه
+- نقش هر Module در Application
+- نحوه ترکیب تمام مفاهیم کتاب
+- آماده‌سازی برای توسعه پروژه‌های واقعی
+
+# Block 02 — Project Structure
+- Folder Organization
+- Module Separation
+- File Responsibility
+
+# Block 03 — Data Flow
+- User Search
+- API Request
+- State Update
+- Rendering
+
+# Block 04 — Model Implementation
+- API Handling
+- State Management
+- Data Processing
+
+# Block 05 — View Implementation
+- Components
+- Rendering
+- Events
+
+# Block 06 — Controller Implementation
+- Connecting Everything
+- Application Coordination
+
+# Block 07 — Final Architecture Review
+- Lessons Learned
+- Professional Practices
+- Future Improvements
+
+# Block 08 — Chapter Review
+- Summary
+- Key Takeaways
+- Technical Interview
+- Golden Answers
+- Conclusion
+
+/////////////////////////////////////////////////////
+
+## Chapter 104 — JavaScript Volume Final Review
+
+# Block 01 — Introduction to Final Review
+- اهداف فصل
+- مقدمه
+- مروری بر مسیر یادگیری کتاب
+- ارتباط بین تمام Partهای کتاب
+- مهم‌ترین مهارت‌هایی که خواننده کسب کرده است
+- آمادگی برای ورود به React و TypeScript
+- مسیر ادامه یادگیری Frontend Engineering
+
+# Block 02 — Behind The Scenes Review
+- Engine
+- Runtime
+- Execution Context
+- Scope
+- Closures
+
+# Block 03 — Modern JavaScript Review
+- Modules
+- Async JavaScript
+- Tooling
+
+# Block 04 — Application Development Review
+- DOM
+- Architecture
+- State
+- Patterns
+
+# Block 05 — Frontend Engineering Perspective
+- Writing Maintainable JavaScript
+- Professional Workflow
+- Continuous Learning
+
+# Block 06 — Final Interview Preparation
+- Common Senior Questions
+- Conceptual Answers
+- Problem Solving
+
+# Block 07 — Final Conclusion
+- JavaScript Learning Journey
+- From Beginner to Professional
+- Next Step: React and Advanced Frontend
