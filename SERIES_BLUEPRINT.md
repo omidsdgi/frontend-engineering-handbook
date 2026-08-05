@@ -35,9 +35,6 @@
 
 ### Part 01 — JavaScript Fundamental
 
-////////////////////////////////////////////////////////////////
-///////////////////////////////////////////////////////////////
-
 ## Chapter 01 — What is JavaScript?
 
 Writing Blocks
@@ -80,35 +77,83 @@ Writing Blocks
 - Technical Interview
 - Golden Answers
 - Conclusion
+
 /////////////////////////////////////////////////////
 
 ## Chapter 02 — Values and Variables
 
-# Block 01 — Values
-مفهوم Value -
-- Data Representation
-- Literal Values
-- Runtime Values
+# Chapter Goal
+پس از پایان این فصل، خواننده باید بتواند:
 
-# Block 02 — Variables Fundamentals
+- مفهوم واقعی Value را از Variable تشخیص دهد.
+- تفاوت میان داده، مقدار، متغیر و حافظه را توضیح دهد.
+- مدل ذهنی درستی از ذخیره‌سازی داده‌ها در JavaScript داشته باشد.
+- بداند چرا Variable یکی از بنیادی‌ترین مفاهیم برنامه‌نویسی است.
+
+# Core Question
+> Variable چیست و JavaScript چگونه داده‌ها را در حافظه مدیریت می‌کند؟
+
+# Concept Flow
+
+```Information
+      ↓
+Data
+      ↓
+Value
+      ↓
+Memory
+      ↓
+Variable
+      ↓
+Declaration
+      ↓
+Initialization
+      ↓
+Assignment
+      ↓
+Identifier
+      ↓
+Naming Convention
+      ↓
+Best Practices
+
+# Writing Blocks
+
+### Block 01
+- اهداف فصل
+- مقدمه
+- مفهوم Information
+- مفهوم Data
+- مفهوم Value
+- چرا کامپیوتر به Variable نیاز دارد
+
+---
+
+### Block 02
+
 - Variable چیست؟
-- Memory Concept
-- Reference Name
-- Storage Model
-
-# Block 03 — Variable Lifecycle- 
+- Memory Cell
 - Declaration
 - Initialization
 - Assignment
-- Reassignment
+- تفاوت Declaration و Assignment
 
-# Block 04 — Naming and Best Practices
-- Identifier Rules
-- Naming Convention
-- Clean Code Principles
-- Common Mistakes
+---
 
-# Block 05 — Chapter Review
+### Block 03
+
+- Identifier
+- قوانین نام‌گذاری
+- Reserved Keywords
+- Convention ها
+- camelCase
+- Constant Naming
+- Jonas Perspective
+
+---
+
+### Block 04
+
 - Summary
 - Key Takeaways
 - Technical Interview
@@ -119,62 +164,168 @@ Writing Blocks
 
 ## Chapter 03 — Data Types
 
-# Block 01 — Type System
-- مفهوم Type
-- Why Types Matter
-- Static vs Dynamic Typing
-- JavaScript Dynamic Typing
+---
 
-# Block 02 — Primitive Data Types
+## Chapter Goal
+
+پس از پایان این فصل، خواننده باید:
+
+- مفهوم Type را درک کند.
+- تفاوت Primitive و Object را بداند.
+- Dynamic Typing را کاملاً بفهمد.
+- بتواند رفتار JavaScript در نگهداری انواع داده را تحلیل کند.
+
+---
+
+## Core Question
+
+> JavaScript چگونه داده‌های مختلف را مدیریت می‌کند؟
+
+---
+
+## Concept Flow
+
+```
+Value
+↓
+Type
+↓
+Dynamic Typing
+↓
+Primitive Types
+↓
+Reference Type
+↓
+Primitive vs Object
+↓
+typeof
+↓
+Common Mistakes
+
+---
+
+## Writing Blocks
+
+### Block 01
+- اهداف فصل
+- مقدمه
+- مفهوم Type
+- چرا Type اهمیت دارد؟
+- Dynamic Typing
+
+---
+
+### Block 02
+
 - Number
 - String
 - Boolean
 - Undefined
 - Null
 
-# Block 03 — Advanced Primitive Types
+---
+
+### Block 03
+
 - Symbol
 - BigInt
+- Object
+- Primitive vs Reference
+- typeof
+- Jonas Perspective
 
-# Block 04 — Objects and References
-- Object Type
-- Primitive vs Reference Values
-- Memory Behavior
+---
 
-# Block 05 — Chapter Review
+### Block 04
+
 - Summary
-- Interview
+- Key Takeaways
+- Technical Interview
 - Golden Answers
 - Conclusion
+
+---
 
 //////////////////////////////////////////
 
 ## Chapter 04 — let, const and var
 
-#Block 01 — Variable History
-- var
-- Problems with var
-- ES6 Revolution
+## Chapter Goal
 
-# Block 02 — let
+خواننده باید بتواند:
+
+- دلیل ایجاد let و const را توضیح دهد.
+- تفاوت var با let و const را بداند.
+- مفهوم Scope و Hoisting را در سطح مقدماتی درک کند.
+- بهترین روش تعریف متغیر را انتخاب کند.
+
+---
+
+## Core Question
+
+> چرا JavaScript سه روش مختلف برای تعریف متغیر دارد؟
+
+---
+
+## Concept Flow
+
+```
+Variable Declaration
+        ↓
+var
+        ↓
+Problems of var
+        ↓
+ES6
+        ↓
+let
+        ↓
+const
+        ↓
+Scope (Introduction)
+        ↓
+Hoisting (Introduction)
+        ↓
+Best Practices
+```
+
+---
+
+## Writing Blocks
+
+### Block 01
+
+- اهداف فصل
+- مقدمه
+- تاریخچه var (مختصر)
+- مشکلات var
+
+---
+
+### Block 02
+
+- let
 - Block Scope
+- Redeclaration
 - Reassignment
-- Use Cases
 
-# Block 03 — const
-- Constant Binding
-- Object Mutation
-- Best Practice
+---
 
-# Block 04 — Comparison and Professional Usage
-- var vs let vs const
-- Temporal Dead Zone (Introduction)
+### Block 03
+
+- const
+- Immutable Binding
+- const و Object
+- معرفی اولیه Hoisting
 - Jonas Perspective
-- Modern JavaScript Recommendation
 
-# Block 05 — Chapter Review
+---
+
+### Block 04
+
 - Summary
-- Interview
+- Key Takeaways
+- Technical Interview
 - Golden Answers
 - Conclusion
 
@@ -182,62 +333,86 @@ Writing Blocks
 
 Chapter 05 — Operators
 
-# Block 01 — Introduction to Operators
-اهداف فصل- 
-- مفهوم Operator
-- Operand چیست؟
-- Expression چیست؟
-- Statement چیست؟
-نقش Operators در JavaScript -
+---
 
-# Block 02 — Arithmetic Operators
-- Addition
-- Subtraction
-- Multiplication
-- Division
-- Remainder Operator
-- Exponentiation
-- Increment
-- Decrement
+## Chapter Goal
 
-# Block 03 — Assignment Operators
-- Basic Assignment
-- Compound Assignment
-- +=
-- -=
-- -=
-- /=
-- Modern Usage
+خواننده باید:
 
-# Block 04 — Comparison Operators
-- Greater Than
-- Less Than
-- Greater Than or Equal
-- Less Than or Equal
-- Equality Operators
-- Strict Equality
-- Loose Equality
-Type Coercion Introduction
+- انواع عملگرها را بشناسد.
+- مفهوم Expression را درک کند.
+- تفاوت Operator و Operand را بداند.
+- ترتیب اجرای عملگرها را تحلیل کند.
 
-# Block 05 — Logical Operators
-- AND
-- OR
-- NOT
-- Short-Circuit Evaluation (Introduction)
-- Practical Patterns
+---
 
-# Block 06 — Other Operators
+## Core Question
+
+> JavaScript چگونه عملیات مختلف را روی داده‌ها انجام می‌دهد؟
+
+---
+
+## Concept Flow
+
+```
+Expression
+      ↓
+Operator
+      ↓
+Operand
+      ↓
+Arithmetic
+      ↓
+Assignment
+      ↓
+Comparison
+      ↓
+Logical
+      ↓
+Unary
+      ↓
+Ternary
+      ↓
+Operator Precedence
+      ↓
+Real-world Usage
+
+---
+
+## Writing Blocks
+
+### Block 01
+
+- اهداف فصل
+- مقدمه
+- Expression
+- Operator
+- Operand
+- Arithmetic Operators
+
+---
+
+### Block 02
+
+- Assignment Operators
+- Comparison Operators
+- Boolean Result
+- Equality Operators (Introduction)
+
+---
+
+### Block 03
+
+- Logical Operators
 - Unary Operators
-- typeof
-- Conditional (Ternary) Operator
+- Ternary Operator
 - Operator Precedence
-
-# Block 07 — Professional Usage
-- Common Mistakes
-- Clean Code Considerations
 - Jonas Perspective
 
-# Block 08 — Chapter Review
+---
+
+### Block 04
+
 - Summary
 - Key Takeaways
 - Technical Interview
@@ -245,6 +420,10 @@ Type Coercion Introduction
 - Conclusion
 
 //////////////////////////////////////////////////
+***********************************************************
+***********************************************************
+***********************************************************
+***********************************************************
 
 ## Chapter 06 — Strings and Template Literals
 
