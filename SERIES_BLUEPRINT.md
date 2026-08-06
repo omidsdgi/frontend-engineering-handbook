@@ -627,98 +627,220 @@ Best Practices
 - Golden Answers
 - Conclusion
 
----
-***********************************************************
-***********************************************************
-***********************************************************
-***********************************************************
-
-
 /////////////////////////////////////////////////
 
-## Chapter 08 — Loops
+---
 
-# Block 01 — Loop Fundamentals
-- Why Loops?
-- Repeating Tasks
-- Iteration Concept
-- Infinite Loops
+# Chapter 08 — Loops
 
-# Block 02 — for Loop
-- Syntax
+**File**
+
+08-loops.md
+
+---
+
+## Chapter Goal
+
+پس از پایان این فصل، خواننده باید بتواند:
+
+- مفهوم تکرار (Iteration) را در برنامه‌نویسی توضیح دهد.
+- تفاوت میان Loop و Conditional را درک کند.
+- مناسب‌ترین نوع حلقه را برای هر مسئله انتخاب کند.
+- از حلقه‌ها برای پردازش مجموعه‌ای از داده‌ها استفاده کند.
+- رفتار `break` و `continue` را تحلیل کند.
+- الگوهای رایج استفاده از حلقه‌ها در پروژه‌های واقعی را بشناسد.
+
+---
+
+## Core Question
+
+> JavaScript چگونه انجام عملیات تکراری را مدیریت می‌کند؟
+
+---
+
+## Concept Flow
+
+```
+Repetition
+↓
+Iteration
+↓
+Loop
+↓
+for
+↓
+Loop Counter
+↓
+while
+↓
+do...while
+↓
+Nested Loops
+↓
+break
+↓
+continue
+↓
+Loop Patterns
+↓
+Common Mistakes
+↓
+Best Practices
+```
+
+---
+
+## Writing Blocks
+
+### Block 01
+
+- اهداف فصل
+- مقدمه
+- چرا به Loop نیاز داریم؟
+- مفهوم Repetition
+- مفهوم Iteration
+- ساختار کلی Loop
+- معرفی حلقه `for`
+
+---
+
+### Block 02
+
+- Loop Counter
 - Initialization
 - Condition
-- Update Expression
-- Common Patterns
+- Increment
+- Trace کردن اجرای حلقه
+- الگوهای متداول استفاده از `for`
 
-# Block 03 — while Loop
-- Syntax
-- Difference with for
-- Practical Examples
+---
 
-# Block 04 — do while Loop
-- Execution Before Condition
-- Use Cases
-- Comparison
+### Block 03
 
-# Block 05 — Loop Control
+- حلقه `while`
+- حلقه `do...while`
+- تفاوت `for` و `while`
+- Nested Loops
+- Jonas Perspective
+
+---
+
+### Block 04
+
 - break
 - continue
-- Early Exit
-- Skipping Iterations
-
-# Block 06 — Nested Loops
-- Loop Inside Loop
-- Execution Flow
-- Performance Considerations
-
-# Block 07 — Professional Practices
-- Avoiding Complex Loops
-- Readability
-- Common Mistakes
-
-# Block 08 — Chapter Review
+- اشتباهات رایج
 - Summary
 - Key Takeaways
 - Technical Interview
 - Golden Answers
 - Conclusion
 
-/////////////////////////////////////////////
+////////////////////////////////////////////
 
-## Chapter 09 — Strict Mode
+---
 
-# Block 01 — Introduction to Strict Mode
-اهداف - Strict Mode
-- Historical Background
-- Why JavaScript Needed Strict Mode
+# Chapter 09 — Strict Mode
 
-# Block 02 — Enabling Strict Mode
-- "use strict"
-- Script Level
-- Function Level
+**File**
 
-# Block 03 — Problems Strict Mode Solves
-- Accidental Globals
-- Silent Errors
-- Safer JavaScript
+09-strict-mode.md
 
-# Block 04 — Common Strict Mode Errors
-- Invalid Assignments
-- this Behavior Introduction
+---
+
+## Chapter Goal
+
+پس از پایان این فصل، خواننده باید بتواند:
+
+- مفهوم Strict Mode را توضیح دهد.
+- دلیل معرفی Strict Mode را درک کند.
+- تفاوت اجرای کد در حالت معمولی و Strict Mode را تحلیل کند.
+- مهم‌ترین خطاهایی را که Strict Mode آشکار می‌کند، بشناسد.
+- اهمیت Strict Mode را در توسعه نرم‌افزارهای مدرن توضیح دهد.
+
+---
+
+## Core Question
+
+> Strict Mode چگونه JavaScript را ایمن‌تر و قابل پیش‌بینی‌تر می‌کند؟
+
+---
+
+## Concept Flow
+
+```
+JavaScript Problems
+↓
+ECMAScript 5
+↓
+Strict Mode
+↓
+How to Enable
+↓
+Common Errors
+↓
+Silent Errors
+↓
+Safer JavaScript
+↓
+Future Compatibility
+↓
+Best Practices
+```
+
+---
+
+## Writing Blocks
+
+### Block 01
+
+- اهداف فصل
+- مقدمه
+- چرا Strict Mode معرفی شد؟
+- تاریخچه کوتاه ES5
+- فعال کردن Strict Mode
+- تفاوت Script و Module (معرفی)
+
+---
+
+### Block 02
+
+- جلوگیری از ایجاد متغیرهای تصادفی
+- Duplicate Parameters
 - Reserved Words
+- حذف رفتارهای مبهم
+- مثال‌های عملی
 
-# Block 05 — Modern JavaScript and Strict Mode
-- ES Modules
-- Strict Mode by Default
-- Best Practices
+---
 
-# Block 06 — Chapter Review
+### Block 03
+
+- خطاهای رایج در Strict Mode
+- چرا بسیاری از باگ‌ها زودتر کشف می‌شوند؟
+- ارتباط Strict Mode با JavaScript مدرن
+- Jonas Perspective
+
+---
+
+### Block 04
+
+- چه زمانی Strict Mode فعال است؟
+- اشتباهات رایج
 - Summary
 - Key Takeaways
 - Technical Interview
 - Golden Answers
 - Conclusion
+
+---
+
+
+***********************************************************
+***********************************************************
+***********************************************************
+***********************************************************
+
+
 
 ////////////////////////////////////////////////////
 
