@@ -420,108 +420,219 @@ Real-world Usage
 - Conclusion
 
 //////////////////////////////////////////////////
-***********************************************************
-***********************************************************
-***********************************************************
-***********************************************************
 
-## Chapter 06 — Strings and Template Literals
+---
 
+# Chapter 06 — Strings and Template Literals
 
-# Block 01 — Introduction to Strings
-مفهوم - String
-- Text Representation
-- String Primitive Type
-- Creating Strings
+**File**
 
-# Block 02 — String Basics
-- Single Quotes
-- Double Quotes
-- Backticks
+06-strings-and-template-literals.md
+
+---
+
+## Chapter Goal
+
+پس از پایان این فصل، خواننده باید بتواند:
+
+- مفهوم String را به‌عنوان یکی از مهم‌ترین Primitive Typeها توضیح دهد.
+- تفاوت داده متنی و نمایش متنی داده‌ها را درک کند.
+- بداند JavaScript چگونه رشته‌ها را مدیریت می‌کند.
+- از Template Literal در پروژه‌های واقعی استفاده کند.
+- تفاوت String Concatenation و Template Literal را تحلیل کند.
+- با روش‌های متداول ساخت و قالب‌بندی متن در JavaScript آشنا شود.
+
+---
+
+## Core Question
+
+> JavaScript چگونه داده‌های متنی را ذخیره، ترکیب و تولید می‌کند؟
+
+---
+
+## Concept Flow
+
+```
+Information
+↓
+Text Data
+↓
+String
+↓
+String Literal
+↓
+Escape Characters
+↓
+Concatenation
+↓
+Template Literals
+↓
+Interpolation
+↓
+Multiline Strings
+↓
+Tagged Templates (Introduction)
+↓
+Best Practices
+```
+
+---
+
+## Writing Blocks
+
+### Block 01
+
+- اهداف فصل
+- مقدمه
+- Text Data چیست؟
+- String چیست؟
+- String Literal
+- Single Quote
+- Double Quote
+
+---
+
+### Block 02
+
 - Escape Characters
-- Special Characters
+- New Line
+- Quote Characters
+- Backslash
+- String Concatenation
+- مشکلات Concatenation
 
-# Block 03 — String Concatenation
-- Combining Strings
-- The + Operator
-- Type Coercion with Strings
-- Limitations of Concatenation
+---
 
-# Block 04 — Template Literals
-- Introduction
-- String Interpolation
-- Multi-line Strings
-- Embedding Expressions
+### Block 03
 
-# Block 05 — String Methods Introduction
-- length
-- Accessing Characters
-- Basic String Methods
-- Immutability Concept
+- Template Literals
+- Backticks
+- Interpolation
+- Expression داخل Template Literal
+- Multiline String
+- Jonas Perspective
 
-# Block 06 — Advanced Introduction
-- Tagged Templates
-- Use Cases
-- Real World Examples
+---
 
-# Block 07 — Chapter Review
+### Block 04
+
+- Tagged Template (Introduction)
 - Summary
 - Key Takeaways
 - Technical Interview
 - Golden Answers
 - Conclusion
 
-////////////////////////////////////////////////////
+---
 
-## Chapter 07 — Taking Decisions
+# Chapter 07 — Taking Decisions
 
-# Block 01 — Decision Making Fundamentals
-نامه‌نویسی و تصمیم‌گیری -- 
-- Control Flow
-- Conditional Execution
+**File**
 
-# Block 02 — if Statement
-- Basic if
-- Condition Expression
-- Code Block
-- Multiple Conditions
+07-taking-decisions.md
 
-# Block 03 — if / else Statements
+---
+
+## Chapter Goal
+
+پس از پایان این فصل، خواننده باید بتواند:
+
+- مفهوم تصمیم‌گیری در برنامه را درک کند.
+- تفاوت Boolean Expression و Decision Making را توضیح دهد.
+- از ساختارهای شرطی JavaScript در پروژه‌های واقعی استفاده کند.
+- تفاوت `==` و `===` را در تصمیم‌گیری عملی به‌کار ببرد.
+- مناسب‌ترین ساختار شرطی را برای هر مسئله انتخاب کند.
+
+---
+
+## Core Question
+
+> JavaScript چگونه مسیر اجرای برنامه را بر اساس شرایط مختلف کنترل می‌کند؟
+
+---
+
+## Concept Flow
+
+```
+Boolean
+↓
+Decision Making
+↓
+if
+↓
+else
+↓
+else if
+↓
+Nested Conditions
+↓
+Truthy
+↓
+Falsy
+↓
+Boolean Conversion
+↓
+Strict Equality
+↓
+switch
+↓
+Conditional Patterns
+↓
+Best Practices
+```
+
+---
+
+## Writing Blocks
+
+### Block 01
+
+- اهداف فصل
+- مقدمه
+- چرا برنامه‌ها باید تصمیم بگیرند؟
+- Boolean Review
+- مفهوم Decision Making
+- ساختار if
+
+---
+
+### Block 02
+
 - else
 - else if
-- Nested Conditions
-- Conditional Chains
-
-# Block 04 — Truthy and Falsy Values
-- Boolean Conversion
+- Nested if
 - Truthy Values
 - Falsy Values
-- Common Mistakes
+- Boolean Conversion
 
-# Block 05 — Equality and Conditions
+---
+
+### Block 03
+
 - Strict Equality
-- Loose Equality
-- Type Coercion
-- Best Practices
+- Loose Equality (مرور کاربردی)
+- switch Statement
+- انتخاب بین if و switch
+- Jonas Perspective
 
-# Block 06 — switch Statement
-- switch Syntax
-- case
-- break
-- default
-- When to Use switch
+---
 
-# Block 07 — Conditional Patterns
-- Guard Clauses (Introduction)
-- Conditional Operator
-- Writing Cleaner Conditions
+### Block 04
 
-# Block 08 — Chapter Review
+- الگوهای متداول شرط‌نویسی
+- اشتباهات رایج
 - Summary
 - Key Takeaways
 - Technical Interview
 - Golden Answers
 - Conclusion
+
+---
+***********************************************************
+***********************************************************
+***********************************************************
+***********************************************************
+
 
 /////////////////////////////////////////////////
 
