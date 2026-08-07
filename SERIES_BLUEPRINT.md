@@ -834,64 +834,210 @@ Best Practices
 
 ---
 
-
-***********************************************************
-***********************************************************
-***********************************************************
-***********************************************************
-
-
-
 ////////////////////////////////////////////////////
 
-## Chapter 10 — Developer Tools
+---
 
-# Block 01 — Introduction to Developer Tools
-- Browser DevTools
-- - Why Developers Need Tools
-- - Debugging Mindset
-- 
-# Block 02 — Console Panel
-- console.log
-- - console.warn
-- - console.error
-- - console.table
-- - Debugging Values
-- 
-# Block 03 — Sources Panel
-- Opening Source Files
-- - Breakpoints
-- - Step Execution
-- - Watch Expressions
-- 
-# Block 04 — Debugger
-- debugger Statement
-- - Pause Execution
-- Inspect Variables
-- Call Stack Introduction
+# Chapter 10 — Developer Tools
 
-# Block 05 — Network Panel
-- HTTP Requests
-- Fetch Requests
-- Response Inspection
-- Performance Basics
+**File**
 
-# Block 06 — Performance Basics
-- Measuring Performance
-- Rendering
-- Runtime Analysis
+10-developer-tools.md
 
-# Block 07 — Professional Debugging Workflow
-- Finding Bugs
-- Reading Errors
-- Debugging Strategy
+---
 
-# Block 08 — Chapter Review
+## Chapter Goal
+
+پس از پایان این فصل، خواننده باید بتواند:
+
+- نقش Developer Tools را در فرایند توسعه JavaScript توضیح دهد.
+- بخش‌های مهم DevTools مرورگر را بشناسد.
+- JavaScript را مستقیماً در Console اجرا و آزمایش کند.
+- مقدار متغیرها و Expressionها را بررسی کند.
+- خطاهای JavaScript را از طریق Console شناسایی و تحلیل کند.
+- اجرای برنامه را با Breakpoint متوقف کند.
+- با استفاده از Debugger مقدار متغیرها و وضعیت برنامه را بررسی کند.
+- تفاوت `console.log()` و ابزارهای واقعی Debugging را درک کند.
+- از Sources برای دنبال کردن جریان اجرای JavaScript استفاده کند.
+- DOM و CSS را برای پیدا کردن مشکلات رابط کاربری بررسی کند.
+- Network را برای بررسی درخواست‌ها و پاسخ‌های شبکه به‌کار ببرد.
+- از DevTools به‌عنوان بخشی از فرایند واقعی Debugging استفاده کند.
+
+---
+
+# Core Question
+
+> چگونه می‌توان با استفاده از Developer Tools، اجرای واقعی JavaScript را مشاهده، بررسی و Debug کرد؟
+
+---
+
+# Concept Flow
+
+```text
+Browser
+   ↓
+Developer Tools
+   ↓
+Console
+   ↓
+JavaScript Runtime Inspection
+   ↓
+Errors & Warnings
+   ↓
+Sources
+   ↓
+Debugger
+   ↓
+Breakpoint
+   ↓
+Step Over / Step Into / Step Out
+   ↓
+Call Stack
+   ↓
+Scope & Variables
+   ↓
+Watch
+   ↓
+DOM & CSS Inspection
+   ↓
+Network
+   ↓
+Debugging Workflow
+   ↓
+Common Mistakes
+   ↓
+Best Practices
+
+Writing Blocks
+
+## Block 01
+
+اهداف فصل -
+
+مقدمه- 
+
+- Developer Tools چیست؟
+
+چرا Developer Tools برای JavaScript ضروری است؟ -
+
+ معرفی کلی DevTools -
+
+از کردن Developer Tools -
+
+معرفی بخش‌های اصلی -
+
+- Console
+
+- Elements
+
+- Sources
+
+- Network
+
+- Jonas Perspective
+
+## Block 02
+
+
+- Console چیست؟
+
+اجرای JavaScript در -
+ 
+- Console
+
+بررسی Expressionها -
+
+مشاهده مقدار متغیرها -
+
+- console.log()
+
+- console.warn()
+
+- console.error()
+
+- console.table()
+
+مشاهده Error و Warning -
+
+- Syntax Error
+
+- Runtime Error
+
+- Stack Trace
+
+استفاده عملی از Console برای -
+
+- Debugging
+
+## Block 03
+
+
+- Sources Panel
+
+- Debugger
+
+- Breakpoint
+
+متوقف کردن اجرای برنامه -
+
+مشاهده مقدار متغیرها -
+
+- Scope
+
+- Local Scope
+
+- Global Scope
+
+- Call Stack
+
+- Watch
+
+- Step Over
+
+- Step Into
+
+- Step Out
+
+- Resume
+
+- Jonas Perspective
+
+## Block 04
+
+
+- Debugging Workflow
+
+پیدا کردن محل خطا -
+
+دنبال کردن جریان اجرای برنامه -
+
+- بررسی وضعیت برنامه در Runtime
+
+- تفاوت Error و Bug
+
+ تفاوت console.log() و Breakpoin -
+ 
+ اشتباهات رایج -
+ 
+- Best Practices
+
 - Summary
+
 - Key Takeaways
+
 - Technical Interview
+
 - Golden Answers
+
 - Conclusion
+
+
+***********************************************************
+***********************************************************
+***********************************************************
+***********************************************************
+
+
 
 ////////////////////////////////////////////////////////
 
