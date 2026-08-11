@@ -15,7 +15,9 @@
 
 - JavaScript را به‌صورت دقیق و مهندسی تعریف کنید.
 - تفاوت JavaScript، ECMAScript، JavaScript Engine و Runtime را توضیح دهید.
-- مفهوم High-Level، Multi-Paradigm و Object-Oriented را در JavaScript درک کنید.
+- مفهوم High-Level، Dynamic، Multi-Paradigm و Object-Oriented را در JavaScript درک کنید.
+- تفاوت کلی میان Interpretation، Compilation و JIT Compilation را توضیح دهید.
+- تفاوت Browser Runtime و Server-Side Runtime را در سطح مفهومی درک کنید.
 - جایگاه JavaScript را در دنیای توسعه نرم‌افزار مدرن بشناسید.
 - به رایج‌ترین پرسش‌های مصاحبه فنی این مبحث پاسخ دهید.
 - مدل ذهنی صحیحی برای ادامه یادگیری JavaScript در فصل‌های بعد به دست آورید.
@@ -312,6 +314,192 @@ const user = {
 
 JavaScript یک زبان سطح بالا است؛ یعنی بسیاری از جزئیات پیچیده سخت‌افزار و مدیریت حافظه را از برنامه‌نویس پنهان می‌کند و اجازه می‌دهد تمرکز اصلی بر حل مسئله باشد، نه مدیریت منابع سیستم.
 ---
+
+---
+
+# Dynamic بودن JavaScript یعنی چه؟
+
+یکی دیگر از ویژگی‌های بنیادی JavaScript، **Dynamic بودن** آن است.
+
+وقتی می‌گوییم JavaScript یک زبان Dynamic است، منظور این است که نوع یک Value در زمان اجرای برنامه مشخص می‌شود و یک Variable الزاماً از ابتدا به یک Type ثابت محدود نمی‌شود.
+
+برای مثال:
+
+```javascript
+let value = 42;
+
+value = "JavaScript";
+```
+
+در این مثال، Variable به نام `value` ابتدا یک Number را نگه می‌دارد و بعداً یک String را دریافت می‌کند.
+
+این رفتار با زبان‌هایی که در آن‌ها Type یک Variable از ابتدا به‌صورت سخت‌گیرانه مشخص می‌شود متفاوت است.
+
+---
+
+## تعریف فنی
+
+JavaScript یک زبان **Dynamically Typed** است؛ یعنی Type به Value تعلق دارد و Type Checking مربوط به Valueها در زمان اجرای برنامه انجام می‌شود.
+
+به همین دلیل، هنگام تعریف یک Variable لازم نیست Type آن را به‌صورت صریح مشخص کنیم.
+
+```javascript
+let productCount = 10;
+let productName = "Laptop";
+```
+
+در این مثال، JavaScript Type هر Value را در Runtime مدیریت می‌کند.
+
+---
+
+## چرا Dynamic بودن مهم است؟
+
+Dynamic Typing باعث می‌شود نوشتن کد در JavaScript انعطاف‌پذیر باشد.
+
+در مقابل، همین انعطاف‌پذیری می‌تواند باعث ایجاد خطاهایی شود که در زمان نوشتن کد به‌سادگی قابل مشاهده نیستند.
+
+برای مثال:
+
+```javascript
+let price = 100;
+
+price = "100";
+```
+
+کد از نظر Syntax معتبر است، اما تغییر Type ممکن است در ادامه رفتار متفاوتی ایجاد کند.
+
+به همین دلیل، در JavaScript باید تفاوت میان **Variable، Value و Type** را به‌درستی درک کنیم.
+
+این موضوع در فصل **Data Types** به‌صورت کامل بررسی خواهد شد.
+
+---
+
+## اشتباه رایج
+
+Dynamic بودن به این معنا نیست که JavaScript «بدون Type» است.
+
+JavaScript کاملاً دارای Type است؛ اما Typeها در زمان اجرای برنامه به Valueها مربوط می‌شوند و Variableها الزاماً Type ثابت ندارند.
+
+---
+
+## پاسخ کوتاه طلایی مصاحبه
+
+**سؤال**
+
+Dynamic بودن JavaScript یعنی چه؟
+
+**پاسخ**
+
+JavaScript یک زبان Dynamically Typed است؛ یعنی Type به Value مربوط است و بررسی Type در Runtime انجام می‌شود. بنابراین یک Variable می‌تواند در زمان‌های مختلف Valueهایی با Typeهای متفاوت نگه‌داری کند.
+
+---
+
+# Interpreted یا Compiled؟
+
+یکی از قدیمی‌ترین پرسش‌ها درباره JavaScript این است:
+
+> آیا JavaScript یک زبان Interpreted است یا Compiled؟
+
+پاسخ ساده‌ای مانند «JavaScript یک زبان Interpreted است» امروزه تصویر دقیقی از نحوه اجرای JavaScript ارائه نمی‌کند.
+
+برای درک این موضوع ابتدا باید دو مفهوم را از هم جدا کنیم.
+
+---
+
+## Interpretation چیست؟
+
+در یک مدل ساده، Interpreter کد را دریافت می‌کند و آن را برای اجرا پردازش می‌کند.
+
+در این مدل، تمرکز اصلی روی اجرای مستقیم برنامه از طریق یک سیستم تفسیر است.
+
+---
+
+## Compilation چیست؟
+
+در Compilation، Source Code پیش از اجرای نهایی به شکلی تبدیل می‌شود که برای اجرا مناسب‌تر باشد.
+
+این تبدیل می‌تواند به تولید Machine Code یا یک نمایش میانی منجر شود.
+
+---
+
+## JavaScript چگونه اجرا می‌شود؟
+
+موتورهای مدرن JavaScript از یک روش واحد و ساده مانند «فقط Interpretation» یا «فقط Compilation» استفاده نمی‌کنند.
+
+آن‌ها از تکنیک‌های مختلفی برای پردازش و اجرای کد استفاده می‌کنند.
+
+به همین دلیل، بهتر است به‌جای این جمله:
+
+> JavaScript یک زبان Interpreted است.
+
+بگوییم:
+
+> JavaScript در Runtime توسط یک JavaScript Engine پردازش و اجرا می‌شود و موتورهای مدرن از ترکیبی از Interpretation و Compilation استفاده می‌کنند.
+
+این نگاه، مدل ذهنی دقیق‌تری ایجاد می‌کند.
+
+---
+
+# JIT Compilation چیست؟
+
+یکی از تکنیک‌های مهم در موتورهای مدرن JavaScript، **Just-In-Time Compilation** یا **JIT Compilation** است.
+
+JIT را می‌توان به‌صورت ساده فرآیندی دانست که در زمان اجرای برنامه، بخش‌هایی از کد را برای اجرای کارآمدتر به شکل مناسب‌تری کامپایل و بهینه می‌کند.
+
+در نتیجه، موتور می‌تواند بر اساس اطلاعاتی که هنگام اجرای برنامه به دست می‌آورد، برای مسیرهای پرتکرار برنامه بهینه‌سازی انجام دهد.
+
+مدل ذهنی ساده آن به این شکل است:
+
+```text
+JavaScript Source Code
+        ↓
+JavaScript Engine
+        ↓
+Processing / Execution
+        ↓
+Runtime Information
+        ↓
+Optimization / JIT
+        ↓
+Efficient Execution
+```
+
+هدف این بخش، توضیح جزئیات داخلی JIT نیست.
+
+جزئیات Parsing، AST، Compilation، Optimization و JIT در فصل **JavaScript Engine and Runtime** بررسی خواهند شد.
+
+---
+
+## چرا این موضوع مهم است؟
+
+شناخت JIT کمک می‌کند یک سوءبرداشت رایج را اصلاح کنیم:
+
+> High-Level بودن JavaScript به معنای اجرای ساده یا ذاتاً کند بودن آن نیست.
+
+موتورهای مدرن می‌توانند هنگام اجرای برنامه، اطلاعات واقعی Runtime را بررسی کرده و بخش‌هایی از کد را برای اجرای بهتر بهینه کنند.
+
+---
+
+## اشتباه رایج
+
+❌ JavaScript فقط یک زبان Interpreted است.
+
+✔ JavaScript در Runtime توسط Engine اجرا می‌شود و موتورهای مدرن می‌توانند از Interpretation، Compilation و JIT Techniques استفاده کنند.
+
+---
+
+## پاسخ کوتاه طلایی مصاحبه
+
+**سؤال**
+
+آیا JavaScript یک زبان Interpreted است یا Compiled؟
+
+**پاسخ**
+
+تقسیم‌بندی ساده JavaScript به «فقط Interpreted» یا «فقط Compiled» دقیق نیست. موتورهای مدرن JavaScript از تکنیک‌های مختلفی از جمله Compilation و JIT برای اجرای بهینه کد استفاده می‌کنند.
+
+---
+
 
 # Multi-Paradigm یعنی چه؟
 
@@ -754,6 +942,232 @@ ECMAScript مشخصات رسمی زبان JavaScript است. این استاند
 
 ---
 
+
+---
+
+# JavaScript Runtime Environment چیست؟
+
+تا اینجا میان **JavaScript، ECMAScript و JavaScript Engine** تفاوت قائل شدیم.
+
+اما یک مفهوم دیگر نیز وجود دارد: **Runtime Environment**.
+
+Runtime محیطی است که JavaScript در آن اجرا می‌شود و علاوه بر Engine، امکانات و APIهای مورد نیاز برنامه را نیز در اختیار کد قرار می‌دهد.
+
+بنابراین می‌توان یک مدل ذهنی ساده به این شکل داشت:
+
+```text
+JavaScript
+    ↓
+ECMAScript
+    ↓
+JavaScript Engine
+    ↓
+Runtime Environment
+```
+
+در این مدل:
+
+- **JavaScript** زبان برنامه‌نویسی است.
+- **ECMAScript** مشخصات رسمی بخش زبانی آن را تعریف می‌کند.
+- **JavaScript Engine** کد JavaScript را پردازش و اجرا می‌کند.
+- **Runtime Environment** محیطی است که Engine را همراه با قابلیت‌های مورد نیاز برای یک محیط خاص فراهم می‌کند.
+
+این تفاوت برای درک اکوسیستم JavaScript بسیار مهم است.
+
+---
+
+## Language و Runtime یکسان نیستند
+
+برای مثال، قابلیت‌هایی مانند `Array` و `Promise` بخشی از محیط زبانی استاندارد JavaScript هستند؛ اما قابلیت‌هایی مانند دسترسی به فایل‌های سیستم یا APIهای خاص مرورگر به Runtime مربوط می‌شوند.
+
+به همین دلیل، همه قابلیت‌هایی که با JavaScript استفاده می‌کنیم الزاماً بخشی از خود زبان نیستند.
+
+این موضوع در فصل‌های بعد، هنگام بررسی Browser Runtime و Node.js، اهمیت بیشتری پیدا خواهد کرد.
+
+---
+
+# Browser JavaScript چیست؟
+
+یکی از مهم‌ترین Runtimeهای JavaScript، **Browser Runtime** است.
+
+وقتی JavaScript در مرورگر اجرا می‌شود، Engine مسئول اجرای زبان است و Browser نیز مجموعه‌ای از قابلیت‌ها و APIهای مخصوص محیط وب را در اختیار برنامه قرار می‌دهد.
+
+به‌صورت مفهومی:
+
+```text
+Browser Runtime
+      ↓
+JavaScript Engine
+      +
+Browser APIs
+      ↓
+Web Application
+```
+
+برای مثال، برنامه‌های Browser می‌توانند با قابلیت‌هایی مانند Document و Web APIs با محیط صفحه و مرورگر تعامل داشته باشند.
+
+نکته مهم این است که این قابلیت‌ها را نباید با خود ECMAScript یکی دانست.
+
+موضوع Browser APIs و DOM در بخش **Browser JavaScript and Advanced DOM** به‌صورت کامل بررسی خواهد شد.
+
+---
+
+# Server-Side JavaScript چیست؟
+
+JavaScript محدود به مرورگر نیست.
+
+همین زبان می‌تواند در محیط‌های Server-Side نیز اجرا شود.
+
+در این حالت، Runtime امکاناتی متناسب با نیازهای سمت سرور در اختیار برنامه قرار می‌دهد.
+
+مدل مفهومی آن:
+
+```text
+Server Runtime
+      ↓
+JavaScript Engine
+      +
+Server APIs
+      ↓
+Server Application
+```
+
+به این ترتیب، یک زبان می‌تواند در Runtimeهای مختلف استفاده شود، در حالی که هر Runtime امکانات مخصوص محیط خود را ارائه می‌کند.
+
+---
+
+# Node.js چیست؟
+
+**Node.js** یکی از شناخته‌شده‌ترین Runtimeهای Server-Side برای اجرای JavaScript خارج از Browser است.
+
+Node.js به JavaScript اجازه می‌دهد در محیط Server اجرا شود و به قابلیت‌هایی دسترسی داشته باشد که برای ساخت برنامه‌های سمت سرور مورد نیاز هستند.
+
+نکته مهم این است که Node.js خود زبان جدیدی نیست.
+
+مدل ذهنی صحیح‌تر:
+
+```text
+JavaScript
+    ↓
+ECMAScript
+    ↓
+JavaScript Engine
+    ↓
+Node.js Runtime
+    ↓
+Server Application
+```
+
+بنابراین:
+
+> Node.js یک JavaScript Runtime است، نه یک زبان برنامه‌نویسی مستقل.
+
+جزئیات Runtime و ارتباط آن با Engine در فصل **JavaScript Engine and Runtime** بررسی خواهد شد.
+
+---
+
+# Modern JavaScript چیست؟
+
+JavaScript یک زبان ثابت نیست.
+
+استاندارد ECMAScript به‌صورت پیوسته توسعه پیدا می‌کند و قابلیت‌های جدیدی به زبان اضافه می‌شوند.
+
+از سال ۲۰۱۵، انتشار سالانه استاندارد باعث شده JavaScript به‌صورت تدریجی و پیوسته تکامل پیدا کند.
+
+به همین دلیل، اصطلاح **Modern JavaScript** معمولاً به مجموعه قابلیت‌ها و الگوهای امروزی زبان اشاره دارد که در نسخه‌های جدید ECMAScript و اکوسیستم مدرن JavaScript مورد استفاده قرار می‌گیرند.
+
+برای مثال:
+
+```javascript
+const userName = "Omid";
+
+const message = `Hello, ${userName}`;
+```
+
+در این مثال از قابلیت‌هایی استفاده شده که در JavaScript مدرن رایج هستند.
+
+هدف این فصل آموزش Syntax مدرن نیست.
+
+موضوع Modern JavaScript در فصل **Modern JavaScript Syntax** به‌صورت مستقل و عملی بررسی خواهد شد.
+
+---
+
+# چرا Fundamentals JavaScript اهمیت دارد؟
+
+شناخت Syntax به‌تنهایی برای تبدیل شدن به یک توسعه‌دهنده حرفه‌ای کافی نیست.
+
+یک توسعه‌دهنده باید بتواند میان مفاهیم مختلف ارتباط برقرار کند.
+
+برای مثال:
+
+```text
+Language
+   ↓
+ECMAScript
+   ↓
+Engine
+   ↓
+Runtime
+   ↓
+Application
+```
+
+اگر این لایه‌ها را از یکدیگر تفکیک نکنیم، در فصل‌های بعدی هنگام مواجهه با موضوعاتی مانند Scope، Execution Context، Call Stack، DOM و Asynchronous JavaScript با سوءبرداشت‌های مختلف روبه‌رو خواهیم شد.
+
+Fundamentals در واقع پایه‌ای است که این مدل ذهنی روی آن ساخته می‌شود.
+
+---
+
+# Language vs Runtime؛ یک مدل ذهنی حرفه‌ای
+
+برای یک توسعه‌دهنده حرفه‌ای، یکی از مهم‌ترین تفکیک‌ها این است:
+
+```text
+Language
+    ↓
+Rules and Semantics
+
+Runtime
+    ↓
+Execution + Host Capabilities
+```
+
+زبان مشخص می‌کند کد چه معنا و رفتاری دارد.
+
+Runtime مشخص می‌کند این کد در چه محیطی اجرا می‌شود و چه قابلیت‌هایی در اختیار آن قرار می‌گیرد.
+
+بنابراین ممکن است یک مفهوم در زبان JavaScript وجود داشته باشد، اما یک API خاص فقط در یک Runtime در دسترس باشد.
+
+این تفکیک بعداً هنگام کار با Browser، Node.js و سایر Runtimeها اهمیت زیادی پیدا خواهد کرد.
+
+---
+
+# یک نگاه کوتاه به پشت صحنه
+
+در این فصل فقط یک مدل ذهنی اولیه از اجرای JavaScript می‌سازیم:
+
+```text
+Source Code
+     ↓
+JavaScript Engine
+     ↓
+Processing
+     ↓
+Execution
+     ↓
+Runtime Environment
+     ↓
+Application Behavior
+```
+
+در این فرآیند، Engine مسئول اجرای بخش زبانی JavaScript است و Runtime محیط و قابلیت‌های مورد نیاز برنامه را فراهم می‌کند.
+
+جزئیات داخلی این فرآیند، از جمله Parsing، AST، Compilation، Execution، Optimization و JIT، در فصل **JavaScript Engine and Runtime** بررسی خواهد شد.
+
+هدف این فصل فقط این است که بدانیم JavaScript یک زبان است که درون یک Runtime و توسط یک Engine اجرا می‌شود.
+
+---
+
 اکنون که تفاوت JavaScript و ECMAScript را می‌دانیم، پرسش مهم‌تری مطرح می‌شود.
 
 اگر ECMAScript فقط یک استاندارد است، پس چه چیزی کد JavaScript را واقعاً اجرا می‌کند؟
@@ -772,6 +1186,8 @@ ECMAScript مشخصات رسمی زبان JavaScript است. این استاند
 در نگاه اول ممکن است پاسخ این سؤال بسیار ساده به نظر برسد، اما مشاهده کردیم که تعریف دقیق JavaScript تنها با جمله «زبان برنامه‌نویسی صفحات وب» کامل نمی‌شود.
 
 JavaScript امروزه یک زبان برنامه‌نویسی همه‌منظوره است که در محیط‌های مختلف اجرا می‌شود و بر اساس استاندارد **ECMAScript** توسعه می‌یابد. این زبان به گونه‌ای طراحی شده است که ضمن سادگی، انعطاف‌پذیری بالایی داشته باشد و برنامه‌نویس بتواند از سبک‌های مختلف برنامه‌نویسی برای حل مسائل استفاده کند.
+همچنین دیدیم که JavaScript یک زبان Dynamic است و اجرای آن را نمی‌توان صرفاً با برچسب «Interpreted» توضیح داد؛ موتورهای مدرن از Compilation و JIT نیز استفاده می‌کنند. در نهایت، میان Language، Engine و Runtime تفاوت گذاشتیم و دیدیم که JavaScript می‌تواند در Browser و Server اجرا شود.
+
 
 در ادامه نیز با مهم‌ترین ویژگی‌های ذاتی JavaScript آشنا شدیم و دیدیم که بسیاری از اصطلاحاتی که معمولاً تنها حفظ می‌شوند، در واقع مفاهیم بسیار عمیقی هستند که در فصل‌های بعدی بارها با آن‌ها روبه‌رو خواهیم شد.
 
@@ -789,6 +1205,11 @@ JavaScript امروزه یک زبان برنامه‌نویسی همه‌منظ�
 - شیءگرایی در JavaScript بر پایه **Prototype** طراحی شده است و نه بر پایه Class.
 - کلاس‌ها در JavaScript تنها یک نگارش ساده‌تر برای کار با Prototype هستند.
 - JavaScript یکی از انعطاف‌پذیرترین زبان‌های برنامه‌نویسی مدرن است و همین ویژگی نقش مهمی در موفقیت آن داشته است.
+- JavaScript یک زبان Dynamically Typed است؛ یعنی Type به Value مربوط است و بررسی Type در Runtime انجام می‌شود.
+- JavaScript را نباید صرفاً یک زبان Interpreted دانست؛ موتورهای مدرن از Compilation و JIT نیز استفاده می‌کنند.
+- JavaScript Engine مسئول پردازش و اجرای کد است، در حالی که Runtime Environment محیط و قابلیت‌های مورد نیاز برنامه را فراهم می‌کند.
+- JavaScript می‌تواند در Runtimeهای مختلف مانند Browser و Node.js اجرا شود.
+- Modern JavaScript نتیجه تکامل پیوسته استاندارد ECMAScript و اکوسیستم JavaScript است.
 
 ---
 
@@ -898,6 +1319,49 @@ Multi-Paradigm بودن JavaScript یعنی چه؟
 
 ---
 
+
+### سؤال ۱۷
+
+Dynamic Typing در JavaScript چه معنایی دارد؟
+
+---
+
+### سؤال ۱۸
+
+آیا می‌توان JavaScript را صرفاً یک زبان Interpreted دانست؟
+
+---
+
+### سؤال ۱۹
+
+JIT Compilation چیست و چه نقشی در اجرای JavaScript دارد؟
+
+---
+
+### سؤال ۲۰
+
+تفاوت JavaScript Engine و Runtime Environment چیست؟
+
+---
+
+### سؤال ۲۱
+
+Browser Runtime و Server-Side Runtime چه تفاوت مفهومی دارند؟
+
+---
+
+### سؤال ۲۲
+
+Node.js چیست و چرا یک زبان برنامه‌نویسی مستقل محسوب نمی‌شود؟
+
+---
+
+### سؤال ۲۳
+
+منظور از Modern JavaScript چیست؟
+
+---
+
 # پاسخ‌های طلایی مصاحبه (Golden Answers)
 
 ## JavaScript چیست؟
@@ -929,6 +1393,49 @@ High-Level بودن به این معناست که زبان بسیاری از پ�
 بله. JavaScript یک زبان شیءگرا است، اما مدل شیءگرایی آن بر پایه Prototype پیاده‌سازی شده است، نه Class.
 
 ---
+
+
+---
+
+## Dynamic Typing چیست؟
+
+JavaScript یک زبان Dynamically Typed است؛ یعنی Type به Value مربوط است و یک Variable می‌تواند در زمان‌های مختلف Valueهایی با Typeهای متفاوت نگه‌داری کند.
+
+---
+
+## آیا JavaScript فقط Interpreted است؟
+
+خیر. این توصیف بیش از حد ساده است؛ موتورهای مدرن JavaScript از تکنیک‌هایی مانند Compilation و JIT برای پردازش و اجرای بهینه کد استفاده می‌کنند.
+
+---
+
+## JIT Compilation چیست؟
+
+JIT یا Just-In-Time Compilation تکنیکی است که در زمان اجرای برنامه به موتور اجازه می‌دهد بخش‌هایی از کد را بر اساس اطلاعات Runtime به شکل کارآمدتری کامپایل و بهینه کند.
+
+---
+
+## تفاوت JavaScript Engine و Runtime چیست؟
+
+Engine مسئول پردازش و اجرای کد JavaScript است، در حالی که Runtime محیط اجرای کامل‌تری است که Engine و قابلیت‌ها و APIهای متناسب با یک محیط خاص را در اختیار برنامه قرار می‌دهد.
+
+---
+
+## Browser Runtime و Server-Side Runtime چه تفاوتی دارند؟
+
+هر دو JavaScript را اجرا می‌کنند، اما قابلیت‌های Host آن‌ها متفاوت است. Browser Runtime برای محیط وب و تعامل با Browser APIs طراحی شده است، در حالی که Server-Side Runtime قابلیت‌های مورد نیاز برنامه‌های سمت سرور را فراهم می‌کند.
+
+---
+
+## Node.js چیست؟
+
+Node.js یک JavaScript Runtime برای اجرای JavaScript خارج از Browser و به‌ویژه در محیط Server است؛ بنابراین Node.js یک زبان مستقل نیست.
+
+---
+
+## Modern JavaScript چیست؟
+
+Modern JavaScript به قابلیت‌ها و الگوهای امروزی JavaScript اشاره دارد که در نتیجه تکامل پیوسته ECMAScript و اکوسیستم این زبان شکل گرفته‌اند.
 
 ## تفاوت JavaScript و ECMAScript چیست؟
 
