@@ -2,16 +2,59 @@
 
 ---
 
-# اهداف فصل
+# Chapter Goal
 
-پس از پایان این فصل انتظار می‌رود بتوانید:
+پس از مطالعه این فصل انتظار می‌رود بتوانید:
 
 - مفهوم **String** را به‌عنوان یکی از مهم‌ترین انواع داده در JavaScript توضیح دهید.
-- تفاوت داده متنی (Text Data) و رشته (String) را درک کنید.
-- بدانید JavaScript چگونه متن را در حافظه ذخیره می‌کند.
-- انواع مختلف String Literal را بشناسید.
-- تفاوت Single Quote و Double Quote را تحلیل کنید.
-- بدانید چه زمانی باید از Escape Character استفاده شود.
+- تفاوت داده متنی (Text Data) و String را درک کنید.
+- String Literal و روش‌های مختلف ایجاد String را توضیح دهید.
+- کاربرد Escape Character و Escape Sequenceهای رایج را تحلیل کنید.
+- String Concatenation و محدودیت‌های آن را درک کنید.
+- Valueهای مختلف را در صورت نیاز به String تبدیل کنید.
+- Template Literal و Expression Interpolation را به‌درستی به کار ببرید.
+- متن‌های چندخطی و Dynamic Text را با Template Literal تولید کنید.
+- Tagged Template را در سطح مقدماتی بشناسید.
+- Best Practiceهای استفاده از String و Template Literal را در پروژه‌های واقعی تشخیص دهید.
+- به پرسش‌های فنی مرتبط با Strings و Template Literals پاسخ دهید.
+
+---
+
+# Core Question
+
+> **JavaScript چگونه داده‌های متنی را ذخیره، ترکیب و تولید می‌کند؟**
+
+---
+
+# Concept Flow
+
+```text
+Information
+↓
+Text Data
+↓
+String
+↓
+String Literal
+↓
+Escape Characters
+↓
+Concatenation
+↓
+String Conversion
+↓
+Template Literals
+↓
+Interpolation
+↓
+Multiline Strings
+↓
+Tagged Templates Introduction
+↓
+Dynamic Text
+↓
+Best Practices
+```
 
 ---
 
@@ -647,6 +690,79 @@ const message =
 
 ---
 
+# String Conversion
+
+در بسیاری از موقعیت‌ها لازم است یک Value را به یک String تبدیل کنیم تا بتوانیم آن را در یک متن قرار دهیم یا به‌عنوان داده متنی با آن کار کنیم.
+
+یکی از روش‌های روشن و صریح برای این کار استفاده از `String()` است.
+
+```javascript
+const productId = 42;
+const textId = String(productId);
+
+console.log(textId);
+console.log(typeof textId);
+```
+
+خروجی:
+
+```text
+42
+string
+```
+
+در این مثال Value اولیه از نوع `Number` است، اما نتیجه `String(productId)` یک String جدید است.
+
+## چرا String Conversion مهم است؟
+
+در Applicationهای واقعی، داده‌ها همیشه از ابتدا به شکل String در اختیار ما نیستند. ممکن است یک API یک Number برگرداند، اما هنگام ساخت یک پیام متنی به نمایش متنی آن نیاز داشته باشیم.
+
+برای مثال:
+
+```javascript
+const orderId = 125;
+const message = `Order #${String(orderId)} is ready.`;
+```
+
+در بسیاری از Template Literalها تبدیل مقدار به String در فرایند تولید متن به‌صورت ضمنی انجام می‌شود؛ بااین‌حال شناخت **Explicit Conversion** برای زمانی که می‌خواهیم Intent خود را روشن بیان کنیم اهمیت دارد. جزئیات Type Conversion و Type Coercion در فصل **Type Conversion and Coercion** بررسی خواهد شد.
+
+---
+
+# Common Patterns
+
+Stringها در Applicationهای واقعی معمولاً برای ساخت پیام، نمایش داده و ترکیب بخش‌های مختلف متن استفاده می‌شوند. چند الگوی ساده و پرکاربرد عبارت‌اند از:
+
+### ساخت پیام از داده‌های برنامه
+
+```javascript
+const userName = 'Omid';
+const orderId = 125;
+
+const message = `User ${userName} created order #${orderId}.`;
+```
+
+### ترکیب متن ثابت و Dynamic Data
+
+```javascript
+const productName = 'Laptop';
+const price = 1200;
+
+const label = `${productName} - $${price}`;
+```
+
+### استفاده از Expression برای تولید متن
+
+```javascript
+const quantity = 3;
+const price = 120;
+
+const total = `Total: $${quantity * price}`;
+```
+
+این الگوها نشان می‌دهند که String فقط برای نگهداری متن ثابت استفاده نمی‌شود؛ بلکه می‌تواند خروجی قابل نمایش را از ترکیب داده‌های مختلف Application تولید کند.
+
+---
+
 # Jonas Perspective
 
 Jonas توضیح می‌دهد که پیش از ES6 تقریباً تمام پروژه‌های JavaScript با String Concatenation نوشته می‌شدند.
@@ -982,6 +1098,41 @@ Jonas Schmedtmann تقریباً در تمام پروژه‌های مدرن خو
 
 ---
 
+# Dynamic Text
+
+در Applicationهای واقعی، متن معمولاً ثابت نیست. بخشی از آن از داده‌های کاربر، API، وضعیت برنامه یا نتیجه یک محاسبه به دست می‌آید.
+
+برای مثال، در یک فروشگاه اینترنتی ممکن است پیام زیر بر اساس داده‌های واقعی ساخته شود:
+
+```javascript
+const userName = 'Omid';
+const cartCount = 3;
+
+const message = `Hello ${userName}, you have ${cartCount} items in your cart.`;
+```
+
+در اینجا ساختار متن ثابت است، اما مقدار `userName` و `cartCount` در زمان اجرای برنامه تعیین می‌شود. این همان جایی است که **Interpolation** Template Literal را برای ساخت UI Text، پیام‌های وضعیت و خروجی‌های Dynamic بسیار مناسب می‌کند.
+
+نکته مهم این است که Template Literal ابزار تولید متن است، نه جایگزینی برای منطق برنامه. اگر محاسبات یا منطق پیچیده‌ای برای تولید یک مقدار وجود دارد، بهتر است آن منطق خارج از رشته و در یک Expression یا Function مناسب قرار گیرد.
+
+---
+
+# Best Practices
+
+برای استفاده حرفه‌ای از String و Template Literal بهتر است چند اصل ساده را رعایت کنیم.
+
+- برای متن‌های ساده از یک Coding Style ثابت در Quoteها استفاده کنید.
+- برای متن‌هایی که شامل چند Value یا Expression هستند، معمولاً Template Literal را به Concatenation ترجیح دهید.
+- برای تبدیل صریح یک Value به String، در صورت نیاز از `String()` استفاده کنید تا Intent کد روشن باشد.
+- از Concatenationهای طولانی با `+` که خوانایی را کاهش می‌دهند، پرهیز کنید.
+- برای متن‌های چندخطی از Template Literal استفاده کنید، مگر اینکه Escape Sequence برای سناریوی خاصی مناسب‌تر باشد.
+- از قرار دادن منطق پیچیده داخل `${}` پرهیز کنید و Expression را تا حد امکان ساده نگه دارید.
+- هنگام تولید متن از داده‌های خارجی، صرفاً به String بودن داده اکتفا نکنید و الزامات امنیتی و Context مربوط به خروجی را نیز در نظر بگیرید.
+
+این اصول باعث می‌شوند Stringها فقط قابل اجرا نباشند، بلکه خوانا، قابل نگهداری و مناسب Applicationهای واقعی باشند.
+
+---
+
 # Tagged Templates (Introduction)
 
 Template Literal قابلیت پیشرفته‌تری نیز دارد که **Tagged Template** نامیده می‌شود.
@@ -1079,6 +1230,9 @@ string
 - از `${}` برای Interpolation استفاده کنید.
 - متن‌های چندخطی را با Template Literal تولید کنید.
 - تفاوت Template Literal و Concatenation را در پروژه‌های واقعی توضیح دهید.
+- مفهوم String Conversion و کاربرد `String()` را توضیح دهید.
+- الگوهای رایج ساخت Dynamic Text را با Template Literal به کار ببرید.
+- اصول Best Practice برای ساخت و نگهداری متن در Applicationهای واقعی را تشخیص دهید.
 
 ---
 
@@ -1166,21 +1320,35 @@ Interpolation چیست؟
 
 ---
 
-## سطح پیشرفته (Senior)
+## سطح متوسط (Mid-Level) — تکمیلی
 
 ### سؤال ۱۴
 
-آیا Template Literal نوع داده جدیدی ایجاد می‌کند؟
+چرا ممکن است یک Value را به‌صورت صریح با `String()` تبدیل کنیم؟
 
 ---
 
 ### سؤال ۱۵
 
+تفاوت String Conversion صریح با تبدیل ضمنی در زمان ساخت یک متن چیست؟
+
+---
+
+## سطح پیشرفته (Senior)
+
+### سؤال ۱۶
+
+آیا Template Literal نوع داده جدیدی ایجاد می‌کند؟
+
+---
+
+### سؤال ۱۷
+
 Tagged Template چیست و چه کاربردی دارد؟
 
 ---
 
-### سؤال ۱۶
+### سؤال ۱۸
 
 چرا کتابخانه‌هایی مانند **styled-components** بر پایه Tagged Template طراحی شده‌اند؟
 
@@ -1218,7 +1386,25 @@ Interpolation فرآیندی است که در آن نتیجه یک Expression ب
 
 ---
 
-## پاسخ کوتاه طلایی مصاحبه
+### String Conversion چیست؟
+
+String Conversion تبدیل یک Value به یک String است. برای تبدیل صریح می‌توان از `String(value)` استفاده کرد و جزئیات سایر قواعد تبدیل در فصل **Type Conversion and Coercion** بررسی خواهد شد.
+
+---
+
+## چرا Template Literal برای Dynamic Text مناسب است؟
+
+زیرا می‌تواند متن ثابت را با Valueها و Expressionهای محاسبه‌شده در یک ساختار خوانا ترکیب کند و نیاز به Concatenationهای طولانی را کاهش دهد.
+
+---
+
+## Best Practice مهم در ساخت متن چیست؟
+
+برای متن‌های ساده از یک Style ثابت استفاده کنید و برای متن‌های Dynamic و چندبخشی معمولاً Template Literal را به Concatenation ترجیح دهید. منطق پیچیده را نیز بهتر است خارج از Template Literal نگه دارید.
+
+---
+
+# پاسخ کوتاه طلایی مصاحبه
 
 ### سؤال
 
