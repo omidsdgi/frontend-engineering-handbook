@@ -1,6 +1,8 @@
-Part 4 — Revised SERIES_BLUEPRINT.md
-JavaScript Book — Series Blueprint
-Production Blueprint
+# JavaScript Book — Series Blueprint
+
+> **Proposed Revised Roadmap**
+> 
+> This version preserves the Concept Flow of all existing Parts except Part 02. Part 02 is moved to Part 08 and its internal Concept Flow is rewritten to match its new position after Browser JavaScript and Advanced DOM.
 
 این سند، نقشه راه و سند تولید کتاب JavaScript است.
 
@@ -54,7 +56,8 @@ Conclusion
 
 باشد.
 
-Part 01 — JavaScript Fundamentals
+### Part 01 — JavaScript Fundamentals
+
 Chapter 01 — What is JavaScript?
 Core Question
 
@@ -623,414 +626,10 @@ Key Takeaways
 Technical Interview
 Golden Answers
 Conclusion
-Part 02 — JavaScript Behind the Scenes
-Chapter 12 — JavaScript Engine and Runtime
-Core Question
 
-JavaScript چگونه از Source Code به اجرای واقعی تبدیل می‌شود؟
+### Part 02 — Functions
 
-Concept Flow
-Source Code
-↓
-JavaScript Engine
-↓
-Parsing
-↓
-AST
-↓
-Compilation
-↓
-Execution
-↓
-Optimization
-↓
-Runtime Environment
-Writing Blocks
-Block 01 — Engine
-JavaScript Engine
-V8
-Engine Responsibility
-Block 02 — Parsing and AST
-Parsing
-AST
-Syntax Analysis
-Block 03 — Compilation and Execution
-Interpretation
-Compilation
-JIT
-Optimization
-Block 04 — Runtime
-Engine vs Runtime
-Host Environment
-Browser Runtime
-Node.js Runtime
-Block 05 — Chapter Review
-Summary
-Key Takeaways
-Technical Interview
-Golden Answers
-Conclusion
-Chapter 13 — Execution Context
-Core Question
-
-هنگام اجرای JavaScript چه محیطی برای اجرای کد ایجاد می‌شود؟
-
-Concept Flow
-Program Execution
-↓
-Execution Context
-↓
-Global Context
-↓
-Function Context
-↓
-Creation Phase
-↓
-Execution Phase
-↓
-Environment
-↓
-Scope
-↓
-this
-↓
-Context Lifecycle
-Writing Blocks
-Block 01 — Execution Context
-Definition
-Purpose
-Global Context
-Block 02 — Function Context
-Function Invocation
-Local Variables
-Arguments
-Block 03 — Creation Phase
-Environment Creation
-Bindings
-Hoisting Connection
-Block 04 — Execution Phase
-Code Execution
-Assignment
-Context Lifecycle
-this Introduction
-Block 05 — Chapter Review
-Summary
-Key Takeaways
-Technical Interview
-Golden Answers
-Conclusion
-Chapter 14 — Call Stack
-Core Question
-
-JavaScript چگونه اجرای توابع را در Call Stack مدیریت می‌کند؟
-
-Concept Flow
-Function Call
-↓
-Execution Context
-↓
-Call Stack
-↓
-LIFO
-↓
-Nested Calls
-↓
-Return
-↓
-Stack Trace
-↓
-Stack Overflow
-Writing Blocks
-Block 01 — Stack
-Stack Data Structure
-LIFO
-Call Stack
-Block 02 — Execution Contexts
-Push
-Execute
-Pop
-Block 03 — Nested Calls
-Function Flow
-Stack Trace
-Execution Order
-Block 04 — Stack Overflow and Debugging
-Recursion
-Maximum Call Stack
-Debugging
-Block 05 — Chapter Review
-Summary
-Key Takeaways
-Technical Interview
-Golden Answers
-Conclusion
-Chapter 15 — Scope
-Core Question
-
-JavaScript چگونه تعیین می‌کند یک Identifier در کجا قابل دسترسی است؟
-
-Concept Flow
-Identifier
-↓
-Scope
-↓
-Global Scope
-↓
-Function Scope
-↓
-Block Scope
-↓
-Lexical Scope
-↓
-Variable Accessibility
-↓
-Scope Rules
-Writing Blocks
-Block 01 — Scope Fundamentals
-Scope
-Accessibility
-Global Scope
-Block 02 — Function Scope
-Local Variables
-Function Scope
-Encapsulation
-Block 03 — Block Scope
-let
-const
-Blocks
-Block 04 — Lexical Scope
-Lexical Environment
-Nested Scope
-Professional Practices
-Block 05 — Chapter Review
-Summary
-Key Takeaways
-Technical Interview
-Golden Answers
-Conclusion
-Chapter 16 — Scope Chain and Variable Lookup
-Core Question
-
-JavaScript چگونه یک Identifier را در Scopeهای مختلف پیدا می‌کند؟
-
-Concept Flow
-Identifier
-↓
-Current Scope
-↓
-Outer Scope
-↓
-Scope Chain
-↓
-Variable Lookup
-↓
-Nested Functions
-↓
-Lexical Environment
-↓
-Closures Preparation
-Writing Blocks
-Block 01 — Scope Chain
-Definition
-Variable Lookup
-Block 02 — Identifier Resolution
-Current Scope
-Outer Scope
-Search Process
-Block 03 — Nested Functions
-Parent Scope
-Child Scope
-Access Rules
-Block 04 — Closure Preparation
-Scope Chain and Closures
-Common Confusions
-Block 05 — Chapter Review
-Summary
-Key Takeaways
-Technical Interview
-Golden Answers
-Conclusion
-Chapter 17 — Hoisting and Temporal Dead Zone
-Core Question
-
-Hoisting واقعاً چیست و چرا رفتار var، let و const متفاوت است؟
-
-Concept Flow
-Execution Context
-↓
-Environment Creation
-↓
-Bindings
-↓
-Hoisting
-↓
-var
-↓
-Function Declaration
-↓
-let / const
-↓
-TDZ
-↓
-Initialization
-Writing Blocks
-Block 01 — Hoisting
-Concept
-Myth vs Reality
-Block 02 — var
-Binding Creation
-undefined
-Access Before Declaration
-Block 03 — Functions
-Function Declaration
-Function Expression
-Arrow Function
-Block 04 — let / const
-TDZ
-Initialization
-Common Errors
-Block 05 — Chapter Review
-Summary
-Key Takeaways
-Technical Interview
-Golden Answers
-Conclusion
-Chapter 18 — The this Keyword
-Core Question
-
-JavaScript چگونه مقدار this را تعیین می‌کند؟
-
-Concept Flow
-this
-↓
-Execution Context
-↓
-Invocation
-↓
-Global Context
-↓
-Method Call
-↓
-Regular Function
-↓
-Arrow Function
-↓
-Explicit Binding
-↓
-Constructor
-Writing Blocks
-Block 01 — this Fundamentals
-this
-Dynamic Context
-Block 02 — Invocation Rules
-Global
-Method
-Regular Function
-Block 03 — Arrow Functions
-Lexical this
-Differences
-Block 04 — Preview of Explicit Binding
-call
-apply
-bind
-Common Mistakes
-Block 05 — Chapter Review
-Summary
-Key Takeaways
-Technical Interview
-Golden Answers
-Conclusion
-Chapter 19 — Strict Mode
-Core Question
-
-Strict Mode چه رفتارهایی را در JavaScript تغییر می‌دهد و چرا اهمیت دارد؟
-
-Concept Flow
-Sloppy Mode
-↓
-Strict Mode
-↓
-Restrictions
-↓
-this Behavior
-↓
-Errors
-↓
-Safer JavaScript
-↓
-Modules
-Writing Blocks
-Block 01 — Strict Mode
-Purpose
-Activation
-Block 02 — Behavioral Differences
-this
-Assignment Errors
-Duplicate Parameters
-Block 03 — Strict Mode and Modern JavaScript
-Classes
-Modules
-Compatibility
-Block 04 — Best Practices
-When It Matters
-Common Mistakes
-Block 05 — Chapter Review
-Summary
-Key Takeaways
-Technical Interview
-Golden Answers
-Conclusion
-Chapter 20 — Memory Management
-Core Question
-
-JavaScript چگونه Memory را تخصیص، استفاده و آزاد می‌کند؟
-
-Concept Flow
-Value
-↓
-Memory Allocation
-↓
-Memory Usage
-↓
-Reference
-↓
-Reachability
-↓
-Garbage Collection
-↓
-Memory Release
-↓
-Memory Leak
-Writing Blocks
-Block 01 — Memory Lifecycle
-Allocation
-Usage
-Release
-Block 02 — Values and References
-Primitive Values
-Objects
-References
-Block 03 — Reachability
-Roots
-Reachable Values
-Reference Graph
-Block 04 — Garbage Collection
-Automatic Memory Management
-Mark-and-Sweep
-Generational Optimization Introduction
-Block 05 — Memory Leaks
-Forgotten References
-Timers
-Event Listeners
-Detached DOM
-Closures
-Block 06 — Chapter Review
-Summary
-Key Takeaways
-Technical Interview
-Golden Answers
-Conclusion
-Part 03 — Functions
-Chapter 21 — Function Fundamentals
+Chapter 12 — Function Fundamentals
 Core Question
 
 Function چیست و چگونه JavaScript کد را قابل استفاده مجدد می‌کند؟
@@ -1077,7 +676,7 @@ Key Takeaways
 Technical Interview
 Golden Answers
 Conclusion
-Chapter 22 — Function Expressions and Arrow Functions
+Chapter 13 — Function Expressions and Arrow Functions
 Core Question
 
 Function Declaration، Function Expression و Arrow Function چه تفاوتی دارند؟
@@ -1119,7 +718,7 @@ Key Takeaways
 Technical Interview
 Golden Answers
 Conclusion
-Chapter 23 — Parameters, Arguments and Default Parameters
+Chapter 14 — Parameters, Arguments and Default Parameters
 Core Question
 
 چگونه ورودی‌های Function را به‌صورت قابل اعتماد طراحی کنیم؟
@@ -1161,7 +760,7 @@ Key Takeaways
 Technical Interview
 Golden Answers
 Conclusion
-Chapter 24 — First-Class and Higher-Order Functions
+Chapter 15 — First-Class and Higher-Order Functions
 Core Question
 
 چرا Function در JavaScript مانند یک Value قابل استفاده است؟
@@ -1208,7 +807,7 @@ Key Takeaways
 Technical Interview
 Golden Answers
 Conclusion
-Chapter 25 — Callback Functions
+Chapter 16 — Callback Functions
 Core Question
 
 Callback چگونه اجرای یک Function را به Function یا سیستم دیگری واگذار می‌کند؟
@@ -1254,7 +853,7 @@ Key Takeaways
 Technical Interview
 Golden Answers
 Conclusion
-Chapter 26 — Closures
+Chapter 17 — Closures
 Core Question
 
 چگونه یک Function می‌تواند Scope بیرونی خود را بعد از پایان اجرای آن حفظ کند؟
@@ -1303,7 +902,7 @@ Key Takeaways
 Technical Interview
 Golden Answers
 Conclusion
-Chapter 27 — Explicit Function Binding
+Chapter 18 — Explicit Function Binding
 Core Question
 
 چگونه مقدار this را به‌صورت صریح کنترل کنیم؟
@@ -1352,8 +951,10 @@ Key Takeaways
 Technical Interview
 Golden Answers
 Conclusion
-Part 04 — Objects
-Chapter 28 — Objects Fundamentals
+
+### Part 03 — Objects
+
+Chapter 19 — Objects Fundamentals
 Core Question
 
 Object چگونه داده و رفتار مرتبط را در یک ساختار واحد سازمان‌دهی می‌کند؟
@@ -1400,7 +1001,7 @@ Key Takeaways
 Technical Interview
 Golden Answers
 Conclusion
-Chapter 29 — Object Methods and this
+Chapter 20 — Object Methods and this
 Core Question
 
 Object چگونه رفتار را از طریق Methods و this مدل می‌کند؟
@@ -1442,7 +1043,7 @@ Key Takeaways
 Technical Interview
 Golden Answers
 Conclusion
-Chapter 30 — Enhanced Object Literals
+Chapter 21 — Enhanced Object Literals
 Core Question
 
 JavaScript چگونه Object Literals را برای نوشتن Objects مدرن‌تر و خواناتر کرده است؟
@@ -1479,7 +1080,7 @@ Key Takeaways
 Technical Interview
 Golden Answers
 Conclusion
-Chapter 31 — Object Destructuring and Optional Access
+Chapter 22 — Object Destructuring and Optional Access
 Core Question
 
 چگونه داده‌های Object را به‌صورت خوانا و ایمن استخراج کنیم؟
@@ -1527,7 +1128,7 @@ Key Takeaways
 Technical Interview
 Golden Answers
 Conclusion
-Chapter 32 — Rest and Spread Syntax
+Chapter 23 — Rest and Spread Syntax
 Core Question
 
 چگونه JavaScript داده‌ها را جمع یا گسترش می‌دهد؟
@@ -1575,7 +1176,7 @@ Key Takeaways
 Technical Interview
 Golden Answers
 Conclusion
-Chapter 33 — Short Circuiting and Logical Patterns
+Chapter 24 — Short Circuiting and Logical Patterns
 Core Question
 
 Logical Operators چگونه می‌توانند علاوه بر Boolean Logic جریان ارزیابی Expression را کنترل کنند؟
@@ -1619,7 +1220,7 @@ Key Takeaways
 Technical Interview
 Golden Answers
 Conclusion
-Chapter 34 — Object Utilities and Practical Patterns
+Chapter 25 — Object Utilities and Practical Patterns
 Core Question
 
 چگونه با Objectهای واقعی و داده‌های Application به‌صورت حرفه‌ای کار کنیم؟
@@ -1665,8 +1266,10 @@ Key Takeaways
 Technical Interview
 Golden Answers
 Conclusion
-Part 05 — Object-Oriented Programming
-Chapter 35 — OOP Fundamentals
+
+### Part 04 — Object-Oriented Programming
+
+Chapter 26 — OOP Fundamentals
 Core Question
 
 Object-Oriented Programming چگونه پیچیدگی نرم‌افزار را با Objects و Responsibilities مدیریت می‌کند؟
@@ -1718,7 +1321,7 @@ Key Takeaways
 Technical Interview
 Golden Answers
 Conclusion
-Chapter 36 — Prototypes and Prototype Chain
+Chapter 27 — Prototypes and Prototype Chain
 Core Question
 
 JavaScript چگونه از طریق Prototypeها رفتار و Properties را بین Objects به اشتراک می‌گذارد؟
@@ -1763,7 +1366,7 @@ Key Takeaways
 Technical Interview
 Golden Answers
 Conclusion
-Chapter 37 — Constructor Functions
+Chapter 28 — Constructor Functions
 Core Question
 
 چگونه قبل از ES6 Class Syntax، Objectهای مشابه را با Constructor Functions ایجاد می‌کردیم؟
@@ -1803,7 +1406,7 @@ Key Takeaways
 Technical Interview
 Golden Answers
 Conclusion
-Chapter 38 — ES Classes
+Chapter 29 — ES Classes
 Core Question
 
 Class Syntax چگونه Object-Oriented Programming را در JavaScript ساده‌تر می‌کند؟
@@ -1847,7 +1450,7 @@ Key Takeaways
 Technical Interview
 Golden Answers
 Conclusion
-Chapter 39 — Inheritance and Polymorphism
+Chapter 30 — Inheritance and Polymorphism
 Core Question
 
 چگونه Classها رفتار مشترک را به ارث می‌برند و رفتار متفاوت ارائه می‌کنند؟
@@ -1889,7 +1492,7 @@ Key Takeaways
 Technical Interview
 Golden Answers
 Conclusion
-Chapter 40 — Encapsulation and Static Members
+Chapter 31 — Encapsulation and Static Members
 Core Question
 
 چگونه Class طراحی کنیم تا State و Behavior کنترل‌شده و قابل استفاده مجدد باشند؟
@@ -1934,8 +1537,10 @@ Key Takeaways
 Technical Interview
 Golden Answers
 Conclusion
-Part 06 — Arrays, Iteration and Collections
-Chapter 41 — Arrays Fundamentals
+
+### Part 05 — Arrays, Iteration and Collections
+
+Chapter 32 — Arrays Fundamentals
 Core Question
 
 چگونه چند Value را در یک Collection مرتب و قابل دسترسی نگهداری کنیم؟
@@ -1982,7 +1587,7 @@ Key Takeaways
 Technical Interview
 Golden Answers
 Conclusion
-Chapter 42 — Array Methods
+Chapter 33 — Array Methods
 Core Question
 
 JavaScript چه ابزارهایی برای مدیریت و تغییر Arrayها فراهم می‌کند؟
@@ -2033,7 +1638,7 @@ Key Takeaways
 Technical Interview
 Golden Answers
 Conclusion
-Chapter 43 — Array Iteration
+Chapter 34 — Array Iteration
 Core Question
 
 چگونه روی عناصر Array به‌صورت کنترل‌شده و خوانا Iteration انجام دهیم؟
@@ -2079,7 +1684,7 @@ Key Takeaways
 Technical Interview
 Golden Answers
 Conclusion
-Chapter 44 — map, filter and reduce
+Chapter 35 — map, filter and reduce
 Core Question
 
 چگونه داده‌های Array را به‌صورت Declarative تبدیل، فیلتر و خلاصه کنیم؟
@@ -2129,7 +1734,7 @@ Key Takeaways
 Technical Interview
 Golden Answers
 Conclusion
-Chapter 45 — find, some, every and sorting
+Chapter 36 — find, some, every and sorting
 Core Question
 
 چگونه Array را برای جست‌وجو، اعتبارسنجی و مرتب‌سازی حرفه‌ای پردازش کنیم؟
@@ -2176,7 +1781,7 @@ Key Takeaways
 Technical Interview
 Golden Answers
 Conclusion
-Chapter 46 — Destructuring and Advanced Array Patterns
+Chapter 37 — Destructuring and Advanced Array Patterns
 Core Question
 
 چگونه Arrayها را با Syntax مدرن و الگوهای حرفه‌ای مدیریت کنیم؟
@@ -2221,7 +1826,7 @@ Key Takeaways
 Technical Interview
 Golden Answers
 Conclusion
-Chapter 47 — Sets and Maps
+Chapter 38 — Sets and Maps
 Core Question
 
 چه زمانی Array برای Collection مناسب نیست و باید از Set یا Map استفاده کنیم؟
@@ -2277,8 +1882,10 @@ Key Takeaways
 Technical Interview
 Golden Answers
 Conclusion
-Part 07 — Numbers, Dates and Intl
-Chapter 48 — Working with Numbers
+
+### Part 06 — Numbers, Dates and Intl
+
+Chapter 39 — Working with Numbers
 Core Question
 
 JavaScript چگونه Numberها را نمایش، تبدیل، بررسی و پردازش می‌کند؟
@@ -2329,7 +1936,7 @@ Key Takeaways
 Technical Interview
 Golden Answers
 Conclusion
-Chapter 49 — Math Object
+Chapter 40 — Math Object
 Core Question
 
 JavaScript چه ابزارهایی برای محاسبات ریاضی فراهم می‌کند؟
@@ -2376,7 +1983,7 @@ Key Takeaways
 Technical Interview
 Golden Answers
 Conclusion
-Chapter 50 — BigInt
+Chapter 41 — BigInt
 Core Question
 
 وقتی Number برای Integerهای بسیار بزرگ کافی نیست، JavaScript چه راه‌حلی ارائه می‌کند؟
@@ -2420,7 +2027,7 @@ Key Takeaways
 Technical Interview
 Golden Answers
 Conclusion
-Chapter 51 — Working with Dates
+Chapter 42 — Working with Dates
 Core Question
 
 JavaScript چگونه زمان و تاریخ را نمایش و محاسبه می‌کند؟
@@ -2471,7 +2078,7 @@ Key Takeaways
 Technical Interview
 Golden Answers
 Conclusion
-Chapter 52 — Intl and Internationalization
+Chapter 43 — Intl and Internationalization
 Core Question
 
 چگونه داده‌های عددی، تاریخی و متنی را مطابق Locale کاربر نمایش دهیم؟
@@ -2518,8 +2125,10 @@ Key Takeaways
 Technical Interview
 Golden Answers
 Conclusion
-Part 08 — Browser JavaScript and Advanced DOM
-Chapter 53 — Browser Environment and DOM
+
+### Part 07 — Browser JavaScript and Advanced DOM
+
+Chapter 44 — Browser Environment and DOM
 Core Question
 
 JavaScript در Browser چگونه با Document و Browser APIs تعامل می‌کند؟
@@ -2562,7 +2171,7 @@ Key Takeaways
 Technical Interview
 Golden Answers
 Conclusion
-Chapter 54 — Selecting and Manipulating Elements
+Chapter 45 — Selecting and Manipulating Elements
 Core Question
 
 چگونه Elements را پیدا و محتوای آنها را تغییر دهیم؟
@@ -2605,7 +2214,7 @@ Key Takeaways
 Technical Interview
 Golden Answers
 Conclusion
-Chapter 55 — Creating and Modifying DOM Elements
+Chapter 46 — Creating and Modifying DOM Elements
 Core Question
 
 چگونه UI را به‌صورت Dynamic با JavaScript تولید کنیم؟
@@ -2650,7 +2259,7 @@ Key Takeaways
 Technical Interview
 Golden Answers
 Conclusion
-Chapter 56 — Events and Event Handling
+Chapter 47 — Events and Event Handling
 Core Question
 
 Browser چگونه User Actions را به JavaScript منتقل می‌کند؟
@@ -2698,7 +2307,7 @@ Key Takeaways
 Technical Interview
 Golden Answers
 Conclusion
-Chapter 57 — Event Propagation and Delegation
+Chapter 48 — Event Propagation and Delegation
 Core Question
 
 Event چگونه در DOM حرکت می‌کند و چگونه Event Delegation از آن استفاده می‌کند؟
@@ -2746,7 +2355,7 @@ Key Takeaways
 Technical Interview
 Golden Answers
 Conclusion
-Chapter 58 — DOM Traversing
+Chapter 49 — DOM Traversing
 Core Question
 
 چگونه از یک Element به Elementهای مرتبط در DOM Tree حرکت کنیم؟
@@ -2795,7 +2404,7 @@ Key Takeaways
 Technical Interview
 Golden Answers
 Conclusion
-Chapter 59 — Forms and User Input
+Chapter 50 — Forms and User Input
 Core Question
 
 چگونه داده‌های واردشده توسط کاربر را دریافت، اعتبارسنجی و پردازش کنیم؟
@@ -2844,7 +2453,7 @@ Key Takeaways
 Technical Interview
 Golden Answers
 Conclusion
-Chapter 60 — Advanced DOM and UI Patterns
+Chapter 51 — Advanced DOM and UI Patterns
 Core Question
 
 چگونه DOM را برای ساخت UIهای قابل نگهداری و قابل توسعه سازمان‌دهی کنیم؟
@@ -2893,7 +2502,512 @@ Key Takeaways
 Technical Interview
 Golden Answers
 Conclusion
-Part 09 — Asynchronous JavaScript
+
+### Part 08 — JavaScript Behind the Scenes
+
+///////////////////////////////////////////////////////////////
+
+## Chapter 52 — JavaScript Engine and Runtime
+
+# Core Question
+
+JavaScript چگونه از یک Language Specification به یک برنامه قابل اجرا در Browser تبدیل می‌شود؟
+
+# Concept Flow
+
+JavaScript Specification
+↓
+JavaScript Implementation
+↓
+JavaScript Engine
+↓
+V8
+↓
+Runtime Environment
+↓
+Chrome Browser Runtime
+↓
+Execution
+
+# Writing Blocks
+
+Block 01 — JavaScript Language and Implementation
+JavaScript Specification
+Implementation
+Language vs Implementation
+
+Block 02 — JavaScript Engine
+Engine
+Engine Responsibility
+V8
+
+Block 03 — Engine and Runtime
+Engine
+Runtime Environment
+Host Environment
+Browser Runtime
+
+Block 04 — JavaScript Execution in Chrome
+Chrome
+V8
+Browser APIs
+Simple Execution Model
+
+Block 05 — Chapter Review
+Summary
+Key Takeaways
+Technical Interview
+Golden Answers
+Conclusion
+
+///////////////////////////////////////////////////////////////
+
+## Chapter 53 — Execution Context
+
+# Core Question
+
+هنگام اجرای JavaScript، Engine چگونه محیط لازم برای اجرای کد را فراهم می‌کند؟
+
+# Concept Flow
+
+Program Execution
+↓
+Execution Context
+↓
+Global Execution Context
+↓
+Function Invocation
+↓
+Function Execution Context
+↓
+Environment
+↓
+Bindings
+↓
+Execution Lifecycle
+
+# Writing Blocks
+
+Block 01 — Execution Context
+Definition
+Purpose
+Global Execution Context
+
+Block 02 — Function Execution Context
+Function Invocation
+Local Variables
+Parameters
+Arguments
+
+Block 03 — Execution Environment
+Environment
+Bindings
+Accessible Data
+
+Block 04 — Execution Lifecycle
+Creation
+Execution
+Completion
+Context Removal
+
+Block 05 — Chapter Review
+Summary
+Key Takeaways
+Technical Interview
+Golden Answers
+Conclusion
+
+///////////////////////////////////////////////////////////////
+
+## Chapter 54 — Call Stack
+
+# Core Question
+
+JavaScript چگونه اجرای Functionها را با استفاده از Call Stack مدیریت می‌کند؟
+
+# Concept Flow
+
+Function Invocation
+↓
+Execution Context
+↓
+Call Stack
+↓
+LIFO
+↓
+Nested Calls
+↓
+Return
+↓
+Stack Trace
+↓
+Stack Overflow
+
+# Writing Blocks
+
+Block 01 — Call Stack
+Stack Data Structure
+LIFO
+Call Stack
+
+Block 02 — Execution Contexts on the Stack
+Push
+Execute
+Pop
+
+Block 03 — Nested Function Calls
+Function Flow
+Execution Order
+Stack Trace
+
+Block 04 — Stack Overflow and Debugging
+Recursion Preview
+Maximum Call Stack
+Debugging
+
+Block 05 — Chapter Review
+Summary
+Key Takeaways
+Technical Interview
+Golden Answers
+Conclusion
+
+///////////////////////////////////////////////////////////////
+
+## Chapter 55 — Scope
+
+# Core Question
+
+JavaScript چگونه تعیین می‌کند یک Identifier در کجا قابل دسترسی باشد؟
+
+# Concept Flow
+
+Identifier
+↓
+Scope
+↓
+Global Scope
+↓
+Function Scope
+↓
+Block Scope
+↓
+Lexical Scope
+↓
+Variable Accessibility
+↓
+Scope Rules
+
+# Writing Blocks
+
+Block 01 — Scope Fundamentals
+Scope
+Accessibility
+Global Scope
+
+Block 02 — Function Scope
+Local Variables
+Function Scope
+Encapsulation
+
+Block 03 — Block Scope
+let
+const
+Blocks
+
+Block 04 — Lexical Scope
+Lexical Scope
+Nested Scope
+Professional Practices
+
+Block 05 — Chapter Review
+Summary
+Key Takeaways
+Technical Interview
+Golden Answers
+Conclusion
+
+///////////////////////////////////////////////////////////////
+
+## Chapter 56 — Scope Chain and Variable Lookup
+
+# Core Question
+
+JavaScript چگونه یک Identifier را در Scopeهای مختلف پیدا می‌کند؟
+
+# Concept Flow
+
+Identifier
+↓
+Current Scope
+↓
+Outer Scope
+↓
+Scope Chain
+↓
+Variable Lookup
+↓
+Nested Functions
+↓
+Lexical Environment
+↓
+Closure Relationship
+
+# Writing Blocks
+
+Block 01 — Scope Chain
+Definition
+Variable Lookup
+
+Block 02 — Identifier Resolution
+Current Scope
+Outer Scope
+Search Process
+
+Block 03 — Nested Functions
+Parent Scope
+Child Scope
+Access Rules
+
+Block 04 — Relationship with Closures
+Scope Chain
+Preserved Access
+Closure Connection
+
+Block 05 — Chapter Review
+Summary
+Key Takeaways
+Technical Interview
+Golden Answers
+Conclusion
+
+///////////////////////////////////////////////////////////////
+
+## Chapter 57 — Hoisting and Temporal Dead Zone
+
+# Core Question
+
+Hoisting واقعاً چیست و چرا رفتار `var`، `let` و `const` متفاوت است؟
+
+# Concept Flow
+
+Execution Context
+↓
+Environment Creation
+↓
+Bindings
+↓
+Hoisting
+↓
+var
+↓
+Function Declaration
+↓
+let / const
+↓
+TDZ
+↓
+Initialization
+
+# Writing Blocks
+
+Block 01 — Hoisting
+Concept
+Myth vs Reality
+
+Block 02 — var
+Binding Creation
+undefined
+Access Before Declaration
+
+Block 03 — Function Declarations
+Function Declaration
+Function Expression
+Arrow Function
+
+Block 04 — let and const
+TDZ
+Initialization
+Common Errors
+
+Block 05 — Chapter Review
+Summary
+Key Takeaways
+Technical Interview
+Golden Answers
+Conclusion
+
+///////////////////////////////////////////////////////////////
+
+## Chapter 58 — The this Keyword
+
+# Core Question
+
+JavaScript چگونه مقدار `this` را بر اساس نحوه فراخوانی Function تعیین می‌کند؟
+
+# Concept Flow
+
+this
+↓
+Invocation
+↓
+Global Context
+↓
+Method Call
+↓
+Regular Function
+↓
+Arrow Function
+↓
+Explicit Binding
+↓
+Constructor Call
+
+# Writing Blocks
+
+Block 01 — this Fundamentals
+this
+Invocation Context
+
+Block 02 — Invocation Rules
+Global
+Method
+Regular Function
+
+Block 03 — Arrow Functions
+Lexical this
+Differences
+
+Block 04 — Explicit and Constructor Binding
+call
+apply
+bind
+Constructor Call
+
+Block 05 — Chapter Review
+Summary
+Key Takeaways
+Technical Interview
+Golden Answers
+Conclusion
+
+///////////////////////////////////////////////////////////////
+
+## Chapter 59 — Strict Mode
+
+# Core Question
+
+Strict Mode چه رفتارهایی را در JavaScript تغییر می‌دهد و چرا اهمیت دارد؟
+
+# Concept Flow
+
+Sloppy Mode
+↓
+Strict Mode
+↓
+Restrictions
+↓
+this Behavior
+↓
+Errors
+↓
+Safer JavaScript
+↓
+Modules
+
+# Writing Blocks
+
+Block 01 — Strict Mode
+Purpose
+Activation
+
+Block 02 — Behavioral Differences
+this
+Assignment Errors
+Duplicate Parameters
+
+Block 03 — Strict Mode and Modern JavaScript
+Classes
+Modules
+Compatibility
+
+Block 04 — Best Practices
+When It Matters
+Common Mistakes
+
+Block 05 — Chapter Review
+Summary
+Key Takeaways
+Technical Interview
+Golden Answers
+Conclusion
+
+///////////////////////////////////////////////////////////////
+
+## Chapter 60 — Memory Management
+
+# Core Question
+
+JavaScript چگونه Memory موردنیاز برنامه را مدیریت و Valueهای دیگر غیرقابل‌دسترسی را پاک‌سازی می‌کند؟
+
+# Concept Flow
+
+Value
+↓
+Memory Allocation
+↓
+Memory Usage
+↓
+Reference
+↓
+Reachability
+↓
+Garbage Collection
+↓
+Memory Release
+↓
+Memory Leak
+
+# Writing Blocks
+
+Block 01 — Memory Lifecycle
+Allocation
+Usage
+Release
+
+Block 02 — Values and References
+Primitive Values
+Objects
+References
+
+Block 03 — Reachability
+Roots
+Reachable Values
+Reference Graph
+
+Block 04 — Garbage Collection
+Automatic Memory Management
+Mark-and-Sweep
+Generational Optimization Introduction
+
+Block 05 — Memory Leaks
+Forgotten References
+Timers
+Event Listeners
+Detached DOM
+Closures
+
+Block 06 — Chapter Review
+Summary
+Key Takeaways
+Technical Interview
+Golden Answers
+Conclusion
+
+///////////////////////////////////////////////////////////////
+
+### Part 09 — Asynchronous JavaScript
+
 Chapter 61 — Introduction to Asynchronous JavaScript
 Core Question
 
@@ -3375,7 +3489,9 @@ Key Takeaways
 Technical Interview
 Golden Answers
 Conclusion
-Part 10 — Modern JavaScript, Modules and Tooling
+
+### Part 10 — Modern JavaScript, Modules and Tooling
+
 Chapter 71 — Modern JavaScript Syntax
 Core Question
 
@@ -3766,7 +3882,9 @@ Key Takeaways
 Technical Interview
 Golden Answers
 Conclusion
-Part 11 — JavaScript Application Architecture
+
+### Part 11 — JavaScript Application Architecture
+
 Chapter 79 — Application Architecture Fundamentals
 Core Question
 
