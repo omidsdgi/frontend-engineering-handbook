@@ -1043,7 +1043,7 @@ Key Takeaways
 Technical Interview
 Golden Answers
 Conclusion
-Chapter 21 — Enhanced Object Literals
+Chapter **21 — Enhanced Object Literals**
 Core Question
 
 JavaScript چگونه Object Literals را برای نوشتن Objects مدرن‌تر و خواناتر کرده است؟
