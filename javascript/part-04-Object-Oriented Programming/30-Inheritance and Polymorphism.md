@@ -1,2736 +1,749 @@
 # Chapter 30 — Inheritance and Polymorphism
 
-## اهداف فصل
+Core Question
 
-پس از پایان این فصل، انتظار می‌رود بتوانید:
+چگونه Classها رفتار مشترک را به ارث می‌برند و رفتار متفاوت ارائه می‌کنند؟
 
-* مفهوم **Inheritance** را در OOP توضیح دهید.
-* توضیح دهید چرا یک Class ممکن است بخشی از Behavior و State یک Class دیگر را نیاز داشته باشد.
-* نقش `extends` را در ایجاد رابطه بین Parent Class و Child Class توضیح دهید.
-* تفاوت Parent Class و Child Class را تشخیص دهید.
-* نقش `super` را هنگام اجرای Constructor و Methodهای Parent توضیح دهید.
-* مفهوم **Method Overriding** را درک کنید.
-* توضیح دهید چگونه Overriding به **Polymorphism** منجر می‌شود.
-* یک مثال ساده از Polymorphism را تحلیل کنید.
-* مزایا و محدودیت‌های Inheritance را در طراحی نرم‌افزار تشخیص دهید.
-* تفاوت کلی **Inheritance** و **Composition** را توضیح دهید.
-* در یک مسئله واقعی تشخیص دهید که آیا رابطه‌ی Inheritance مناسب است یا Composition.
+Inheritance → extends →Parent Class → Child Class → super → Method Overriding 
 
----
+→ Polymorphism → Composition
 
-# Core Question
+مقدمه
 
-> **چگونه Classها رفتار مشترک را به ارث می‌برند و رفتار متفاوت ارائه می‌کنند؟**
+در فصل 29 دیدیم که class ،Syntax خواناتری برای ساخت Objectهای مرتبط فراهم می‌کند و Instanceها می‌توانند State و Behavior داشته باشند. اما با یک مسئله جدید روبه‌رو می‌شویم.
 
-جریان این فصل:
+فرض کنید در یک Application چند نوع User داریم. همه Userها ویژگی‌ها و رفتارهای مشترکی دارند، اما بعضی از آن‌ها قابلیت‌های مخصوص خود را نیز دارند. اگر برای هر نوع User یک Class کاملاً مستقل بسازیم، احتمالاً بخشی از Code را بارها تکرار خواهیم کرد. از طرف دیگر، اگر همه چیز را در یک Class بزرگ قرار دهیم، مسئولیت‌های متفاوت با یکدیگر مخلوط می‌شوند. پس سؤال این است:
 
-```text
+اگر دو نوع Object بخش قابل توجهی از State و Behavior خود را مشترک داشته باشند، چگونه می‌توان این رابطه را در طراحی Code مدل کرد؟ اینجاست که Inheritance وارد می‌شود. 
+
 Inheritance
-↓
+
+Inheritance یعنی یک Class جدید بتواند ویژگی‌ها و رفتارهای مرتبط با یک Class موجود را بر پایه یک رابطه مشخص دریافت کند و در صورت نیاز آن‌ها را گسترش یا تغییر دهد. در این رابطه معمولاً یک Class را Parent Class و Class دیگر را Child Class می‌نامیم.
+
+هدف اصلی این رابطه، فقط جلوگیری از تکرار چند خط Code نیست. Inheritance زمانی معنا پیدا می‌کند که بین دو نوع Object یک رابطه مفهومی واقعی وجود داشته باشد و Child واقعاً نوع تخصص‌یافته‌تری از Parent باشد. 
+
 extends
-↓
-Parent Class
-↓
-Child Class
-↓
+
+در JavaScript، Class Inheritance با extends ایجاد می‌شود. وقتی یک Class با extends از Class دیگری مشتق می‌شود، یک رابطه میان آن‌ها ایجاد می‌شود که به JavaScript اجازه می‌دهد Behavior مربوط به Parent را از طریق زنجیره Prototype در اختیار Instanceهای Child قرار دهد.
+
+اما باید میان State و Behavior تفاوت قائل شویم. در Inheritance، Child می‌تواند از Behavior موجود در Parent استفاده کند، در حالی که State مربوط به Instance از طریق Constructorها روی Instance ایجاد و مقداردهی می‌شود. در واقع، Behaviorهایی مانند Methodهای Instance ، می‌توانند از طریق Prototype Chain به Child Instanceها برسند. اما State مربوط به Instance معمولاً به‌عنوان Property روی خود Instance ایجاد و مقداردهی می‌شود. این تفاوت برای درک صحیح Inheritance بسیار مهم است
+
+بنابراین JavaScript هنگام جست‌وجوی Property یا Method می‌تواند از Object به Prototype و سپس در زنجیره Prototype به Parent برسد. پس Inheritance در Class Syntax یک مفهوم جدا از Prototype نیست.
+
+« class و extends ،Syntax خواناتری برای ساخت روابطی هستند که در نهایت با Prototypeها کار می‌کنند.»
+
+Parent Class و Child Class
+
+Instance دو دسته Behavior در اختیار دارد. Behaviorی که از Parent می‌آید و Behaviorی که در Child تعریف شده است . در نتیجه Child لزوماً جایگزین Parent نیست. Child می‌تواند:
+
+Behavior موجود را استفاده کند. Behavior جدید اضافه کند. Behavior موجودرا Override کند.
+
+
+
 super
-↓
-Method Overriding
-↓
+
+وقتی یک Child Class از Parent Class ارث‌بری می‌کند، ممکن است Child علاوه بر State خودش، به Stateهایی نیاز داشته باشد که در Parent تعریف شده‌اند. اگر Child Constructor مخصوص خودش را داشته باشد، دیگر Initialization مربوط به Parent به‌صورت خودکار در همان Constructor انجام نمی‌شود. بنابراین Child باید راهی داشته باشد تا Initialization مربوط به Parent را نیز درخواست کند. برای این کار از super() استفاده می‌کنیم.
+
+class BankAccount {  class PremiumAccount extends BankAccount {
+
+constructor(owner, balance) {   constructor(owner, balance, cashbackRate) {
+
+this.owner = owner;   super(owner, balance);
+
+this.balance = balance } }   this .cashbackRate = cashbackRate }}
+
+در اینجا PremiumAccount مسئول Initialization مربوط به State مخصوص خودش است، اما State تعریف‌شده در BankAccount را خودش دوباره مقداردهی نمی‌کند. super(owner, balance) ،Constructor مربوط به Parent را اجرا می‌کند و اجازه می‌دهد Parent مسئولیت Initialization مربوط به خودش را حفظ کند. بنابراین جریان ساخت Instance را می‌توان این‌گونه دید: new PremiumAccount(...) → PremiumAccount Constructor → super(...)
+
+→ BankAccount Constructor → Parent State Initialization → PremiumAccount State Initialization
+
+چرا super() باید قبل از this باشد؟
+
+در یک Derived Class، اگر Constructor مخصوص Child را تعریف کنیم، Child باید Initialization مربوط به Parent را نیز انجام دهد. بنابراین نمی‌تواند قبل از انجام این Initialization از this استفاده کند.
+
+در یک Derived Constructor، Instance باید ابتدا توسط Parent Constructor مقداردهی اولیه شود. فراخوانی super() همین مرحله را انجام می‌دهد. پس از آن، Child می‌تواند با this به همان Instance دسترسی پیدا کند و State مخصوص خودش را مقداردهی کند. بنابراین ترتیب Initialization چنین است:
+
+Child Constructor → super(...) → Parent Initialization → this → Child Initialization
+
+به همین دلیل در یک Derived Constructor، super() فقط برای اجرای Constructor والد نیست؛ مرحله‌ای است که Initialization مربوط به Parent را انجام می‌دهد و پس از آن استفاده از this در Child مجاز می‌شود.
+
+
+
+استفاده از super برای Parent Method
+
+super فقط برای Constructor استفاده نمی‌شود. Child می‌تواند Method مربوط به Parent را نیز با super فراخوانی کند. مثلاً: class PremiumAccount extends Account {   class Account {
+
+deposit(amount) {   deposit(amount) {
+
+this.balance += amount } }   super .deposit(amount);
+
+ console.log('Premium reward applied') } }
+
+اکنون: account .deposit(1000) ابتدا Behavior مربوط به Parent اجرا می‌شود: super .deposit(amount) 
+
+و سپس Child Behavior خودش را اضافه می‌کند: console.log('Premium reward applied')
+
+بنابراین super در اینجا به معنی: استفاده از Implementation مربوط به Parent است ، در حالی که همچنان روی همان Child Instance کار می‌کنیم.
+
+نکته مهم این است که super .deposit() باعث نمی‌شود this به Parent تبدیل شود. بلکه this همچنان مربوط به Instance فعلی است.
+
+Overriding 
+
+در یک سلسله‌مراتب ارث‌بری، ممکن است یک Behavior در Parent تعریف شده باشد و همه Childها نیز به آن Behavior نیاز داشته باشند. اما نیاز داشتن به یک Behavior مشترک، لزوماً به معنای یکسان بودن نحوه اجرای آن نیست. هر Child ممکن است برای انجام همان مسئولیت، منطق متفاوتی نیاز داشته باشد.
+
+برای مثال، Parent می‌تواند یک Method عمومی را تعریف کند که بیانگر یک مسئولیت مشترک میان همه Childهاست. اما وقتی همین Method در یک Child اجرا می‌شود، ممکن است آن Child به جزئیات متفاوتی برای انجام آن مسئولیت نیاز داشته باشد. در این حالت، استفاده از همان پیاده‌سازی Parent دیگر مناسب نیست. Child باید بتواند رفتار مخصوص خودش را ارائه کند، بدون آنکه رابطه ارث‌بری و Behavior مشترک میان آن‌ها از بین برود.
+
+JavaScript برای این وضعیت امکان Overriding را فراهم می‌کند. در Overriding، Child متدی را با همان نام Method موجود در Parent تعریف می‌کند و به این ترتیب، نسخه مخصوص خودش از آن Behavior را در اختیار می‌گیرد.
+
+class Account {  class PremiumAccount extends Account {
+
+deposit(amount) {   deposit(amount) {
+
+this.balance += amount } }   console.log('Premium reward applied') } }
+
+در این ساختار، extends رابطه ارث‌بری را ایجاد می‌کند و تعریف دوباره Method در Child، رفتار آن Method را برای Child تغییر می‌دهد. JavaScript برای این کار Keyword جداگانه‌ای مانند override ندارد. تشخیص این وضعیت بر اساس ساختار Prototype Chain و وجود Property همنام انجام می‌شود.
+
+در این مثال، PremiumAccount متد ()deposit را Override کرده است. بنابراین هنگامی که ()deposit از یک Instance از PremiumAccount فراخوانی شود، نسخه تعریف‌شده در PremiumAccount اجرا خواهد شد و نسخه موجود در Account به‌صورت خودکار اجرا نمی‌شود.
+
+گاهی Child نمی‌خواهد رفتار Parent را کاملاً کنار بگذارد. ممکن است منطق Parent همچنان برای Child مناسب باشد و Child فقط بخواهد Behavior دیگری به آن اضافه کند. در چنین شرایطی می‌توان نسخه Parent را با super فراخوانی کرد: class PremiumAccount extends Account {
+
+deposit(amount) {
+
+super .deposit(amount);
+
+console.log('Premium reward applied') } }
+
+در اینجا deposit() در PremiumAccount، Method موجود در Account را Override کرده است؛ اما قبل از اجرای Behavior مخصوص خود، نسخه Parent را نیز با super .deposit(amount) فراخوانی می‌کند. بنابراین Child می‌تواند Behavior Parent را حفظ کرده و آن را با منطق مخصوص خودش گسترش دهد.
+
+در نتیجه، Overriding به Child اجازه می‌دهد یک مسئولیت مشترک را حفظ کند، اما نحوه اجرای آن مسئولیت را متناسب با نیاز خودش تغییر دهد. Parent در این ساختار بیشتر بیان‌کننده Behavior مشترک است، در حالی که Child می‌تواند جزئیات اجرای آن Behavior را تعیین کند. 
+
 Polymorphism
-↓
-Composition
-```
 
-در فصل 29 با `class`، Constructor، Instance، Method و Field آشنا شدیم.
+تا اینجا دیدیم که در یک سلسله ‌مراتب ارث‌بری، Parent می‌تواند یک Behavior مشترک را تعریف کند و Child نیز در صورت نیاز، همان Behavior را با پیاده‌سازی متفاوتی Override کند. اما در اینجا یک سؤال مهم‌تر مطرح می‌شود: اگر چند Object مختلف یک Method با نام یکسان داشته باشند، چگونه می‌توانیم با همه آن‌ها به یک شکل کار کنیم، در حالی که هرکدام رفتار متناسب با نوع خود را اجرا کنند؟ پاسخ به این سؤال ما را به مفهوم Polymorphism می‌رساند.
 
-اکنون یک سؤال طبیعی شکل می‌گیرد:
+واژه Polymorphism به معنای «چندشکلی» است؛ اما در برنامه‌نویسی، مفهوم آن چیزی فراتر از یک نام یا ویژگی ظاهری است. Polymorphism یعنی بتوانیم با Objectهای متفاوت، از طریق یک Behavior مشترک کار کنیم، در حالی که هر Object می‌تواند پیاده‌سازی مخصوص خودش را برای آن Behavior ارائه دهد.
 
-> اگر چند Class بخشی از Behavior مشترک داشته باشند، آیا باید آن Behavior را در همه Classها تکرار کنیم؟
+برای درک این مفهوم، فرض کنید چند نوع مختلف از Notification داریم. همه آن‌ها مسئولیت ارسال یک پیام را بر عهده دارند، اما نحوه انجام این مسئولیت برای هر نوع Notification متفاوت است.
 
-Inheritance یکی از پاسخ‌های JavaScript به این مسئله است.
+class Notification {  class EmailNotification extends Notification {
 
----
+send(message) {  send(message) {
 
-# مقدمه
+console.log(`Sending notification: ${message}`) } }  console.log(`Sending Email: ${message}`) } }
 
-فرض کنید در یک Application فروشگاهی چند نوع User داریم.
+class SMSNotification extends Notification {  class PushNotification extends Notification {
 
-برای مثال:
+send(message) {  send(message) {
 
-```text
-User
-Admin
-Customer
-```
+console.log(`Sending SMS: ${message}`); } } console.log(`SendingPushNotification:${message}`)}}
 
-همه این Objectها ممکن است اطلاعات مشترکی داشته باشند:
+در این ساختار، Notification یک Behavior عمومی به نام send() را تعریف می‌کند. هر Child نیز همین Method را Override کرده و نحوه اجرای مخصوص خودش را مشخص می‌کند. اکنون می‌توانیم Functionای بنویسیم که Notification را ارسال کند: function sendNotification(notification, message) {
 
-```text
-name
-email
-```
+notification .send(message)}
 
-و Behavior مشترکی مانند:
+نکته مهم این Function این است که هیچ اطلاعی از نوع دقیق notification ندارد. این Function نمی‌داند Object دریافت‌شده از نوع EmailNotification، SMSNotification یا PushNotification است. تنها چیزی که برای آن اهمیت دارد این است که Object موردنظر Behaviorای به نام send() ارائه می‌کند.
 
-```text
-login()
-logout()
-```
+اکنون می‌توانیم Notificationهای مختلف را به همین Function بدهیم:
 
-داشته باشند.
+sendNotification(new EmailNotification(), 'Hello')
 
-اما Admin ممکن است Behavior خاص خود را نیز داشته باشد:
+sendNotification(new SMSNotification(), 'Hello')
 
-```text
-deleteUser()
-```
+sendNotification(new PushNotification(), 'Hello')
 
-و Customer ممکن است Behavior متفاوتی داشته باشد:
+در هر سه حالت، Function دقیقاً یک Code دارد: notification .send(message)
 
-```text
-placeOrder()
-```
+اما نتیجه متفاوت است. برای EmailNotification، پیاده‌سازی مربوط به Email اجرا می‌شود؛ برای SMSNotification، پیاده‌سازی مربوط به SMS؛ و برای PushNotification، پیاده‌سازی مربوط به Push.
 
-اگر برای هر Class تمام Behaviorهای مشترک را دوباره بنویسیم، کد تکراری ایجاد می‌شود.
+اینجاست که رفتار Polymorphic شکل می‌گیرد:
 
-Inheritance به ما اجازه می‌دهد رابطه‌ای میان Classها ایجاد کنیم:
+یک نقطه استفاده، یک Behavior مشترک و چند Implementation متفاوت.
 
-```text
-User
- ↓
-Admin
-Customer
-```
+تعریف ساده Polymorphism 
 
-در این مدل، `Admin` و `Customer` می‌توانند Behaviorهای عمومی `User` را دریافت کنند و در صورت نیاز Behavior مخصوص خود را اضافه یا جایگزین کنند.
+Polymorphism یعنی بتوانیم Objectهای متفاوت را از طریق یک Behavior مشترک مورد استفاده قرار دهیم، در حالی که هر Object پیاده‌سازی مخصوص خودش را برای آن Behavior ارائه می‌دهد.
 
-این همان نقطه‌ای است که Inheritance وارد مدل ذهنی OOP می‌شود.
+در مثال ما: notification .send(message) Behavior مشترک است. اما Implementation می‌تواند متفاوت باشد:
 
----
+EmailNotification → send email   SMSNotification → send SMS 
 
-# Inheritance
+بنابراین، Code مصرف‌کننده لازم نیست نوع دقیق Object را بشناسد. این نکته بخش مهمی از مفهوم Polymorphism است. مسئله فقط این نیست که چند Object یک Method همنام دارند؛ مسئله این است که کدی که از آن‌ها استفاده می‌کند، می‌تواند بدون وابستگی به نوع دقیق آن‌ها، همان Behavior را درخواست کند.
 
-## چرا به Inheritance نیاز داریم؟
+تعریف فنی Polymorphism
 
-فرض کنید یک Class عمومی برای User داریم:
+در این الگو، بخشی از برنامه بر اساس یک Behavioral Contract مشترک با Object کار می‌کند . Objectهای مختلف Operation مورد انتظار را ارائه می‌کنند، اما هرکدام می‌توانند Implementation متفاوتی داشته باشند.
 
-```javascript
-class User {
-  login() {
-    console.log('User logged in');
-  }
+JavaScript برای این کار به تعریف رسمی interface مانند برخی زبان‌های دیگر نیاز ندارد. در این مثال، Function فقط انتظار دارد Object دریافت‌شده بتواند Method زیر را اجرا کند: notification .send(message);
 
-  logout() {
-    console.log('User logged out');
-  }
-}
-```
+بنابراین Contract مورد انتظار، در ساده‌ترین شکل، این است که Object یک send() قابل فراخوانی داشته باشد. این موضوع با ماهیت Dynamic و Object-Based زبان JavaScript سازگار است. Function لزوماً از قبل نمی‌خواهد بداند Object دقیقاً متعلق به چه Classای است؛ بلکه در زمان اجرا با Object دریافت‌شده کار می‌کند و Behavior موردنیاز خود را از آن درخواست می‌کند. 
 
-اکنون می‌خواهیم Admin داشته باشیم:
+چرا Polymorphism یک مدل ذهنی مهم ایجاد می‌کند؟
 
-```javascript
-class Admin {
-  login() {
-    console.log('User logged in');
-  }
+اهمیت Polymorphism زمانی آشکار می‌شود که به جای تمرکز بر نوع دقیق Object، بر مسئولیتی که Object باید انجام دهد تمرکز کنیم. بدون Polymorphism ممکن است Function مرکزی را بر اساس نوع Object طراحی کنیم:
 
-  logout() {
-    console.log('User logged out');
-  }
+function deliver(notification) {
 
-  deleteUser() {
-    console.log('User deleted');
-  }
-}
-```
+if (notification .type === 'email') {
 
-کد کار می‌کند.
+// send email }
 
-اما دو Method زیر تکراری هستند:
+if (notification .type === 'sms') {
 
-```javascript
-login()
-logout()
-```
+// send SMS } }
 
-اگر این Behaviorها در `User` قرار دارند، بهتر است Admin به جای تکرار آن‌ها، از آن‌ها استفاده کند.
+در این طراحی، deliver() باید انواع مختلف Notification را بشناسد. بنابراین هر بار که نوع جدیدی از Notification به برنامه اضافه شود، ممکن است لازم باشد همین Function را نیز تغییر دهیم. برای مثال، اگر بعداً PushNotification اضافه شود، منطق مرکزی باید از نوع جدید نیز اطلاع داشته باشد: email sms push
 
-اینجاست که Inheritance مفید می‌شود.
+در نتیجه، با افزایش تعداد انواع، مسئولیت Function مرکزی نیز بیشتر می‌شود. اما Polymorphism نگاه متفاوتی به این مسئله دارد. به جای اینکه Function مرکزی تصمیم بگیرد چگونه هر Notification ارسال شود، این مسئولیت را به خود Object واگذار می‌کنیم: function deliver(notification) {
 
----
+notification .send() }
 
-## تعریف Inheritance
+اکنون deliver() فقط یک مسئولیت دارد: از Notification بخواهد که خودش مسئولیت ارسال را انجام دهد.
 
-### تعریف ساده
+در این حالت: deliver(email)  deliver(sms)  deliver(push)
 
-**Inheritance** مکانیزمی است که به یک Class اجازه می‌دهد Behavior و قابلیت‌های Class دیگری را دریافت کند و در صورت نیاز آن‌ها را گسترش یا تغییر دهد.
+همگی می‌توانند از یک مسیر مشترک استفاده کنند؛ به شرط آنکه Object موردنظر Behavior مورد انتظار را ارائه کند.
 
-به بیان ساده:
+این تغییر، در ظاهر ساده است، اما از نظر طراحی اهمیت زیادی دارد.
 
-> Child Class می‌تواند از Parent Class استفاده مجدد کند.
+• در روش اول، Function مرکزی باید نوع Object و جزئیات اجرای آن را بشناسد.
 
-مدل ذهنی:
+• در روش دوم، Function فقط Behavior مورد نیاز را می‌شناسد و اجرای آن Behavior را به خود Object واگذار می‌کند.
 
-```text
-Parent Class
-     ↓
-Shared Behavior
-     ↓
-Child Class
-     ↓
-Reuse + Extension
-```
+به بیان دیگر، Polymorphism کمک می‌کند میان استفاده از یک Behavior و نحوه پیاده‌سازی آن Behavior تفاوت قائل شویم. کدی که از Object استفاده می‌کند، می‌داند چه کاری باید از Object بخواهد؛ اما لازم نیست بداند آن کار چگونه انجام می‌شود. هر Object مسئول ارائه Implementation مناسب خودش است.
 
----
+Polymorphism و Method Lookup 
 
-## تعریف فنی
+برای درک اینکه JavaScript چگونه این رفتار را ممکن می‌کند، باید دوباره به Method Lookup و Prototype Chain برگردیم. وقتی می‌نویسیم: notification .send(message) JavaScript باید مشخص کند send دقیقاً از کجا می‌آید و کدام Implementation باید اجرا شود.
 
-در JavaScript، Class Inheritance با استفاده از `extends` ایجاد می‌شود.
+در ابتدا JavaScript در خود Object به دنبال Propertyای با نام send می‌گردد. اگر چنین Propertyای در Object وجود نداشته باشد، جست‌وجو در Prototype آن ادامه پیدا می‌کند. سپس در صورت نیاز، Prototypeهای بعدی نیز بررسی می‌شوند تا Method مورد نظر پیدا شود یا زنجیره Prototype به پایان برسد.
 
-یک Child Class با `extends` رابطه‌ی ارث‌بری با Parent Class برقرار می‌کند.
+برای مثال، اگر EmailNotification نسخه مخصوص خودش از send() را داشته باشد، Method Lookup همان نسخه را پیدا می‌کند. در نتیجه، پیاده‌سازی EmailNotification اجرا می‌شود. اما اگر EmailNotification خودش send() را تعریف نکرده باشد، جست‌وجو ادامه پیدا می‌کند و ممکن است به Prototype مربوط به Notification برسد. در این حالت، نسخه‌ای که در Notification تعریف شده است مورد استفاده قرار می‌گیرد.
 
-مثلاً:
+بنابراین، Polymorphism در JavaScript یک سازوکار کاملاً جدا از Prototype Chain نیست. یکی از پایه‌های عملی آن، همان Method Lookup است. Objectهای مختلف می‌توانند یک Behavior مشترک را ارائه دهند و JavaScript هنگام فراخوانی Method، بر اساس Object واقعی و مسیر Prototype Chain، Implementation مناسب را پیدا می‌کند.
 
-```javascript
-class Admin extends User {
-}
-```
+از این منظر، رابطه میان سه مفهوم اصلی این بخش روشن‌تر می‌شود:
 
-در اینجا:
+• Inheritance امکان به‌اشتراک‌گذاری Behavior را فراهم می‌کند.
 
-```text
-User  → Parent Class
-Admin → Child Class
-```
+• Overriding به Child اجازه می‌دهد Implementation متفاوتی برای آن Behavior ارائه کند.
 
-است.
+• Polymorphism باعث می‌شود کدی که با این Objectها کار می‌کند بتواند از همان Behavior مشترک استفاده کند، بدون آنکه به Implementation خاص هر Child وابسته باشد.
 
-`Admin` می‌تواند از قابلیت‌های قابل دسترس `User` استفاده کند.
+به همین دلیل، Polymorphism صرفاً به معنای «داشتن چند نسخه از یک Method » نیست. اهمیت اصلی آن در نحوه طراحی و فکر کردن درباره کد است. وقتی برنامه را بر اساس Behaviorهای مشترک طراحی می‌کنیم، کدی که از Objectها استفاده می‌کند می‌تواند با Objectهای بیشتری کار کند، بدون اینکه برای هر نوع جدید مجبور باشیم منطق استفاده از آن Object را از ابتدا تغییر دهیم.
 
----
+برای مثال، اگر Function ما فقط به send() نیاز داشته باشد، اضافه شدن یک Notification جدید لزوماً نیازی به تغییر در Function ندارد: class WhatsAppNotification extends Notification {
 
-# `extends`
+send(message) {
 
-اکنون Syntax اصلی را ببینیم.
+console.log(`Sending WhatsApp: ${message}`) } }
 
-```javascript
-class User {
-  login() {
-    console.log('User logged in');
-  }
-}
+اکنون همان Function قبلی می‌تواند با این Object نیز کار کند: deliver(new WhatsAppNotification())
 
-class Admin extends User {
-}
-```
+Function deliver() لازم نیست بداند Notification جدید از چه نوعی است. آنچه اهمیت دارد این است که Object موردنظر Behavior مورد انتظار را ارائه می‌کند. این همان مدل ذهنی مهمی است که Polymorphism به طراحی برنامه اضافه می‌کند: Consumer → Common Behavior → Different Implementations
 
-کلمه‌ی:
+Consumer به جای شناختن همه انواع Objectها، با Behavior موردنیاز کار می‌کند و هر Object مسئول ارائه Implementation مناسب خودش است. در نتیجه، هنگام مشاهده یک Method Call مانند:
 
-```javascript
-extends
-```
+notification .send(message) بهتر است فقط به خود Method Call نگاه نکنیم. این عبارت در واقع یک سؤال را به JavaScript واگذار می‌کند: برای این Object، send کجا تعریف شده است و کدام Implementation باید اجرا شود؟
 
-رابطه‌ی Inheritance را ایجاد می‌کند.
+پاسخ این سؤال از طریق Method Lookup و Prototype Chain به دست می‌آید. همین فرآیند است که به Objectهای مختلف اجازه می‌دهد یک Behavior مشترک داشته باشند، اما Implementation متفاوتی ارائه دهند.
 
-اکنون:
+در نهایت، Polymorphism یک مدل ذهنی مهم برای کار با Objectها در JavaScript ایجاد می‌کند:
 
-```javascript
-const admin = new Admin();
+ما معمولاً با Object ، بر اساس Behavior آن کار می‌کنیم، نه صرفاً بر اساس نوع آن.
 
-admin.login();
-```
+این طرز فکر باعث می‌شود کد کمتر به جزئیات انواع وابسته باشد و در برابر اضافه شدن Object های جدید، انعطاف‌پذیرتر باقی بماند. 
 
-خروجی:
+Inheritance فقط برای Code Reuse نیست
 
-```text
-User logged in
-```
+یکی از رایج‌ترین برداشت‌های ناقص درباره Inheritance این است که هدف آن فقط جلوگیری از تکرار Code و استفاده مجدد از آن است. این برداشت کاملاً نادرست نیست، اما برای درک نقش واقعی Inheritance کافی نیست.
 
-نکته مهم این است که `login()` داخل `Admin` تعریف نشده است.
+وقتی می‌نویسیم: class PremiumAccount extends Account { }
 
-Behavior از رابطه‌ی Inheritance به دست آمده است.
+در واقع فقط نگفته‌ایم که PremiumAccount می‌تواند بخشی از Code موجود در Account را دوباره استفاده کند. مهم‌تر از آن، یک رابطه مفهومی میان این دو نوع Object ایجاد کرده‌ایم: PremiumAccount is an Account
 
----
+یعنی PremiumAccount باید واقعاً یک نوع تخصص‌یافته از Account باشد.
 
-# Parent Class و Child Class
+این نکته در طراحی بسیار مهم است؛ زیرا Inheritance فقط یک ابزار فنی برای Reuse کردن Code نیست. با استفاده از extends درباره رابطه میان دو مفهوم در مدل برنامه تصمیم می‌گیریم.
 
-در مثال:
+برای مثال، فرض کنید Order و Product هر دو Propertyای به نام id دارند. این شباهت به‌هیچ‌وجه به این معنا نیست که باید بنویسیم: class Product extends Order { }
 
-```javascript
-class User {
-  login() {
-    console.log('User logged in');
-  }
-}
+شباهت در Property، و حتی شباهت در بعضی Methodها، به ‌تنهایی رابطه Inheritance ایجاد نمی‌کند. رابطه باید از نظر Domain و Responsibility نیز منطقی باشد. سؤال اصلی این نیست که آیا دو Class مقداری Code مشترک دارند؛ بلکه این است که آیا یکی واقعاً نوعی از دیگری است یا نه.
 
-class Admin extends User {
-}
-```
+به همین دلیل، Inheritance را بهتر است ابتدا به‌عنوان یک رابطه طراحی در نظر بگیریم و سپس به مزایای فنی آن، مانند Code Reuse، توجه کنیم.
 
-`User` را **Parent Class** می‌نامیم.
+یک مثال کامل
 
-و:
+برای اینکه مفاهیم اصلی این فصل را در کنار یکدیگر ببینیم، یک مثال نسبتاً واقعی‌تر در نظر بگیریم. فرض کنید Application ما یک سیستم Notification دارد. در این سیستم، یک Notification عمومی داریم که مسئولیت‌های مشترک میان انواع مختلف Notification را تعریف می‌کند: class Notification {
 
-```text
-Admin
-```
+constructor(recipient) {
 
-را **Child Class** می‌نامیم.
+this .recipient = recipient }
 
-مدل ذهنی:
+send() {
 
-```text
-User
- │
- │ extends
- ↓
-Admin
-```
+console.log(`Sending notification to ${this .recipient}`) } }
 
-Parent معمولاً Behavior عمومی‌تر را تعریف می‌کند.
+اکنون می‌توانیم نوع تخصص‌یافته‌تری برای Email ایجاد کنیم: class EmailNotification extends Notification {
 
-Child می‌تواند آن Behavior را استفاده کند و قابلیت‌های بیشتری اضافه کند.
+constructor(recipient, subject) {
 
----
+super(recipient);
 
-# یک مثال واقعی‌تر
+this .subject = subject }
 
-فرض کنید در یک Application دو نوع User داریم:
+send() {
 
-```text
-User
-Admin
-```
+console.log(`Sending email to ${this .recipient}: ${this .subject}`) } }
 
-User عمومی:
+و برای SMS نیز Class دیگری تعریف کنیم: class SMSNotification extends Notification {
 
-```javascript
-class User {
-  constructor(name, email) {
-    this.name = name;
-    this.email = email;
-  }
+constructor(recipient, message) {
 
-  login() {
-    console.log(`${this.name} logged in`);
-  }
-}
-```
+super(recipient);
 
-اکنون Admin:
+this .message = message }
 
-```javascript
-class Admin extends User {
-  deleteUser() {
-    console.log('User deleted');
-  }
-}
-```
+send() {
 
-می‌توانیم Instance ایجاد کنیم:
+console.log(`Sending SMS to ${this .recipient}: ${this .message}`) } }
 
-```javascript
-const admin = new Admin(
-  'Omid',
-  'omid@example.com'
-);
-```
+در اینجا EmailNotification و SMSNotification هر دو از Notification ارث‌بری می‌کنند؛ بنابراین بخشی از ساختار و Behavior مشترک خود را از Parent دریافت می‌کنند. در عین حال، هرکدام State مخصوص خود را نیز دارند.
 
-و هر دو Behavior را استفاده کنیم:
+EmailNotification علاوه بر recipient، یک subject دارد: recipient subject
 
-```javascript
-admin.login();
-admin.deleteUser();
-```
+در حالی که SMSNotification علاوه بر recipient، یک message دارد: recipient message
 
-خروجی:
+اما مهم‌تر از State مشترک یا متفاوت، این است که هر دو یک Behavior مشترک نیز ارائه می‌کنند: send()
 
-```text
-Omid logged in
-User deleted
-```
+با این تفاوت که Implementation این Behavior برای هر Child متفاوت است. اکنون می‌توانیم از هر دو نوع Object ایجاد کنیم:
 
-`login()` از Parent آمده است.
+const email = new EmailNotification(  const sms = new SMSNotification(
 
-`deleteUser()` مخصوص Child است.
+'omid@example.com',   '+989121234567',
 
----
+'Order confirmed')   'Your order is ready')
 
-# Inheritance یعنی Reuse، نه Copy
+در این مرحله، یک سؤال مهم مطرح می‌شود: آیا برای کار با این دو Object باید بدانیم یکی Email است و دیگری SMS؟
 
-یک سوءبرداشت مهم این است که تصور کنیم:
+برای مثال، اگر Application فقط بخواهد یک Notification را ارسال کند، چرا باید Function مربوط به ارسال از نوع دقیق Notification اطلاع داشته باشد؟ به همین دلیل می‌توانیم Function عمومی‌تری بنویسیم:
 
-> `extends` تمام کد Parent را داخل Child کپی می‌کند.
+function deliver(notification) { notification .send()}
 
-مدل ذهنی صحیح این نیست.
+اکنون: deliver(email) deliver(sms)  هر دو از همان Function استفاده می‌کنند.
 
-Inheritance یک **رابطه** بین Classها ایجاد می‌کند.
+درحالت اول،Implementation مربوط به Email اجرامی‌شود: Sending email to omid@example.com: Order confirmed
 
-در JavaScript این رابطه در نهایت با مکانیزم Prototypeها پیاده‌سازی می‌شود که در فصل‌های قبل بررسی شده است.
+و درحالت دوم، Implementation مربوط به SMS اجرا می‌شود: Sending SMS to +989121234567: Your order is ready
 
-بنابراین:
+در این مثال، تمام زنجیره مفاهیمی که در این فصل بررسی کردیم در کنار یکدیگر قرار می‌گیرند:
 
-```javascript
-class Admin extends User {
-}
-```
+Notification → Inheritance → EmailNotification / SMSNotification → super()
 
-به معنی:
+→Method Overriding → Polymorphism
 
-> Admin را در رابطه‌ی ارث‌بری با User قرار بده.
+این مفاهیم مستقل از یکدیگر نیستند. هر مفهوم، مسئله‌ای را حل می‌کند که از مفهوم قبلی به وجود آمده است
 
-است، نه اینکه Source Code مربوط به `User` را داخل `Admin` کپی کن.
+• Inheritance ر ابطه Parent و Child را ایجاد می‌کند.
 
----
+• super() به Child اجازه می‌دهد از Initialization یا Behavior مربوط به Parent استفاده کند.
 
-# Child Class می‌تواند Behavior جدید اضافه کند
+• Overriding امکان ارائه Implementation متفاوت برای یک Behavior مشترک را فراهم می‌کند.
 
-Inheritance فقط برای استفاده از Behavior موجود نیست.
+• و در نهایت Polymorphism به Code مصرف‌کننده اجازه می‌دهد با آن Behavior مشترک کار کند، بدون اینکه به Implementation خاص هر Child وابسته باشد. 
 
-Child می‌تواند Behavior جدید نیز داشته باشد.
+Inheritance و Composition
 
-```javascript
-class User {
-  login() {
-    console.log('User logged in');
-  }
-}
+تا اینجا Inheritance راه‌حل مناسبی به نظر می‌رسد. اما یک سؤال مهم باقی می‌ماند:
 
-class Admin extends User {
-  deleteUser() {
-    console.log('User deleted');
-  }
-}
-```
+آیا هر زمانی که چند Object ، Behavior یا مسئولیت مشترکی دارند، باید میان آن‌ها رابطه Inheritance ایجاد کنیم؟
 
-اکنون:
+پاسخ منفی است. فرض کنید Application ما یک Order دارد. این Order ممکن است با چند مسئولیت مختلف مانند موارد زیر سروکار داشته باشد : Payment Shipping Discount
 
-```text
-User
-├── login()
+ممکن است وسوسه شویم برای هر وضعیت یک Class فرزند ایجاد کنیم: PaidOrder یا ShippedOrder → Order
 
-Admin
-├── login()       ← inherited
-└── deleteUser()  ← own behavior
-```
+اما خیلی زود یک مسئله جدی ایجاد می‌شود. فرض کنید یک Order می‌تواند هم‌زمان:
 
-این یکی از الگوهای اصلی Inheritance است:
+Payment داشته باشد، Shipping داشته باشد، و از Discount نیز استفاده کند.
 
-```text
-Parent
-↓
-Common Behavior
+آیا باید برای هر ترکیب ممکن، یک Child Class جدید ایجاد کنیم؟
 
-Child
-↓
-Common Behavior + Specialized Behavior
-```
+در چنین شرایطی تعداد Class ها می‌تواند به‌ سرعت افزایش پیدا کند. علاوه بر آن، مدل برنامه نیز پیچیده‌تر می‌شود و رابطه میان Classها دیگر به‌ سادگی قابل درک نخواهد بود.
 
----
+مسئله اصلی این است که Payment، Shipping و Discount لزوماً نوعی از Order نیستند. آن‌ها می‌توانند قابلیت‌ها یا اجزایی باشند که Order از آن‌ها استفاده می‌کند. اینجاست که مفهوم Composition اهمیت پیدا می‌کند.
 
-# Child Class و Constructor
+Composition چیست؟
 
-اکنون به بخش مهم‌تری می‌رسیم.
+در Composition به‌جای اینکه بگوییم: Object جدید، نوعی از Object قبلی است. می‌گوییم:
 
-فرض کنید Parent دارای Constructor باشد:
+Object جدید از چند Component یا Behavior تشکیل شده است، یا از آن‌ها استفاده می‌کند.
 
-```javascript
-class User {
-  constructor(name, email) {
-    this.name = name;
-    this.email = email;
-  }
-}
-```
+به صورت مفهومی، Inheritance رابطه‌ای مانند این ایجاد می‌کند: PremiumAccount → Account
 
-و Admin از آن ارث‌بری کند:
+در اینجا PremiumAccount یک نوع از Account است. اما در Composition ساختار می‌تواند چنین باشد: Order 
 
-```javascript
-class Admin extends User {
-}
-```
+├── Payment
 
-اکنون:
+├── Shipping
 
-```javascript
-const admin = new Admin(
-  'Omid',
-  'omid@example.com'
-);
-```
+└── Discount
 
-در این حالت Child Constructor تعریف نکرده است.
+در اینجا Order نوعی از Payment یا Shipping نیست. بلکه از این اجزا استفاده می‌کند یا آن‌ها را در ساختار خود به کار می‌گیرد. بنابراین، در ساده‌ترین بیان می‌توان تفاوت این دو را این ‌گونه دید :
 
-پس Constructor Parent برای ساخت Instance استفاده می‌شود.
+Inheritance → is-a  Composition → has-a / uses-a
 
-بنابراین:
+در Inheritance، رابطه is-a اهمیت دارد. در Composition، رابطه has-a یا uses-a اهمیت بیشتری پیدا می‌کند.
 
-```javascript
-admin.name
-```
+این تفاوت، یکی از مهم‌ترین تصمیم‌های طراحی در کار با Objectهاست. 
 
-دارای مقدار:
+چه زمانی Inheritance مناسب است؟
 
-```text
-Omid
-```
+Inheritance زمانی انتخاب مناسبی است که رابطه میان Parent و Child از نظر مفهومی روشن باشد. Child باید واقعاً نوعی تخصص‌یافته از Parent باشد و بتواند مسئولیت و Behavioral Contract مربوط به Parent را حفظ کند.
 
-خواهد بود.
+همچنین باید Behavior مشترک واقعاً بخشی از مفهوم Child باشد و Hierarchy ایجادشده همچنان ساده و قابل فهم باقی بماند. برای مثال: Notification → EmailNotification رابطه قابل درکی است.
 
----
+EmailNotification یک نوع Notification است و می‌تواند مسئولیت مشترک send() را ارائه کند؛ حتی اگر نحوه اجرای این مسئولیت در Child متفاوت باشد. در چنین شرایطی، Inheritance نه ‌تنها Code Reuse ایجاد می‌کند، بلکه ساختار مفهومی Domain را نیز به شکل مناسبی نمایش می‌دهد.
 
-# وقتی Child Constructor داشته باشد
+چه زمانی Composition مناسب‌تر است؟
 
-فرض کنید Admin به State بیشتری نیاز دارد:
+Composition معمولاً زمانی انتخاب مناسب‌تری است که Object از چند قابلیت نسبتاً مستقل تشکیل شده باشد. اگر این قابلیت‌ها بتوانند در Objectهای مختلف نیز مورد استفاده قرار گیرند، یا رابطه is-a میان آن‌ها طبیعی نباشد، Composition می‌تواند مدل ساده‌تر و انعطاف‌پذیرتری ایجاد کند.
 
-```javascript
-class User {
-  constructor(name, email) {
-    this.name = name;
-    this.email = email;
-  }
-}
+همچنین زمانی که Hierarchy به‌ سرعت در حال پیچیده شدن است، یا می‌خواهیم اجزای سیستم را مستقل‌تر تغییر دهیم، Composition معمولاً گزینه قابل بررسی بهتری است. برای مثال: Order
 
-class Admin extends User {
-  constructor(name, email, permissions) {
-    this.permissions = permissions;
-  }
-}
-```
+├── Payment
 
-اکنون یک مشکل داریم.
+├── Shipping
 
-Child Constructor قبل از استفاده از `this` باید Parent Constructor را فراخوانی کند.
+└── Discount
 
-برای این کار از:
+در چنین مدلی هر مسئولیت می‌تواند Component مستقلی داشته باشد. این ساختار اجازه می‌دهد قابلیت‌ها از یکدیگر جدا باقی بمانند و تغییر در یک بخش لزوماً به ایجاد یا تغییر تعداد زیادی Child Class منجر نشود.
 
-```javascript
-super()
-```
+بنابراین، مسئله فقط این نیست که کدام روش Code بیشتری Reuse می‌کند. مسئله اصلی این است که کدام روش رابطه واقعی میان Objectها را بهتر مدل می‌کند.
 
-استفاده می‌کنیم.
 
----
 
-# `super`
+اشتباهات رایج
 
-## چرا `super` لازم است؟
+اشتباه اول: تصور اینکه Inheritance فقط State را به ارث می‌دهد
 
-در یک Child Class که Constructor دارد، JavaScript باید ابتدا بخش مربوط به Parent را آماده کند.
+Inheritance را نباید صرفاً به معنای دریافت Propertyهای Parent در نظر گرفت. Behavior نیز می‌تواند از طریق Prototype Chain در اختیار Child Instance قرار گیرد.
 
-برای این کار:
+از طرف دیگر، State مربوط به Instance معمولاً در زمان اجرای Constructor روی خود Instance ایجاد می‌شود.
 
-```javascript
-super(...)
-```
+پس باید میان: Instance State و: Inherited Behavior تفاوت قائل شویم.
 
-Parent Constructor را فراخوانی می‌کند.
+اشتباه دوم: تصور اینکه extends ،Code را Copy می‌کند.
 
-مثلاً:
+وقتی می‌نویسیم: class PremiumAccount extends Account { } Methodهای Parent در Child Class کپی نمی‌شوند. بلکه رابطه Prototype ایجاد می‌شود و Property Lookup می‌تواند از Child به Parent ادامه پیدا کند. 
 
-```javascript
-class User {
-  constructor(name, email) {
-    this.name = name;
-    this.email = email;
-  }
-}
+اشتباه سوم: تصور اینکه super() یک Object جدید می‌سازد.
 
-class Admin extends User {
-  constructor(name, email, permissions) {
-    super(name, email);
+super() یک Parent Instance جدید ایجاد نمی‌کند. در Child Constructor super(owner, balance) :
 
-    this.permissions = permissions;
-  }
-}
-```
+Constructor مربوط به Parent را برای Initialization همان Instance فراخوانی می‌کند.
 
-اکنون:
 
-```javascript
-const admin = new Admin(
-  'Omid',
-  'omid@example.com',
-  ['delete-user']
-);
-```
 
-Instance دارای:
+اشتباه چهارم: تصور اینکه super .method() مقدار this را به Parent تغییر می‌دهد.
 
-```text
-name
-email
-permissions
-```
+class PremiumAccount extends Account {
 
-است.
+در اینجا Method مربوط بهParent روی همان Child Instance اجرا می‌شود. deposit(amount) {
 
----
+this همچنان به Object فعلی مربوط است. super .deposit(amount) } }
 
-# تحلیل `super()`
 
-کد:
 
-```javascript
-constructor(name, email, permissions) {
-  super(name, email);
+اشتباه پنجم: استفاده از this قبل از super() در Derived Constructor
 
-  this.permissions = permissions;
-}
-```
+class PremiumAccount extends Account {  class PremiumAccount extends Account {
 
-را مرحله‌ای ببینیم.
+constructor(owner) {   constructor(owner) {
 
-ابتدا:
+this.owner = owner;   super(owner);
 
-```javascript
-super(name, email);
-```
+super(owner) } }   this .rewardLevel = 'gold' }}
 
-Parent Constructor را با داده‌های مربوط به Parent اجرا می‌کند.
+در Derived Constructor باید ابتدا Parent Initialization انجام شود. این کد صحیح نیست. 
 
-Parent:
+اشتباه ششم: تصور اینکه Polymorphism فقط با extends ممکن است.
 
-```javascript
-constructor(name, email) {
-  this.name = name;
-  this.email = email;
-}
-```
+extends یکی از روش‌های رایج ایجاد رابطه‌ای است که به Polymorphism منجر می‌شود، اما مفهوم Polymorphism محدود به Inheritance نیست. در JavaScript، یک Function می‌تواند با هر Objectی کار کند که Behavior مورد نیاز آن را ارائه کند. مثلاً: function deliver(notification) { notification .send()}
 
-State عمومی User را مقداردهی می‌کند.
+این Function در اصل به وجود: send() نیاز دارد، نه لزوماً به یک Class Hierarchy خاص.
 
-سپس:
+اشتباه هفتم: استفاده از Inheritance فقط برای جلوگیری از چند خط Code تکراری
 
-```javascript
-this.permissions = permissions;
-```
+اگر تنها دلیل استفاده از Inheritance این باشد که چند Property یا Method مشترک داریم، باید ابتدا رابطه Domain را بررسی کنیم. Inheritance یک تصمیم طراحی است، نه فقط یک ابزار برای حذف Duplication. 
 
-State مخصوص Admin را اضافه می‌کند.
+اشتباه هشتم: ساخت Hierarchyهای عمیق
 
-مدل ذهنی:
+Hierarchies بسیار عمیق می‌توانند فهم Code را دشوار کنند. هرچه وابستگی میان Classها بیشتر شود، تغییر یک Parent می‌تواند روی تعداد بیشتری از Childها اثر بگذارد. در چنین شرایطی باید بررسی کنیم آیا Composition مدل ساده‌تری ارائه می‌دهد یا خیر. 
 
-```text
-Admin Constructor
-       ↓
-super()
-       ↓
-User Constructor
-       ↓
-name + email
-       ↓
-Admin-specific initialization
-       ↓
-permissions
-```
+Best Practices
 
----
+1. ابتدا رابطه Domain را بررسی کنید.
 
-# قانون مهم `super()`
+قبل از نوشتن extends بپرسید: آیا Child واقعاً نوعی از Parent است؟ اگر پاسخ روشن نیست، Inheritance احتمالاً انتخاب مناسبی نیست.
 
-در Child Constructor نمی‌توانیم قبل از `super()` از `this` استفاده کنیم.
+2. Parent را با مسئولیت مشخص طراحی کنید
 
-❌
+Parent نبایدصرفاً محلی برای جمع‌کردن Code مشترک باشد. Behaviorهای Parent بایدبخشی ازمفهوم عمومی‌آن‌باشند
 
-```javascript
-class Admin extends User {
-  constructor(name) {
-    this.name = name;
 
-    super(name);
-  }
-}
-```
 
-این ترتیب صحیح نیست.
+3. از super() برای حفظ Initialization Parent استفاده کنید.
 
-✔
+اگر Parent مسئول ایجاد بخشی از State است، Child نباید بدون دلیل همان Initialization را تکرار کند.
 
-```javascript
-class Admin extends User {
-  constructor(name) {
-    super(name);
+4. از Overriding برای تغییر مسئولیت مشخص استفاده کنید.
 
-    this.role = 'admin';
-  }
-}
-```
+اگر Child فقط به بخش کوچکی از Behavior Parent نیاز دارد، ابتدا بررسی کنید آیا واقعاً باید Method را Override کند یا خیر. Overriding باید رفتار را واضح‌تر کند، نه پیچیده‌تر.
 
-ابتدا:
+5. Polymorphism را برای کاهش وابستگی استفاده کنید.
 
-```javascript
-super()
-```
+به جای اینکه Consumer تمام انواع Object را بشناسد، بهتر است Consumer تا حد امکان بر Behavior مورد نیاز تمرکز کند
 
-و سپس استفاده از:
 
-```javascript
-this
-```
 
----
+6. وقتی رابطه has-a است، Composition را بررسی کنید.
 
-# `super` فقط برای Constructor نیست
+اگر Object از چند قابلیت مستقل تشکیل شده است، Composition معمولاً مدل طبیعی‌تری ارائه می‌دهد.
 
-`super` در Methodهای Child نیز کاربرد دارد.
 
-فرض کنید Parent دارای Method زیر است:
 
-```javascript
-class User {
-  login() {
-    console.log('User logged in');
-  }
-}
-```
+Summary
 
-Child می‌تواند همان Method را Override کند:
+در فصل قبل با Classها آشنا شدیم و دیدیم که Class می‌تواند الگوی ایجاد Instanceهایی با State و Behavior مشخص باشد. اما در یک Application واقعی، همیشه با Objectهایی کاملاً مستقل روبه‌رو نیستیم. گاهی چند نوع Object بخشی از State و Behavior خود را با یکدیگر به اشتراک می‌گذارند یا یکی از آن‌ها نوع تخصص‌یافته‌تری از دیگری است.
 
-```javascript
-class Admin extends User {
-  login() {
-    super.login();
-    console.log('Admin logged in');
-  }
-}
-```
+در چنین شرایطی می‌توانیم از Inheritance استفاده کنیم.
 
-اکنون:
+با: class PremiumAccount extends Account {} یک رابطه میان Parent و Child ایجاد می‌کنیم.
 
-```javascript
-const admin = new Admin();
+extends این رابطه را برقرار می‌کند و Child می‌تواند از Behavior موجود در Parent استفاده کند.
 
-admin.login();
-```
+اگر Child دارای Constructor باشد، می‌تواند با super()، Constructor مربوط به Parent را برای Initialization همان Instance فراخوانی کند: super(name) همچنین در Methodها می‌توان با: super .method()
 
-خروجی:
+به Implementation مربوط به Parent دسترسی داشت.
 
-```text
-User logged in
-Admin logged in
-```
+Child نیز می‌تواند Method موجود در Parent را با تعریف یک Method همنام تغییر دهد. این رفتار را Method Overriding می‌نامیم.
 
-اینجا:
+در Polymorphism، Code مصرف‌کننده می‌تواند با یک Behavior مشترک کار کند، در حالی که Objectهای مختلف Implementation متفاوتی از آن Behavior ارائه می‌کنند. برای مثال: function deliver(notification) {
 
-```javascript
-super.login();
-```
+notification .send()}
 
-Method مربوط به Parent را فراخوانی می‌کند.
+همین Function می‌تواند با: EmailNotification SMSNotification و انواع دیگری از Notification که همان Behavior را ارائه می‌کنند، کار کند. در اینجا Caller به نوع دقیق Object وابسته نیست؛ بلکه به Behavior موردنیاز وابسته است.
 
----
+اما در کنار این مفاهیم، یک نکته طراحی مهم نیز باید همیشه در نظر گرفته شود: Inheritance همیشه بهترین راه برای Reuse نیست. اگر رابطه واقعی میان Objectها: is-a باشد، Inheritance می‌تواند انتخاب مناسبی باشد.
 
-# Method Overriding
+اما اگر رابطه بیشتر: has-a یا: uses-a باشد، Composition معمولاً مدل طبیعی‌تری ارائه می‌کند.
 
-اکنون به مرحله بعدی Concept Flow می‌رسیم.
+بنابراین، هدف مهندسی این نیست که بیشترین استفاده را از extends داشته باشیم. هدف این است که رابطه واقعی میان Objectها را درست مدل کنیم. 
 
-گاهی Child نمی‌خواهد دقیقاً همان Behavior Parent را داشته باشد.
+Key Takeaways
 
-مثلاً:
+• Inheritance رابطه‌ای میان یک Parent Class و یک Child Class ایجاد می‌کند.
 
-```text
-User login
-Admin login
-```
+• extends برای ایجاد Class Inheritance استفاده می‌شود.
 
-ممکن است رفتار متفاوتی داشته باشند.
+• Child می‌تواند Behavior موجود در Parent را استفاده کند.
 
-در این حالت Child می‌تواند Method مربوط به Parent را با تعریف Methodی با همان نام **Override** کند.
+• Inherited Methodها از طریق Prototype Chain قابل دسترسی هستند.
 
-مثلاً:
+• State مربوط به Instance معمولاً روی خود Instance ایجاد و مقداردهی می‌شود.
 
-```javascript
-class User {
-  login() {
-    console.log('Logging in as user');
-  }
-}
+• نباید State مربوط به Instance را با Inherited Behavior یکی دانست.
 
-class Admin extends User {
-  login() {
-    console.log('Logging in as admin');
-  }
-}
-```
+• super() ،Constructor مربوط به Parent را برای Initialization همان Instance فراخوانی می‌کند.
 
-اکنون:
+• در Derived Constructor باید قبل از استفاده از this، super() فراخوانی شود.
 
-```javascript
-const user = new User();
-const admin = new Admin();
+• super .method() می‌تواند Implementation مربوط به Parent را از Child فراخوانی کند.
 
-user.login();
-admin.login();
-```
+• super .method() باعث تغییر this به Parent نمی‌شود.
 
-خروجی:
+• Method Overriding یعنی Child Implementation مربوط به یک Method Parent را با Implementation خودش جایگزین کند.
 
-```text
-Logging in as user
-Logging in as admin
-```
+• Overriding باعث می‌شود Behavior یکسان در Objectهای مختلف، Implementationهای متفاوت داشته باشد.
 
----
+• Polymorphism اجازه می‌دهد Consumer با یک Behavior مشترک با Objectهای مختلف کار کند.
 
-# تعریف Method Overriding
+• Polymorphism در JavaScript می‌تواند بر اساس وجود Behavior مورد نیاز در Object شکل بگیرد.
 
-**Method Overriding** یعنی Child Class یک Method موجود در Parent را با همان نام تعریف کند تا Behavior متفاوتی ارائه دهد.
+• Inheritance فقط ابزاری برای جلوگیری از Code Duplication نیست؛ یک تصمیم طراحی برای مدل‌کردن رابطه میان Objectها است.
 
-مدل ذهنی:
+• شباهت چند Property یا Method به‌تنهایی دلیل مناسبی برای Inheritance نیست.
 
-```text
-Parent
-login()
-  ↓
-Child
-login()
-  ↓
-Different Behavior
-```
+• Composition در شرایطی که Object از چند قابلیت مستقل تشکیل شده است، می‌تواندانتخاب مناسب‌تری باشد.
 
-نکته مهم:
+• is-a معمولاً به Inheritance و has-a معمولاً به Composition اشاره می‌کند. 
 
-Child Method، Parent Method را حذف نمی‌کند.
-
-بلکه هنگام استفاده از Instance مربوط به Child، Method مخصوص Child انتخاب می‌شود.
-
----
-
-# Overriding بدون `super`
-
-مثلاً:
-
-```javascript
-class User {
-  login() {
-    console.log('User login');
-  }
-}
-
-class Admin extends User {
-  login() {
-    console.log('Admin login');
-  }
-}
-```
-
-در اینجا Child کاملاً Behavior جدیدی ارائه کرده است.
-
-```javascript
-const admin = new Admin();
-
-admin.login();
-```
-
-خروجی:
-
-```text
-Admin login
-```
-
-Parent Method در این Call اجرا نمی‌شود.
-
----
-
-# Overriding همراه با `super`
-
-گاهی نمی‌خواهیم Behavior Parent را حذف کنیم.
-
-می‌خواهیم آن را گسترش دهیم.
-
-در این حالت:
-
-```javascript
-class User {
-  login() {
-    console.log('User login');
-  }
-}
-
-class Admin extends User {
-  login() {
-    super.login();
-    console.log('Checking admin permissions');
-  }
-}
-```
-
-اکنون:
-
-```javascript
-const admin = new Admin();
-
-admin.login();
-```
-
-خروجی:
-
-```text
-User login
-Checking admin permissions
-```
-
-پس دو الگو داریم:
-
-### جایگزینی کامل
-
-```javascript
-login() {
-  // new behavior
-}
-```
-
-### گسترش Behavior Parent
-
-```javascript
-login() {
-  super.login();
-
-  // additional behavior
-}
-```
-
----
-
-# Polymorphism
-
-اکنون به مفهوم اصلی بعدی می‌رسیم.
-
-اگر فقط Inheritance داشته باشیم، هنوز به سؤال مهمی پاسخ نداده‌ایم:
-
-> چرا می‌توانیم Objectهای متفاوت را از طریق یک Interface رفتاری مشابه استفاده کنیم؟
-
-اینجاست که **Polymorphism** اهمیت پیدا می‌کند.
-
----
-
-## تعریف Polymorphism
-
-### تعریف ساده
-
-**Polymorphism** یعنی یک Interface یا Method مشترک بتواند در Objectهای مختلف، Behavior متفاوتی داشته باشد.
-
-به بیان ساده:
-
-> یک Method مشترک، بسته به نوع Object می‌تواند رفتار متفاوتی ارائه کند.
-
----
-
-## مثال
-
-فرض کنید یک سیستم Notification داریم.
-
-سه نوع Notification:
-
-```text
-EmailNotification
-SMSNotification
-PushNotification
-```
-
-همه می‌توانند Method مشترکی به نام:
-
-```javascript
-send()
-```
-
-داشته باشند.
-
-Parent:
-
-```javascript
-class Notification {
-  send() {
-    console.log('Sending notification');
-  }
-}
-```
-
-Childها:
-
-```javascript
-class EmailNotification extends Notification {
-  send() {
-    console.log('Sending email');
-  }
-}
-
-class SMSNotification extends Notification {
-  send() {
-    console.log('Sending SMS');
-  }
-}
-```
-
-اکنون:
-
-```javascript
-const email = new EmailNotification();
-const sms = new SMSNotification();
-
-email.send();
-sms.send();
-```
-
-خروجی:
-
-```text
-Sending email
-Sending SMS
-```
-
-Method مشترک:
-
-```javascript
-send()
-```
-
-است.
-
-اما Behavior بر اساس Object متفاوت است.
-
-این یک نمونه ساده از Polymorphism است.
-
----
-
-# چرا Polymorphism مفید است؟
-
-فرض کنید تابعی داریم که فقط به Behavior موردنظر اهمیت می‌دهد:
-
-```javascript
-function notify(notification) {
-  notification.send();
-}
-```
-
-اکنون:
-
-```javascript
-notify(email);
-notify(sms);
-```
-
-بدون اینکه Function بداند Object دقیقاً از چه Classی ساخته شده است، Method مناسب اجرا می‌شود.
-
-مدل ذهنی:
-
-```text
-notify()
-   ↓
-send()
-   ↓
-EmailNotification → Email behavior
-SMSNotification   → SMS behavior
-```
-
-این موضوع باعث می‌شود کد بتواند با Objectهای مختلف کار کند، بدون اینکه برای هر نوع Object منطق جداگانه‌ای در Caller بنویسد.
-
----
-
-# Inheritance و Polymorphism چه رابطه‌ای دارند؟
-
-این دو مفهوم یکسان نیستند.
-
-**Inheritance** یک رابطه میان Classها ایجاد می‌کند.
-
-```text
-Parent
-  ↓
-Child
-```
-
-**Polymorphism** درباره این است که یک Interface یا Method مشترک می‌تواند در Objectهای مختلف رفتار متفاوتی داشته باشد.
-
-```text
-send()
- ↓
-Email → email behavior
-SMS   → SMS behavior
-```
-
-Inheritance می‌تواند یکی از راه‌های ایجاد Polymorphic Behavior باشد.
-
-اما:
-
-> Polymorphism مفهوم گسترده‌تری از صرفاً Inheritance است.
-
-در این فصل تمرکز ما روی Polymorphism در چارچوب Class Inheritance و Method Overriding است.
-
----
-
-# یک مثال کامل‌تر
-
-فرض کنید در یک Application پرداخت داریم.
-
-Parent:
-
-```javascript
-class Payment {
-  process() {
-    console.log('Processing payment');
-  }
-}
-```
-
-Child:
-
-```javascript
-class CardPayment extends Payment {
-  process() {
-    console.log('Processing card payment');
-  }
-}
-
-class CashPayment extends Payment {
-  process() {
-    console.log('Processing cash payment');
-  }
-}
-```
-
-اکنون:
-
-```javascript
-const cardPayment = new CardPayment();
-const cashPayment = new CashPayment();
-```
-
-هر دو یک Method دارند:
-
-```javascript
-process()
-```
-
-اما Behavior متفاوت است.
-
-```javascript
-cardPayment.process();
-cashPayment.process();
-```
-
-خروجی:
-
-```text
-Processing card payment
-Processing cash payment
-```
-
----
-
-# Polymorphism در یک Function
-
-اکنون می‌توانیم یک Function عمومی بنویسیم:
-
-```javascript
-function processPayment(payment) {
-  payment.process();
-}
-```
-
-و:
-
-```javascript
-processPayment(cardPayment);
-processPayment(cashPayment);
-```
-
-Function فقط به این قرارداد ساده نیاز دارد:
-
-```text
-payment.process()
-```
-
-اما Implementation واقعی را Object مشخص می‌کند.
-
-این مدل ذهنی بسیار مهم است:
-
-```text
-Common Interface
-       ↓
-process()
-       ↓
-Different Implementations
-       ↓
-Card / Cash
-```
-
----
-
-# Polymorphism و کاهش شرط‌ها
-
-بدون Polymorphism ممکن است کد به سمت چنین الگویی برود:
-
-```javascript
-function processPayment(type) {
-  if (type === 'card') {
-    // card logic
-  } else if (type === 'cash') {
-    // cash logic
-  }
-}
-```
-
-با مدل Polymorphic می‌توان Behavior را به Objectهای مربوط منتقل کرد:
-
-```javascript
-function processPayment(payment) {
-  payment.process();
-}
-```
-
-و هر Class مسئول Behavior خودش است.
-
-این می‌تواند باعث شود مسئولیت‌ها بهتر جدا شوند.
-
-البته این به معنی آن نیست که هر `if` یا `switch` باید با Inheritance جایگزین شود.
-
-انتخاب طراحی باید بر اساس مسئله واقعی انجام شود.
-
----
-
-# Inheritance و رابطه «is-a»
-
-یکی از مدل‌های ذهنی مفید برای تشخیص Inheritance، رابطه‌ی:
-
-```text
-is-a
-```
-
-است.
-
-مثلاً:
-
-```text
-Admin is a User
-```
-
-یا:
-
-```text
-CardPayment is a Payment
-```
-
-اگر Child واقعاً نوع خاصی از Parent باشد، Inheritance می‌تواند منطقی باشد.
-
-مثلاً:
-
-```javascript
-class Admin extends User {
-}
-```
-
-از نظر مدل دامنه:
-
-```text
-Admin is a User
-```
-
-اما باید دقت کنیم که صرفاً شباهت چند Property یا Method دلیل کافی برای Inheritance نیست.
-
----
-
-# Inheritance همیشه بهترین انتخاب نیست
-
-فرض کنید:
-
-```text
-Car
-Engine
-```
-
-آیا:
-
-```text
-Car is an Engine
-```
-
-است؟
-
-خیر.
-
-Car دارای Engine است.
-
-رابطه اینجا:
-
-```text
-Car has an Engine
-```
-
-است.
-
-این تفاوت ما را به مفهوم دیگری می‌رساند:
-
-**Composition**
-
----
-
-# Composition
-
-## چرا Composition؟
-
-Inheritance برای رابطه‌ای مانند:
-
-```text
-Admin is a User
-```
-
-مناسب است.
-
-اما بسیاری از روابط نرم‌افزاری از نوع:
-
-```text
-Object has a Component
-```
-
-هستند.
-
-در این حالت به جای اینکه یک Class از Class دیگر ارث‌بری کند، می‌توانیم Objectهای مختلف را با ترکیب کردن Behaviorها بسازیم.
-
-مثلاً:
-
-```text
-Order
- ├── Payment
- └── Shipping
-```
-
-Order یک Payment نیست.
-
-Order یک Shipping نیست.
-
-Order از این قابلیت‌ها **استفاده می‌کند**.
-
----
-
-# یک مثال ساده از Composition
-
-```javascript
-class Logger {
-  log(message) {
-    console.log(message);
-  }
-}
-
-class Order {
-  constructor(logger) {
-    this.logger = logger;
-  }
-
-  create() {
-    this.logger.log('Order created');
-  }
-}
-```
-
-اکنون:
-
-```javascript
-const logger = new Logger();
-const order = new Order(logger);
-
-order.create();
-```
-
-خروجی:
-
-```text
-Order created
-```
-
-در اینجا:
-
-```text
-Order
- ↓
-uses
- ↓
-Logger
-```
-
-رابطه Inheritance نداریم.
-
-```javascript
-class Order extends Logger
-```
-
-ننوشته‌ایم.
-
-بلکه Logger را به Order داده‌ایم.
-
-این یک نمونه ساده از Composition است.
-
----
-
-# Inheritance در برابر Composition
-
-مدل ذهنی ساده:
-
-### Inheritance
-
-```text
-Admin
-  ↓ is-a
-User
-```
-
-### Composition
-
-```text
-Order
-  ↓ has-a / uses-a
-Logger
-```
-
-بنابراین قبل از استفاده از `extends` باید از خود بپرسیم:
-
-> آیا واقعاً رابطه‌ی «is-a» وجود دارد؟
-
-اگر پاسخ منفی است، Composition ممکن است انتخاب مناسب‌تری باشد.
-
----
-
-# چرا Inheritance می‌تواند مشکل‌ساز شود؟
-
-Inheritance در صورت استفاده درست مفید است.
-
-اما Hierarchyهای پیچیده می‌توانند نگهداری کد را دشوار کنند.
-
-مثلاً:
-
-```text
-User
- ↓
-Employee
- ↓
-Manager
- ↓
-SeniorManager
- ↓
-RegionalManager
-```
-
-اکنون Behavior یک Class ممکن است به چند سطح Parent وابسته باشد.
-
-تغییر در Parent می‌تواند روی چند Child اثر بگذارد.
-
-بنابراین Inheritance نباید صرفاً برای حذف چند خط کد استفاده شود.
-
-هدف باید ایجاد یک رابطه‌ی منطقی و پایدار میان مدل‌ها باشد.
-
----
-
-# یک معیار مهندسی مهم
-
-قبل از استفاده از:
-
-```javascript
-extends
-```
-
-چند سؤال بپرسید:
-
-1. آیا Child واقعاً یک نوع از Parent است؟
-2. آیا Behavior مشترک واقعاً بخشی از مدل Parent است؟
-3. آیا این رابطه در آینده نیز منطقی باقی می‌ماند؟
-4. آیا Child باید بتواند Contract رفتاری Parent را حفظ کند؟
-5. آیا Composition مدل ساده‌تر و انعطاف‌پذیرتری ایجاد نمی‌کند؟
-
-اگر فقط هدف:
-
-> Code Reuse
-
-باشد، Inheritance لزوماً بهترین ابزار نیست.
-
-Code Reuse به‌تنهایی دلیل کافی برای ایجاد رابطه‌ی Parent/Child نیست.
-
----
-
-# یک مثال مقایسه‌ای
-
-فرض کنید چند Object باید Logging داشته باشند.
-
-راه اول:
-
-```javascript
-class Logger {
-  log(message) {
-    console.log(message);
-  }
-}
-
-class Order extends Logger {
-}
-```
-
-اما این رابطه منطقی نیست:
-
-```text
-Order is a Logger
-```
-
-راه بهتر:
-
-```javascript
-class Order {
-  constructor(logger) {
-    this.logger = logger;
-  }
-
-  create() {
-    this.logger.log('Order created');
-  }
-}
-```
-
-اکنون رابطه منطقی است:
-
-```text
-Order uses Logger
-```
-
-این همان تفکر مهندسی پشت Composition است.
-
----
-
-# Inheritance و Prototype
-
-در فصل‌های 27 و 28 دیدیم که JavaScript بر پایه‌ی Prototypeها کار می‌کند.
-
-Class Syntax مکانیزم جداگانه‌ای برای Object Model ایجاد نمی‌کند.
-
-وقتی می‌نویسیم:
-
-```javascript
-class Admin extends User {
-}
-```
-
-JavaScript یک رابطه‌ی Prototype-based برای این Inheritance ایجاد می‌کند.
-
-بنابراین مدل ذهنی کلی همچنان با آنچه در فصل‌های قبلی آموختیم سازگار است:
-
-```text
-Class Syntax
-     ↓
-Prototype-based mechanism
-```
-
-در این فصل نیازی نیست جزئیات Prototype Chain را دوباره بررسی کنیم؛ چون مکانیزم Prototype و Prototype Chain قبلاً آموزش داده شده است.
-
-هدف فعلی این است که بدانیم `extends` و `super` چگونه روی این مدل، یک Syntax مناسب برای Class Inheritance فراهم می‌کنند.
-
----
-
-# یک مثال نهایی از کل Concept Flow
-
-اکنون تمام مفاهیم فصل را در یک مثال ترکیب کنیم.
-
-```javascript
-class User {
-  constructor(name) {
-    this.name = name;
-  }
-
-  login() {
-    console.log(`${this.name} logged in`);
-  }
-}
-```
-
-Child:
-
-```javascript
-class Admin extends User {
-  constructor(name, permissions) {
-    super(name);
-
-    this.permissions = permissions;
-  }
-
-  login() {
-    super.login();
-    console.log('Admin permissions checked');
-  }
-
-  deleteUser() {
-    console.log('User deleted');
-  }
-}
-```
-
-ایجاد Instance:
-
-```javascript
-const admin = new Admin(
-  'Omid',
-  ['delete-user']
-);
-```
-
-اکنون:
-
-```javascript
-admin.login();
-```
-
-خروجی:
-
-```text
-Omid logged in
-Admin permissions checked
-```
-
-و:
-
-```javascript
-admin.deleteUser();
-```
-
-خروجی:
-
-```text
-User deleted
-```
-
-در این مثال:
-
-```text
-User
- ↓
-Parent Class
-
-Admin
- ↓
-Child Class
-
-extends
- ↓
-Inheritance
-
-super()
- ↓
-Parent Constructor
-
-login()
- ↓
-Method Overriding
-
-super.login()
- ↓
-Parent Method
-
-admin.login()
- ↓
-Polymorphic Behavior
-```
-
-این همان مسیر مفهومی فصل است.
-
----
-
-# Best Practices
-
-## 1. برای هر Inheritance رابطه‌ی منطقی ایجاد کنید
-
-قبل از:
-
-```javascript
-class Admin extends User
-```
-
-مطمئن شوید:
-
-```text
-Admin is a User
-```
-
-از نظر مدل دامنه درست است.
-
----
-
-## 2. فقط برای Code Reuse از Inheritance استفاده نکنید
-
-این دلیل:
-
-> «چون دو Class Method مشترک دارند»
-
-به‌تنهایی کافی نیست.
-
-Shared Behavior می‌تواند با Composition یا روش‌های دیگر نیز طراحی شود.
-
----
-
-## 3. Constructor Child را ساده نگه دارید
-
-```javascript
-class Admin extends User {
-  constructor(name, permissions) {
-    super(name);
-    this.permissions = permissions;
-  }
-}
-```
-
-ابتدا Parent را مقداردهی کنید و سپس State مخصوص Child را تنظیم کنید.
-
----
-
-## 4. از `super` آگاهانه استفاده کنید
-
-اگر قصد گسترش Behavior Parent را دارید:
-
-```javascript
-login() {
-  super.login();
-
-  // additional behavior
-}
-```
-
-اما اگر قصد جایگزینی کامل دارید، لازم نیست `super` را فراخوانی کنید.
-
----
-
-## 5. از Hierarchyهای عمیق اجتناب کنید
-
-این ساختار:
-
-```text
-A
- ↓
-B
- ↓
-C
- ↓
-D
- ↓
-E
-```
-
-می‌تواند وابستگی زیادی ایجاد کند.
-
-Hierarchy ساده‌تر معمولاً قابل فهم‌تر و قابل نگهداری‌تر است.
-
----
-
-## 6. Composition را همیشه به‌عنوان گزینه بررسی کنید
-
-اگر رابطه:
-
-```text
-has-a
-```
-
-یا:
-
-```text
-uses-a
-```
-
-است، Composition معمولاً مدل طبیعی‌تری نسبت به Inheritance است.
-
----
-
-# Common Mistakes
-
-## اشتباه اول: تصور اینکه `extends` کد Parent را کپی می‌کند
-
-❌
-
-> Child تمام کد Parent را Copy می‌کند.
-
-✔
-
-`extends` یک رابطه‌ی Inheritance میان Classها ایجاد می‌کند و JavaScript این رابطه را با Prototype-based mechanism پیاده می‌کند.
-
----
-
-## اشتباه دوم: یکی دانستن Inheritance و Polymorphism
-
-❌
-
-> Inheritance و Polymorphism یک مفهوم هستند.
-
-✔
-
-Inheritance رابطه‌ی Parent/Child است.
-
-Polymorphism امکان ارائه‌ی Behavior متفاوت از طریق یک Interface یا Method مشترک را بیان می‌کند.
-
----
-
-## اشتباه سوم: فراموش کردن `super()` در Child Constructor
-
-❌
-
-```javascript
-class Admin extends User {
-  constructor(name) {
-    this.name = name;
-  }
-}
-```
-
-✔
-
-```javascript
-class Admin extends User {
-  constructor(name) {
-    super(name);
-  }
-}
-```
-
-در Child Constructor باید Parent Constructor با `super()` مقداردهی شود، پیش از آنکه از `this` استفاده شود.
-
----
-
-## اشتباه چهارم: استفاده از `this` قبل از `super()`
-
-❌
-
-```javascript
-constructor(name) {
-  this.name = name;
-  super(name);
-}
-```
-
-✔
-
-```javascript
-constructor(name) {
-  super(name);
-  this.role = 'admin';
-}
-```
-
----
-
-## اشتباه پنجم: تصور اینکه Override کردن Method Parent را حذف می‌کند
-
-وقتی Child می‌نویسد:
-
-```javascript
-login() {
-  console.log('Admin login');
-}
-```
-
-Parent Method از بین نمی‌رود.
-
-Child فقط Behavior خود را برای همان Method ارائه می‌کند.
-
-در صورت نیاز می‌توان Parent Method را با:
-
-```javascript
-super.login();
-```
-
-فراخوانی کرد.
-
----
-
-## اشتباه ششم: استفاده از Inheritance فقط برای حذف تکرار
-
-دو Class ممکن است Method مشترک داشته باشند، اما این الزاماً به معنی رابطه‌ی Parent/Child نیست.
-
-ابتدا رابطه‌ی مفهومی را بررسی کنید.
-
----
-
-## اشتباه هفتم: تصور اینکه Composition نوع دیگری از `extends` است
-
-Composition Inheritance نیست.
-
-در Composition، Objectها با داشتن یا استفاده کردن از Objectهای دیگر ساخته می‌شوند.
-
-مثلاً:
-
-```javascript
-class Order {
-  constructor(logger) {
-    this.logger = logger;
-  }
-}
-```
-
-اینجا Order از Logger ارث‌بری نکرده است.
-
----
-
-## اشتباه هشتم: ساخت Hierarchyهای بیش از حد عمیق
-
-Inheritance زیاد می‌تواند وابستگی میان Classها را افزایش دهد و تغییرات را دشوارتر کند.
-
----
-
-## اشتباه نهم: تصور اینکه Polymorphism فقط زمانی وجود دارد که چند Child Class داشته باشیم
-
-چند Child Class یک الگوی رایج برای نشان دادن Polymorphism است، اما اصل Polymorphism مربوط به توانایی استفاده از یک Interface یا Behavior مشترک با Implementationهای متفاوت است.
-
----
-
-# Summary
-
-Inheritance زمانی مطرح می‌شود که چند Class دارای رابطه‌ی منطقی Parent/Child باشند.
-
-با:
-
-```javascript
-extends
-```
-
-می‌توان این رابطه را میان دو Class ایجاد کرد.
-
-مثلاً:
-
-```javascript
-class Admin extends User {
-}
-```
-
-در اینجا:
-
-```text
-User  → Parent
-Admin → Child
-```
-
-Child می‌تواند Behaviorهای Parent را استفاده کند و Behaviorهای جدید اضافه کند.
-
-اگر Child Constructor داشته باشد، برای فراخوانی Parent Constructor از:
-
-```javascript
-super()
-```
-
-استفاده می‌کنیم.
-
-مثلاً:
-
-```javascript
-class Admin extends User {
-  constructor(name, permissions) {
-    super(name);
-
-    this.permissions = permissions;
-  }
-}
-```
-
-در Child Constructor نباید قبل از `super()` از `this` استفاده کنیم.
-
-`super` در Methodهای Child نیز می‌تواند برای فراخوانی Method Parent استفاده شود:
-
-```javascript
-super.login();
-```
-
-Child می‌تواند Method Parent را با تعریف Methodی با همان نام **Override** کند.
-
-```javascript
-class Admin extends User {
-  login() {
-    console.log('Admin login');
-  }
-}
-```
-
-اگر Child بخواهد Behavior Parent را نیز حفظ و گسترش دهد، می‌تواند از:
-
-```javascript
-super.login();
-```
-
-استفاده کند.
-
-این Behaviorهای متفاوت از یک Method مشترک، ما را به مفهوم **Polymorphism** می‌رسانند.
-
-مثلاً:
-
-```text
-Payment
-   ↓
-process()
-
-CardPayment
-   ↓
-card behavior
-
-CashPayment
-   ↓
-cash behavior
-```
-
-Caller می‌تواند فقط به:
-
-```javascript
-payment.process()
-```
-
-تکیه کند و لازم نباشد Implementation داخلی هر نوع Payment را بشناسد.
-
-در نهایت، Inheritance همیشه بهترین انتخاب برای Code Reuse نیست.
-
-اگر رابطه از نوع:
-
-```text
-is-a
-```
-
-باشد، Inheritance می‌تواند مناسب باشد.
-
-اگر رابطه بیشتر از نوع:
-
-```text
-has-a
-uses-a
-```
-
-باشد، **Composition** ممکن است مدل مناسب‌تری باشد.
-
-هدف اصلی طراحی خوب، استفاده از `extends` نیست.
-
-هدف، ایجاد رابطه‌ای است که مدل نرم‌افزار را ساده‌تر، قابل فهم‌تر و قابل نگهداری‌تر کند.
-
----
-
-# Key Takeaways
-
-* **Inheritance** رابطه‌ای میان Parent Class و Child Class ایجاد می‌کند.
-* `extends` برای ایجاد Class Inheritance استفاده می‌شود.
-* Parent Class معمولاً Behavior عمومی‌تر را ارائه می‌کند.
-* Child Class می‌تواند Behavior Parent را استفاده کند.
-* Child Class می‌تواند Behavior جدید اضافه کند.
-* Inheritance به معنی Copy شدن Source Code Parent نیست.
-* JavaScript Class Inheritance بر پایه‌ی Prototype mechanism عمل می‌کند.
-* `super()` برای فراخوانی Parent Constructor استفاده می‌شود.
-* در Child Constructor باید قبل از استفاده از `this`، `super()` اجرا شود.
-* `super.method()` برای فراخوانی Method مربوط به Parent استفاده می‌شود.
-* **Method Overriding** یعنی Child Behavior متفاوتی برای Method Parent ارائه کند.
-* Override می‌تواند Behavior Parent را کاملاً جایگزین کند یا با `super` آن را گسترش دهد.
-* **Polymorphism** اجازه می‌دهد یک Interface یا Method مشترک، Behaviorهای متفاوتی ارائه کند.
-* Inheritance و Polymorphism یک مفهوم نیستند.
-* Inheritance معمولاً با رابطه‌ی `is-a` توجیه می‌شود.
-* Composition بیشتر برای روابط `has-a` یا `uses-a` مناسب است.
-* Code Reuse به‌تنهایی دلیل کافی برای استفاده از Inheritance نیست.
-* Hierarchyهای عمیق می‌توانند وابستگی و پیچیدگی را افزایش دهند.
-* انتخاب میان Inheritance و Composition یک تصمیم طراحی است، نه صرفاً یک تصمیم Syntax.
-
----
 Technical Interview
 
 سطح پایه (Junior)
 
-سؤال ۱
+⭐ Inheritance چیست؟
 
-Inheritance چیست؟
+Inheritance مکانیزمی است که به یک Child Class اجازه می‌دهد Behavior مرتبط با یک Parent Class را استفاده یا گسترش دهد. در JavaScript معمولاً با extends ایجاد می‌شود.
 
-پاسخ:
+⭐ extends چه کاری انجام می‌دهد؟
 
-Inheritance مکانیزمی برای ایجاد رابطه‌ی Parent/Child میان Classهاست
-که به Child اجازه می‌دهد Behaviorهای Parent را استفاده کند و در صورت نیاز
-Behaviorهای جدید اضافه یا Behaviorهای موجود را Override کند.
+extends یک رابطه Inheritance میان دو Class ایجاد می‌کند و باعث می‌شود Child بتواند به Behaviorهای Parent از طریق Prototype Chain دسترسی داشته باشد. 
 
-سؤال ۲
+⭐ Parent Class و Child Class چیستند؟
 
-extends چه کاری انجام می‌دهد؟
+Parent Class ، Class عمومی‌تری است که Behavior یا State مشترک را تعریف می‌کند.
 
-پاسخ:
+Child Class ،Class تخصصی‌تری است که از Parent ارث‌بری می‌کند و می‌تواند Behaviorهای Parent را استفاده کند، Behavior جدید اضافه کند یا Behavior موجود را Override کند. 
 
-extends یک رابطه‌ی Inheritance میان دو Class ایجاد می‌کند و Child را به
-Parent متصل می‌سازد.
+⭐ super() چه کاری انجام می‌دهد؟
 
-class Admin extends User {
-}
+super() در Child Constructor، Constructor مربوط به Parent را فراخوانی می‌کند تا Initialization ، State مربوط به Parent انجام شود. همچنین super .method() برای فراخوانی Method مربوط به Parent استفاده می‌شود. 
 
-در اینجا Admin، Child و User، Parent است.
+⭐ چرا در Child Constructor قبل از this باید از super() استفاده کنیم؟
 
-سؤال ۳
+در Derived Constructor، Initialization مربوط به Parent باید ابتدا انجام شود. بنابراین استفاده از this قبل از super() باعث ReferenceError می‌شود. 
 
-Parent Class و Child Class چیستند؟
+⭐ Method Overriding چیست؟
 
-پاسخ:
+Method Overriding زمانی اتفاق می‌افتد که Child Methodی با همان نام Method موجود در Parent تعریف کند و Implementation مخصوص خودش را ارائه دهد. 
 
-Parent Class Class عمومی‌تری است که Behavior یا State مشترک را تعریف
-می‌کند.
+⭐ Polymorphism چیست؟
 
-Child Class Class تخصصی‌تری است که از Parent ارث‌بری می‌کند و می‌تواند
-Behaviorهای Parent را استفاده کند، Behavior جدید اضافه کند یا Behavior
-موجود را Override کند.
+Polymorphism یعنی بتوانیم Objectهای مختلف را از طریق یک Behavior مشترک استفاده کنیم، در حالی که هر Object می‌تواند Implementation متفاوتی از آن Behavior داشته باشد.
 
-سؤال ۴
+⭐ تفاوت Inheritance و Composition چیست؟
 
-super() چه کاری انجام می‌دهد؟
+در Inheritance یک رابطه‌ی Parent/Child یا معمولاً is-a ایجاد می‌شود. Admin is a User
 
-پاسخ:
+در Composition یک Object از Object دیگری استفاده می‌کند و رابطه معمولاًhas-a یا uses-a است. Order uses Logger
 
-super() در Child Constructor، Constructor مربوط به Parent را فراخوانی
-می‌کند تا بخش مربوط به Parent از Initialization انجام شود.
+بنابراین: Inheritance برای مدل‌کردن رابطه‌ی واقعی میان انواع Objects مناسب است؛ Composition برای ترکیب قابلیت‌های مستقل معمولاً انعطاف‌پذیرتر است. 
 
-class Admin extends User {
-constructor(name) {
-super(name);
-}
-}
+سطح Mid-Level
 
-همچنین super.method() برای فراخوانی Method مربوط به Parent استفاده
-می‌شود.
+⭐ آیا extends ، Methodهای Parent را Copy می‌کند؟
 
-سؤال ۵
+خیر. Methodها Copy نمی‌شوند. Inheritance میان Prototypeها ایجاد می‌شود و Property Lookup می‌تواند از Child Prototype به Parent Prototype ادامه پیدا کند.
 
-چرا در Child Constructor باید قبل از this از super() استفاده کنیم؟
+⭐ تفاوت State و Behavior در Inheritance چیست؟
 
-پاسخ:
+State مربوط به Instance معمولاً به‌عنوان Property روی خود Instance ایجاد می‌شود، در حالی که Instance Methodها می‌توانند از طریق Prototype Chain از Parent در دسترس Child قرار بگیرند. 
 
-در یک Derived Class، قبل از اجرای super() هنوز this برای Child
-آماده نشده است. بنابراین استفاده از this قبل از super() باعث
-ReferenceError می‌شود.
+⭐ آیا super .method() روی Parent Instance اجرا می‌شود؟
 
-class Admin extends User {
-constructor(name) {
-super(name);
+خیر. super .method() ، Implementation مربوط به Parent را پیدا می‌کند، اما Method روی همان Child Instance فعلی اجرا می‌شود و this همچنان به آن Instance مربوط است.
 
-    this.role = 'admin';
-}
-}
+⭐ چگونه Inheritance می‌تواند به Polymorphism منجر شود؟
 
-ابتدا Parent Constructor با super() اجرا می‌شود و سپس Child می‌تواند از
-this استفاده کند.
+اگر Parent یک Behavior مشترک تعریف کند و Childها آن Behavior را Override کنند، Consumer می‌تواند با همان Method مشترک با Objectهای مختلف کار کند، در حالی که Implementation واقعی بر اساس Object انتخاب می‌شود.
 
-سؤال ۶
+⭐ آیا Polymorphism در JavaScript به extends وابسته است؟
 
-Method Overriding چیست؟
+خیر. extends یکی از روش‌های ایجاد چنین ساختاری است، اما JavaScript می‌تواند بر اساس وجود Behavior مورد نیازبا Objectها کارکند. مثلاً Function ای که فقط send() را فراخوانی می‌کند، لزوماً به Class Hierarchy خاصی وابسته نیست
 
-پاسخ:
+⭐ چرا Inheritance را نباید فقط برای Code Reuse استفاده کرد؟
 
-Method Overriding یعنی Child Class یک Method موجود در Parent را با
-همان نام تعریف کند تا Behavior متفاوتی برای آن ارائه دهد.
+زیرا Inheritance یک رابطه مفهومی میان انواع Objectها ایجاد می‌کند. اگر فقط چند Property یا Method مشترک داشته باشیم اما رابطه واقعی is-a وجود نداشته باشد، Inheritance می‌تواند Coupling و پیچیدگی غیرضروری ایجاد کند.
 
-class User {
-login() {
-console.log('User login');
-}
-}
+⭐ چه زمانی Composition بهتر از Inheritance است؟
 
-class Admin extends User {
-login() {
-console.log('Admin login');
-}
-}
+وقتی Object از چند قابلیت مستقل تشکیل شده باشد یا رابطه میان Objectها بیشتر has-a باشد، Composition معمولاً مدل انعطاف‌پذیرتری ایجاد می‌کند. 
 
-در این حالت admin.login()، Behavior تعریف‌شده در Admin را اجرا می‌کند.
+⭐ تفاوت super() و super .method() چیست؟
 
-سؤال ۷
+super() ،Constructor مربوط به Parent را فراخوانی می‌کند super .method() ،Implementation یک Method مربوط به Parent را از Child فراخوانی می‌کند.
 
-Polymorphism چیست؟
+⭐ چرا ممکن است به جای تکرار Behavior در چند Class از Inheritance استفاده کنیم؟
 
-پاسخ:
+اگر چند Class واقعاً Behavior مشترکی داشته باشند و رابطه‌ی منطقی Parent/Child میان آن‌ها وجود داشته باشد، Inheritance اجازه می‌دهد Behaviorمشترک در یک Parent تعریف شود و Childها آن را استفاده کنند. در نتیجه Behavior مشترک در چند Class تکرار نمی‌شود و تغییر آن نیز می‌تواند در یک نقطه انجام شود. اما هدف نباید صرفاً کاهش خطوط کد باشد؛ رابطه‌ی Inheritance باید از نظر مدل دامنه نیز منطقی باشد. 
 
-Polymorphism یعنی یک Interface یا Method مشترک بتواند در Objectهای
-مختلف، Behavior متفاوتی داشته باشد.
+⭐ تفاوت Override کردن یک Method با فراخوانی Parent Method با super چیست؟
 
-class CardPayment extends Payment {
-process() {
-console.log('Processing card payment');
-}
-}
+در Override، Child یک Method با همان نام تعریف می‌کند و هنگام فراخوانی، Behavior مربوط به Child اجرا می‌شود تا Behavior متفاوتی ارائه دهد. اما با super()، Child می‌تواند صراحتاً Method مربوط به Parent را فراخوانی کند. بنابراین Override می‌تواند Behavior Parent را جایگزین کند، در حالی که super امکان استفاده از Behavior Parent را در Child فراهم می‌کند.
 
-class CashPayment extends Payment {
-process() {
-console.log('Processing cash payment');
-}
-}
+⭐ چگونه یک Child Class می‌تواند Behavior Parent را گسترش دهد؟
 
-هر دو Object از Method مشترک process() استفاده می‌کنند، اما
-Implementation آن‌ها متفاوت است.
+Child ، ابتدا Behavior Parent را با super .method() اجرا می‌کند و سپس می‌تواند Behavior جدید خود را اضافه کند. در این حالت Behavior Parent حذف نشده است؛ بلکه Child آن را گسترش داده است. 
 
-سؤال ۸
+⭐ چرا Code Reuse به‌تنهایی دلیل مناسبی برای استفاده از Inheritance نیست؟
 
-تفاوت Inheritance و Composition چیست؟
+Inheritance یک رابطه‌ی ساختاری و وابستگی میان Classها ایجاد می‌کند. استفاده از Inheritance فقط برای Reuse می‌تواند Hierarchy نامناسب، Coupling بیشتر و وابستگی‌های سخت برای تغییر ایجاد کند. 
 
-پاسخ:
+⭐ چگونه تشخیص می‌دهید یک رابطه برای Inheritance مناسب است؟
 
-در Inheritance یک رابطه‌ی Parent/Child یا معمولاً is-a ایجاد می‌شود.
+ابتدا بررسی می‌کنم آیا Child واقعاً یک نوع تخصصی از Parent است یا خیر: Child is a Parent
 
-Admin is a User
+سپس بررسی می‌کنم Behavior مشترک واقعاً بخشی از مدل Parent باشد، رابطه در آینده نیز منطقی بماند و Child بتواند Contract رفتاری Parent را حفظ کند. 
 
-در Composition یک Object از Object یا Component دیگری استفاده می‌کند
-و رابطه معمولاً has-a یا uses-a است.
+⭐ Polymorphism چگونه می‌تواند تعداد شرط‌های موجود در Code را کاهش دهد؟
 
-Order uses Logger
+به جای اینکه یک Function نوع Object را بررسی کند و برای هر نوع شرط جداگانه داشته باشد، می‌توان Behavior مشترکی تعریف کرد و Implementation هر نوع Object را به خودش سپرد.
 
-Inheritance برای مدل‌کردن رابطه‌ی واقعی میان انواع Objects مناسب است؛
-Composition برای ترکیب قابلیت‌های مستقل معمولاً انعطاف‌پذیرتر است.
+در این حالت Caller فقط به method رفتاری مشترک وابسته است و لازم نیست نوع دقیق Object را بررسی کند.
 
-سطح متوسط (Mid-Level)
+⭐ چرا Composition ممکن است از Inheritance انعطاف‌پذیرتر باشد؟
 
-سؤال ۹
+Composition به جای ایجاد یک Hierarchy ثابت، قابلیت‌ها را از طریق ترکیب Objectها در کنار یکدیگر قرار می‌دهد. یک Object می‌تواند از چند Component مستقل استفاده کند، بدون اینکه مجبور باشد در یک زنجیره‌ی Parent/Child قرار بگیرد. این مدل معمولاً Coupling کمتری ایجاد می‌کند و تغییر یا جایگزینی یک Component را ساده‌تر می‌سازد.
 
-چرا ممکن است به جای تکرار Behavior در چند Class از Inheritance استفاده
-کنیم؟
+سطح Senior
 
-پاسخ:
+⭐ مهم‌ترین ریسک استفاده گسترده از Inheritance چیست؟
 
-اگر چند Class واقعاً Behavior مشترکی داشته باشند و رابطه‌ی منطقی
-Parent/Child میان آن‌ها وجود داشته باشد، Inheritance اجازه می‌دهد Behavior
-مشترک در یک Parent تعریف شود و Childها آن را استفاده کنند.
+مهم‌ترین ریسک، ایجاد Coupling شدید میان Parent و Childها و شکل‌گیری Hierarchyهای پیچیده است. تغییر در Parent می‌تواند Behavior چندین Child را تحت تأثیر قرار دهد و در نتیجه نگهداری سیستم دشوارتر شود.
 
-در نتیجه Behavior مشترک در چند Class تکرار نمی‌شود و تغییر آن نیز می‌تواند
-در یک نقطه انجام شود.
+⭐ چرا Inheritance را یک تصمیم طراحی می‌دانیم و نه صرفاً یک تکنیک برای Reuse؟
 
-اما هدف نباید صرفاً کاهش خطوط کد باشد؛ رابطه‌ی Inheritance باید از نظر مدل
-دامنه نیز منطقی باشد.
+زیرا extends یک رابطه مفهومی و ساختاری میان دو نوع Object ایجاد می‌کند. بنابراین انتخاب آن باید بر اساس رابطه Domain، مسئولیت‌ها و Contract رفتاری انجام شود، نه صرفاً بر اساس وجود Code مشترک. 
 
-سؤال ۱۰
+⭐ چگونه تشخیص می‌دهید Inheritance انتخاب مناسبی نیست؟
 
-تفاوت Override کردن یک Method با فراخوانی Parent Method با super چیست؟
+اگر رابطه is-a طبیعی نباشد، اگر Parent فقط برای جمع‌کردن Code مشترک ساخته شده باشد، اگر Hierarchy در حال عمیق‌شدن باشد یا اگر قابلیت‌ها مستقل و قابل ترکیب باشند، باید Composition را جدی‌تر بررسی کرد. 
 
-پاسخ:
+⭐ چرا Method Overriding برای Polymorphism مهم است؟
 
-در Override، Child یک Method با همان نام تعریف می‌کند و Behavior
-مربوط به Child هنگام فراخوانی استفاده می‌شود.
+زیرا اجازه می‌دهدچند Object یک Behavior مشترک داشته باشند اماآن را با Implementationهای متفاوت اجرا کنند. Consumer همچنان ازیک Operation مشترک استفاده می‌کندوجزئیات Implementation به Object واگذارمی‌شود
 
-class Admin extends User {
-login() {
-console.log('Admin login');
-}
-}
+⭐ چگونه Prototype Chain به Polymorphism مربوط می‌شود؟
 
-اما با:
+در Class Inheritance، extends رابطه Prototypeها را ایجاد می‌کند. هنگام Method Lookup ، JavaScript ابتدا
 
-super.login();
+Child Prototype را بررسی می‌کند و سپس در صورت نیاز به Parent Prototype می‌رود؛ بنابراین اگر Child ،Method را Override کرده باشد، Implementation Child پیدا و اجرا می‌شود.
 
-Child صراحتاً Method مربوط به Parent را فراخوانی می‌کند.
+⭐ آیا extends در JavaScript به معنی Copy شدن Methodهای Parent داخل Childاست؟
 
-بنابراین Override می‌تواند Behavior Parent را جایگزین کند، در حالی که
-super امکان استفاده از Behavior Parent را در Child فراهم می‌کند.
-
-سؤال ۱۱
-
-چگونه یک Child Class می‌تواند Behavior Parent را گسترش دهد؟
-
-پاسخ:
-
-Child می‌تواند Method Parent را Override کند و داخل آن، ابتدا Behavior
-Parent را با super.method() اجرا کند و سپس Behavior جدید خود را اضافه
-کند.
-
-class Admin extends User {
-login() {
-super.login();
-console.log('Checking admin permissions');
-}
-}
-
-در این حالت Behavior Parent حذف نشده است؛ بلکه Child آن را گسترش داده
-است.
-
-سؤال ۱۲
-
-چرا Code Reuse به‌تنهایی دلیل مناسبی برای استفاده از Inheritance نیست؟
-
-پاسخ:
-
-زیرا Inheritance فقط Code Reuse ایجاد نمی‌کند؛ بلکه یک رابطه‌ی ساختاری و
-وابستگی میان Classها ایجاد می‌کند.
-
-اگر دو Class صرفاً چند Method مشترک داشته باشند، این شباهت الزاماً به معنی
-رابطه‌ی is-a نیست.
-
-استفاده از Inheritance فقط برای Reuse می‌تواند Hierarchy نامناسب،
-Coupling بیشتر و وابستگی‌های سخت برای تغییر ایجاد کند.
-
-سؤال ۱۳
-
-چگونه تشخیص می‌دهید یک رابطه برای Inheritance مناسب است؟
-
-پاسخ:
-
-ابتدا بررسی می‌کنم آیا Child واقعاً یک نوع تخصصی از Parent است یا خیر:
-
-Child is a Parent
-
-سپس بررسی می‌کنم Behavior مشترک واقعاً بخشی از مدل Parent باشد، رابطه در
-آینده نیز منطقی بماند و Child بتواند Contract رفتاری Parent را حفظ کند.
-
-اگر رابطه بیشتر از نوع has-a یا uses-a باشد، Composition معمولاً
-گزینه‌ی مناسب‌تری است.
-
-سؤال ۱۴
-
-Polymorphism چگونه می‌تواند تعداد شرط‌های موجود در Code را کاهش دهد؟
-
-پاسخ:
-
-به جای اینکه یک Function نوع Object را بررسی کند و برای هر نوع شرط
-جداگانه داشته باشد:
-
-if (type === 'card') {
-// ...
-} else if (type === 'cash') {
-// ...
-}
-
-می‌توان Behavior مشترکی مانند process() تعریف کرد و Implementation هر
-نوع Object را به خودش سپرد:
-
-function processPayment(payment) {
-payment.process();
-}
-
-در این حالت Caller فقط به Interface رفتاری مشترک وابسته است و لازم نیست
-نوع دقیق Object را بررسی کند.
-
-سؤال ۱۵
-
-چرا Composition ممکن است از Inheritance انعطاف‌پذیرتر باشد؟
-
-پاسخ:
-
-Composition به جای ایجاد یک Hierarchy ثابت، قابلیت‌ها را از طریق ترکیب
-Objectها در کنار یکدیگر قرار می‌دهد.
-
-یک Object می‌تواند از چند Component مستقل استفاده کند، بدون اینکه مجبور
-باشد در یک زنجیره‌ی Parent/Child قرار بگیرد.
-
-این مدل معمولاً Coupling کمتری ایجاد می‌کند و تغییر یا جایگزینی یک
-Component را ساده‌تر می‌سازد.
-
-سطح پیشرفته (Senior)
-
-سؤال ۱۶
-
-آیا extends در JavaScript به معنی Copy شدن Methodهای Parent داخل Child
-است؟
-
-پاسخ:
-
-خیر.
-
-extends Source Code یا Methodهای Parent را داخل Child کپی نمی‌کند؛ بلکه
-یک رابطه‌ی Inheritance ایجاد می‌کند.
-
-در Class Syntax، این رابطه بر پایه‌ی Prototype mechanism زبان
-JavaScript شکل می‌گیرد و Methodهای Inherited از طریق زنجیره‌ی Prototype
-قابل دسترسی هستند.
+خیر. extends ،Source Code یا Methodهای Parent را داخل Child کپی نمی‌کند؛ بلکه یک رابطه‌ی Inheritance ایجاد می‌کند. در Class Syntax، این رابطه بر پایه‌ی Prototype mechanism زبان JavaScript شکل می‌گیرد و Methodهای Inherited از طریق زنجیره‌ی Prototype قابل دسترسی هستند.
 
 بنابراین Inheritance را باید یک رابطه دانست، نه یک عملیات Copy.
 
-سؤال ۱۷
+⭐ Polymorphism چه ارزش مهندسی‌ای برای طراحی نرم‌افزار دارد؟
 
-رابطه‌ی Inheritance در Class Syntax چگونه با Prototype mechanism ارتباط
-دارد؟
+Polymorphism اجازه می‌دهد Caller به یک Behavior مشترک وابسته باشد، در حالی که Implementation واقعی توسط Object مشخص می‌شود. نتیجه، کاهش وابستگی به Typeهای مشخص، کاهش شرط‌های مربوط به نوع Object و امکان اضافه‌کردن Implementationهای جدید با تغییر کمتر در Caller است. بنابراین ارزش اصلی Polymorphism در Separation of Concerns، کاهش Coupling و افزایش قابلیت توسعه است.
 
-پاسخ:
+Conclusion
 
-class و extends Syntax سطح بالاتری برای کار با Object Model
-جاوااسکریپت ارائه می‌کنند، اما مکانیزم زیربنایی Objectها همچنان
-Prototype-based است.
+در فصل 29، Class به ما اجازه داد ساختار و Behavior یک نوع Object را در یک Abstraction واحد تعریف کنیم. اما در Applicationهای واقعی، همه Objectها مستقل نیستند. گاهی یک Class، نوع تخصصی‌تری از Class دیگر است. برای مثال: Admin is a User در چنین شرایطی، Inheritance می‌تواند رابطه میان این دو را مدل کند.
 
-وقتی می‌نویسیم:
+با استفاده از: extends Class فرزند به Parent متصل می‌شود. Child می‌تواند Behaviorهای Parent را استفاده کند، Behavior جدید اضافه کند و در صورت نیاز Behavior موجود را Override کند. وقتی Child دارای Constructor باشد، super() برای اجرای Constructor مربوط به Parent استفاده می‌شود: super(name)
 
-class Admin extends User {
-}
+و در Methodها می‌توان با: super .method() Behavior مربوط به Parent را فراخوانی کرد.
 
-JavaScript رابطه‌ای Prototype-based میان Classها و Instanceهای آن‌ها ایجاد
-می‌کند.
+سپس با Method Overriding می‌توان یک Behavior مشترک را برای انواع مختلف Object به شکل متفاوت پیاده‌سازی کرد. اینجاست که به Polymorphism می‌رسیم:
 
-بنابراین Class Syntax یک Object Model مستقل از Prototypeها ایجاد نمی‌کند؛
-بلکه Syntax خواناتری برای کار با همان مکانیزم زبان فراهم می‌کند.
+Common Behavior → Different Implementations → Polymorphism
 
-سؤال ۱۸
+در این مدل، Caller به یک Behavior مشترک وابسته است، نه به جزئیات هرImplementation.
 
-چرا Hierarchyهای عمیق Inheritance می‌توانند مشکل طراحی ایجاد کنند؟
+اما Inheritance را نباید صرفاً به‌عنوان ابزاری برای Reuse کردن Code در نظر گرفت. Inheritance یک رابطه طراحی ایجاد می‌کند. اگر رابطه واقعی: is-a  باشد، Inheritance می‌تواند انتخاب مناسبی باشد.
 
-پاسخ:
+اگر رابطه: has-a یا: uses-a  باشد، Composition معمولاً مدل طبیعی‌تری ارائه می‌کند.
 
-در Hierarchy عمیق، Behavior یک Child ممکن است به چند سطح Parent وابسته
-شود.
+بنابراین، تصمیم نهایی درباره Inheritance یا Composition نباید بر اساس میزان Code Reuse گرفته شود. پرسش اصلی این است که رابطه واقعی میان Objectها چیست و کدام مدل آن رابطه را به شکل روشن‌تر و ساده‌تری بیان می‌کند؟
 
-User
-↓
-Employee
-↓
-Manager
-↓
-SeniorManager
-↓
-RegionalManager
+مدل ذهنی نهایی این فصل را می‌توان چنین دید:
 
-در چنین ساختاری تغییر در یک Parent می‌تواند روی چند Child اثر بگذارد.
+Shared Behavior → Inheritance → extends → Parent / Child → super() → Method Overriding
 
-همچنین فهمیدن اینکه یک Behavior دقیقاً از کدام سطح به ارث رسیده است
-دشوارتر می‌شود.
+→ Polymorphism → Design Decision → Inheritance or Composition
 
-در نتیجه Coupling افزایش می‌یابد و تغییر، Debugging و نگهداری سیستم
-پیچیده‌تر می‌شود.
+این مدل کمک می‌کند Inheritance و Polymorphism را صرفاً چند Keyword یا Syntax در JavaScript نبینیم، بلکه آن‌ها را به‌عنوان ابزارهایی برای مدل‌سازی رابطه‌ها، سازمان‌دهی Behavior و طراحی ساختار نرم‌افزار درک کنیم.
 
-سؤال ۱۹
-
-چه زمانی Composition را به Inheritance ترجیح می‌دهید؟
-
-پاسخ:
-
-زمانی که رابطه‌ی واقعی میان Objects از نوع has-a یا uses-a باشد، یا
-زمانی که یک قابلیت می‌تواند مستقل از Hierarchy اصلی تغییر یا جایگزین شود،
-Composition را ترجیح می‌دهم.
-
-مثلاً اگر Order به Logger نیاز داشته باشد، منطقی‌تر است:
-
-class Order {
-constructor(logger) {
-this.logger = logger;
-}
-}
-
-تا اینکه:
-
-class Order extends Logger {
-}
-
-در حالت اول، Order از Logger استفاده می‌کند؛ در حالت دوم به‌اشتباه ادعا
-می‌کنیم Order یک Logger است.
-
-سؤال ۲۰
-
-Polymorphism چه ارزش مهندسی‌ای برای طراحی نرم‌افزار دارد؟
-
-پاسخ:
-
-Polymorphism اجازه می‌دهد Caller به یک Interface یا Behavior مشترک وابسته
-باشد، در حالی که Implementation واقعی توسط Object مشخص می‌شود.
-
-برای مثال:
-
-function processPayment(payment) {
-payment.process();
-}
-
-این Function می‌تواند با انواع مختلف Payment کار کند، بدون اینکه منطق
-داخلی هر نوع را بشناسد.
-
-نتیجه، کاهش وابستگی به Typeهای مشخص، کاهش شرط‌های مربوط به نوع Object و
-امکان اضافه‌کردن Implementationهای جدید با تغییر کمتر در Caller است.
-
-بنابراین ارزش اصلی Polymorphism در Separation of Concerns، کاهش
-Coupling و افزایش قابلیت توسعه است.
----
-
-# Golden Answers
-
-## Inheritance چیست؟
-
-Inheritance مکانیزمی برای ایجاد رابطه‌ی Parent/Child میان Classهاست که به Child اجازه می‌دهد Behaviorهای Parent را استفاده کرده و در صورت نیاز آن‌ها را گسترش یا Override کند.
-
----
-
-## `extends` چه کاری انجام می‌دهد؟
-
-`extends` یک رابطه‌ی Inheritance میان دو Class ایجاد می‌کند و Child را به Parent متصل می‌سازد.
-
-مثلاً:
-
-```javascript
-class Admin extends User {}
-```
-
-در اینجا `Admin` Child و `User` Parent است.
-
----
-
-## Parent Class و Child Class چیستند؟
-
-Parent Class Class عمومی‌تر است که Behavior یا State مشترک را تعریف می‌کند.
-
-Child Class Class تخصصی‌تری است که از Parent ارث‌بری می‌کند و می‌تواند Behaviorهای جدید اضافه یا Behaviorهای موجود را Override کند.
-
----
-
-## `super()` چه کاری انجام می‌دهد؟
-
-`super()` در Child Constructor، Parent Constructor را فراخوانی می‌کند.
-
-مثلاً:
-
-```javascript
-class Admin extends User {
-  constructor(name) {
-    super(name);
-  }
-}
-```
-
----
-
-## چرا قبل از `this` باید `super()` اجرا شود؟
-
-در Derived Class، Instance باید ابتدا از مسیر Parent initialization شود. بنابراین استفاده از `this` در Child Constructor پیش از اجرای `super()` مجاز نیست.
-
----
-
-## Method Overriding چیست؟
-
-Method Overriding زمانی رخ می‌دهد که Child Class Methodی با همان نام Method Parent تعریف کند و Behavior متفاوتی ارائه دهد.
-
----
-
-## Polymorphism چیست؟
-
-Polymorphism یعنی یک Interface یا Method مشترک بتواند در Objectهای مختلف Behavior متفاوتی داشته باشد.
-
-مثلاً:
-
-```javascript
-payment.process();
-```
-
-می‌تواند برای انواع مختلف Payment، Implementation متفاوتی اجرا کند.
-
----
-
-## تفاوت Inheritance و Composition چیست؟
-
-Inheritance رابطه‌ی:
-
-```text
-is-a
-```
-
-را مدل می‌کند.
-
-Composition رابطه‌هایی مانند:
-
-```text
-has-a
-uses-a
-```
-
-را مدل می‌کند.
-
-مثلاً:
-
-```text
-Admin is a User
-```
-
-می‌تواند Inheritance باشد.
-
-اما:
-
-```text
-Order uses Logger
-```
-
-بیشتر با Composition مدل می‌شود.
-
----
-
-## چرا Code Reuse به‌تنهایی دلیل مناسبی برای Inheritance نیست؟
-
-زیرا Inheritance فقط Code Reuse ایجاد نمی‌کند؛ یک وابستگی و رابطه‌ی Parent/Child نیز ایجاد می‌کند.
-
-اگر رابطه‌ی مفهومی صحیح نباشد، صرفاً برای حذف Code Duplication ایجاد کردن Inheritance می‌تواند Coupling و پیچیدگی آینده را افزایش دهد.
-
----
-
-## چگونه Behavior Parent را در Child گسترش می‌دهیم؟
-
-با Override کردن Method و سپس فراخوانی Parent Method با `super`:
-
-```javascript
-class Admin extends User {
-  login() {
-    super.login();
-    console.log('Admin permissions checked');
-  }
-}
-```
-
----
-
-## Polymorphism چگونه می‌تواند شرط‌ها را کاهش دهد؟
-
-به جای بررسی نوع Object:
-
-```javascript
-if (type === 'card') {
-  // ...
-} else if (type === 'cash') {
-  // ...
-}
-```
-
-می‌توان Behavior را به Class مربوط منتقل کرد:
-
-```javascript
-function processPayment(payment) {
-  payment.process();
-}
-```
-
-هر Implementation، `process()` مخصوص خود را ارائه می‌کند.
-
----
-
-## آیا `extends` باعث Copy شدن Methodهای Parent می‌شود؟
-
-خیر.
-
-`extends` یک رابطه‌ی Inheritance ایجاد می‌کند.
-
-Methodهای Class در Prototypeهای مربوط به Class قرار می‌گیرند و JavaScript از Prototype-based mechanism برای این رابطه استفاده می‌کند.
-
-بنابراین `extends` را نباید مانند Copy/Paste کد Parent در Child تصور کرد.
-
----
-
-## رابطه‌ی Class Inheritance با Prototype چیست؟
-
-Class Syntax یک لایه‌ی Syntax برای کار با Object Model جاوااسکریپت فراهم می‌کند.
-
-در Inheritance، رابطه‌ی Classها در نهایت با Prototype mechanism پیاده می‌شود.
-
-بنابراین:
-
-```javascript
-class Admin extends User {}
-```
-
-مستقل از Prototype model نیست.
-
----
-
-## چرا Hierarchyهای عمیق مشکل‌ساز هستند؟
-
-زیرا Child به Parentهای خود وابسته می‌شود.
-
-در یک Hierarchy عمیق:
-
-```text
-A
- ↓
-B
- ↓
-C
- ↓
-D
-```
-
-تغییر در یک سطح می‌تواند Behavior سطوح پایین‌تر را تحت تأثیر قرار دهد.
-
-همچنین درک منشأ یک Behavior دشوارتر می‌شود.
-
----
-
-## چه زمانی Composition را به Inheritance ترجیح می‌دهید؟
-
-وقتی رابطه‌ی واقعی میان Objects بیشتر از نوع:
-
-```text
-has-a
-```
-
-یا:
-
-```text
-uses-a
-```
-
-باشد.
-
-همچنین زمانی که می‌خواهیم قابلیت‌ها را مستقل‌تر و انعطاف‌پذیرتر ترکیب کنیم، Composition می‌تواند انتخاب مناسب‌تری باشد.
-
----
-
-## Polymorphism چه ارزش مهندسی‌ای دارد؟
-
-Polymorphism اجازه می‌دهد Caller به یک Behavior مشترک وابسته باشد، نه به Implementation مشخص.
-
-مثلاً:
-
-```javascript
-function processPayment(payment) {
-  payment.process();
-}
-```
-
-در این مدل، Function نیازی ندارد بداند Payment از چه نوعی است.
-
-این موضوع می‌تواند Coupling را کاهش داده و طراحی را قابل توسعه‌تر کند.
-
----
-
-# Conclusion
-
-در فصل‌های قبلی، ابتدا Objectها را شناختیم، سپس Prototype و Prototype Chain را بررسی کردیم، Constructor Function را برای ایجاد Instanceهای مشابه آموختیم و در نهایت با ES Classes یک Syntax مدرن برای مدل‌سازی Objectها به دست آوردیم.
-
-اکنون یک مرحله جلوتر رفتیم.
-
-با:
-
-```javascript
-extends
-```
-
-یک Child Class می‌تواند Behavior مشترک Parent را استفاده کند.
-
-با:
-
-```javascript
-super()
-```
-
-می‌توان Parent Constructor را فراخوانی کرد.
-
-با:
-
-```javascript
-super.method()
-```
-
-می‌توان Behavior Parent را در Child گسترش داد.
-
-با **Method Overriding**، Child می‌تواند Behavior متفاوتی برای یک Method مشترک ارائه کند.
-
-و زمانی که Objectهای مختلف از یک Method مشترک، Behaviorهای متفاوتی ارائه می‌کنند، به مفهوم **Polymorphism** می‌رسیم.
-
-اما مهم‌ترین نتیجه این فصل صرفاً یادگیری:
-
-```javascript
-extends
-super
-```
-
-نیست.
-
-نکته‌ی مهندسی مهم‌تر این است که **Inheritance یک ابزار طراحی است، نه صرفاً یک ابزار برای جلوگیری از تکرار کد.**
-
-اگر رابطه‌ی واقعی:
-
-```text
-is-a
-```
-
-باشد، Inheritance می‌تواند انتخاب مناسبی باشد.
-
-اما اگر رابطه:
-
-```text
-has-a
-uses-a
-```
-
-باشد، Composition ممکن است مدل بهتری ارائه کند.
-
-بنابراین هنگام طراحی Classها، سؤال اصلی این نیست که:
-
-> «چگونه می‌توانم با `extends` کد کمتری بنویسم؟»
-
-بلکه سؤال مهندسی این است:
-
-> **«چه رابطه‌ای میان این Objects واقعاً وجود دارد و کدام مدل، آن رابطه را بهتر بیان می‌کند؟»**
-
-این دیدگاه، Inheritance و Polymorphism را از یک Syntax ساده به یک ابزار واقعی برای طراحی نرم‌افزار تبدیل می‌کند.
+ 
