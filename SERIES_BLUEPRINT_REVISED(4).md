@@ -1124,15 +1124,30 @@ Data Processing
 
 # Concept Flow
 
-Search
+Array Processing
+↓
+اما همیشه نمی‌خواهیم Array جدید بسازیم
+↓
+گاهی فقط یک Element می‌خواهیم
 ↓
 find
 ↓
+گاهی Index می‌خواهیم
+↓
 findIndex
+↓
+گاهی فقط می‌خواهیم بدانیم آیا شرطی برقرار است
 ↓
 some
 ↓
+گاهی باید تمام عناصر شرط را داشته باشند
+↓
 every
+↓
+حالا یک مسئله متفاوت:
+ترتیب عناصر مهم است
+↓
+Sorting
 ↓
 sort
 ↓
