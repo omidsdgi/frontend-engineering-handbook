@@ -642,7 +642,22 @@ Garbage Collector کاملاً درست عمل می‌کند.
 cache → data
 
 هنوز یک مسیر Reachable وجود دارد.
+نسخه بهتر:
 
+let user = {
+name: 'Omid',
+age: 58,
+};
+
+const cache = [];
+
+cache.push(user);
+
+// وقتی دیگر به user نیاز نداریم
+cache.length = 0;
+user = null;
+
+حالا هیچ Referenceای به شیء باقی نمانده است و Garbage Collector می‌تواند آن را در صورت نیاز از حافظه خارج کند.
 پس حذف Object از Memory از نظر Garbage Collector صحیح نیست.
 
 Memory Leak در Closure
@@ -653,40 +668,43 @@ Closureها یکی دیگر از مواردی هستند که باید با دق
 
 مثلاً:
 
-function createUser() {
-const user = {
-name: 'Omid'
-};
+function createCounter() {
+let count = 0;
 
 return function () {
-return user.name;
+count++;
+return count;
 };
 }
 
-const getUserName = createUser();
+const counter = createCounter();
 
-Function برگشتی هنوز به user دسترسی دارد.
+console.log(counter()); // 1
+console.log(counter()); // 2
+
+در این مثال، تابع داخلی یک Closure ایجاد کرده و به count دسترسی دارد. بنابراین count تا زمانی که counter به تابع داخلی Reference دارد، در دسترس باقی می‌ماند.
+
+این Memory Leak نیست؛ زیرا این Reference هنوز مورد نیاز است.
+
+اما اگر دیگر به counter نیاز نداشته باشیم:
+
+let counter = createCounter();
+
+console.log(counter()); // 1
+
+counter = null;
+
+اکنون اگر Reference دیگری به تابع داخلی وجود نداشته باشد، Closure و متغیر count نیز دیگر قابل دسترسی نیستند و می‌توانند توسط Garbage Collector آزاد شوند.
+
+نکته مهم:
+
+Closure زمانی می‌تواند در ایجاد مشکل حافظه نقش داشته باشد که یک Reference غیرضروری باعث شود Closure و داده‌های captured شده، بیشتر از Lifetime موردنیازشان در حافظه باقی بمانند.
 
 بنابراین:
 
-getUserName
-↓
-Closure
-↓
-user
+Closure ≠ Memory Leak
 
-تا زمانی که getUserName قابل دسترسی باشد، user نیز ممکن است Reachable باقی بماند.
-
-این رفتار Memory Leak نیست.
-
-این یک رفتار طبیعی و مورد انتظار Closure است.
-
-مشکل زمانی ایجاد می‌شود که چنین Referenceای بدون نیاز واقعی برای مدت طولانی باقی بماند.
-
-پس:
-
-Closure خودِ Memory Leak نیست؛ Referenceای که بیش از زمان موردنیاز Objectها را نگه می‌دارد می‌تواند باعث Memory Leak شود.
-
+بلکه نگه‌داشتن Reference غیرضروری به Closure می‌تواند باعث نگه‌داشتن داده‌های بیشتری در حافظه شود.
 Event Listener و Memory
 
 در Applicationهای Browser، Event Listenerها نیز می‌توانند در Retaining Objectها نقش داشته باشند.
@@ -723,33 +741,73 @@ Cache اساساً برای نگهداری داده‌های قابل استفا
 
 مشکل زمانی ایجاد می‌شود که Cache:
 
-بدون محدودیت رشد کند.
+بدون محدودیت رشد کند.![img.png](img.png)
 داده‌های قدیمی را حذف نکند.
 Lifecycle مشخصی نداشته باشد.
 Objectهای بسیار بزرگ را برای مدت نامحدود نگه دارد.
 
 بنابراین طراحی Cache باید علاوه بر سرعت، Memory Cost را نیز در نظر بگیرد.
 
+راهکار ساده: تعیین حداکثر اندازه Cache
+
+const cache = new Map();
+
+const MAX_CACHE_SIZE = 100;
+
+function addToCache(id, user) {
+if (cache.size >= MAX_CACHE_SIZE) {
+const oldestKey = cache.keys().next().value;
+
+    cache.delete(oldestKey);
+}
+
+cache.set(id, user);
+}
+
+در این مثال، Cache حداکثر 100 آیتم نگه می‌دارد. وقتی ظرفیت پر شود، یک آیتم قدیمی حذف می‌شود تا Referenceهای غیرضروری در حافظه باقی نمانند.
+
+نکته مهم:
+Cache باید یک چرخه عمر (lifecycle) مشخص داشته باشد؛ یعنی مشخص کنیم چه زمانی داده ذخیره شود، چه زمانی حذف شود و حداکثر چه مقدار داده می‌تواند در حافظه باقی بماند.
 Memory Leak و Global State
 
 Referenceهای Global نیز باید با دقت مدیریت شوند.
 
 مثلاً:
-
-const users = [];
+const globalState = {
+users: [],
+};
 
 function addUser(user) {
-users.push(user);
+globalState.users.push(user);
 }
 
-از آنجا که users در یک Scope طولانی‌مدت قرار دارد، Objectهایی که داخل آن قرار می‌گیرند نیز می‌توانند برای مدت طولانی Reachable باقی بمانند.
+addUser({ name: 'Ali' });
+addUser({ name: 'Sara' });
+addUser({ name: 'Reza' });
 
-هرچه Scope یک Reference طولانی‌تر باشد، باید بیشتر درباره Lifetime داده‌ای که نگه می‌دارد فکر کنیم.
+در این مثال، globalState در محدوده سراسری قرار دارد و Reference مربوط به تمام Objectهای users را نگه می‌دارد. اگر داده‌ها مرتباً اضافه شوند و دیگر مورد نیاز نباشند، آرایه می‌تواند بدون کنترل رشد کند.
 
-این یک اصل مهندسی مهم است:
+راهکار بهتر:
 
-Lifetime یک Reference می‌تواند Lifetime Object را نیز طولانی کند.
+اگر داده فقط برای یک عملیات موقت مورد نیاز است، آن را به‌صورت Local نگه دارید:
 
+function processUsers() {
+const users = [
+{ name: 'Ali' },
+{ name: 'Sara' },
+{ name: 'Reza' },
+];
+
+// پردازش users
+}
+
+processUsers();
+
+در این حالت، users یک Local Variable است. پس از پایان اجرای processUsers، اگر Reference دیگری به Objectها وجود نداشته باشد، آن‌ها دیگر از طریق این آرایه قابل دسترسی نیستند و می‌توانند توسط Garbage Collector جمع‌آوری شوند.
+
+اصل کلی:
+
+داده‌ای را که فقط در یک محدوده مشخص مورد نیاز است، به Global State منتقل نکنید؛ زیرا Global Reference می‌تواند طول عمر داده را بیش از نیاز واقعی آن افزایش دهد.
 Reference Lifetime مهم‌تر از Reference Count
 
 ممکن است در نگاه اول تصور کنیم اگر تعداد Referenceهای یک Object به صفر برسد، آن Object فوراً حذف می‌شود.
