@@ -3,24 +3,95 @@ Chapter 59 — Event Loop
 
 پس از پایان این فصل، انتظار می‌رود بتوانید:
 
-توضیح دهید چرا Call Stack به‌تنهایی برای مدیریت Async Tasks کافی نیست.
-نقش Host APIs را در مدل اجرای Asynchronous توضیح دهید.
-تفاوت Task و Microtask را تشخیص دهید.
-توضیح دهید چرا Microtaskها در Execution Order اهمیت دارند.
-نقش Event Loop را در هماهنگی Call Stack و Queueها تحلیل کنید.
-ترتیب اجرای Synchronous Code، Microtask و Task را از روی مدل Runtime استنتاج کنید.
-رفتار Codeهای Asynchronous را بدون حفظ کردن خروجی آن‌ها تحلیل کنید.
+توضیح دهید چرا برای اجرای Asynchronous Code به سازوکاری برای هماهنگی نیاز داریم.
+نقش Call Stack را در اجرای JavaScript تحلیل کنید.
+توضیح دهید Host APIs چه نقشی در اجرای عملیات خارج از Call Stack دارند.
+مفهوم Task Queue را در مدل اجرای Asynchronous درک کنید.
+تفاوت Task و Microtask را توضیح دهید.
+توضیح دهید چرا Microtaskها در ترتیب اجرای Code اهمیت دارند.
+نقش Event Loop را در هماهنگ کردن Call Stack و Queueها تحلیل کنید.
+ترتیب اجرای Codeهای Synchronous، Task و Microtask را پیش‌بینی کنید.
+رفتار نمونه‌هایی مانند setTimeout و Promise را از روی مدل Runtime تحلیل کنید.
+از مدل Event Loop برای Debugging و تحلیل رفتار Asynchronous Code استفاده کنید.
 Core Question
 
 JavaScript چگونه Async Tasks را با Call Stack و Queues هماهنگ می‌کند؟
 
+در فصل قبل دیدیم که JavaScript می‌تواند با عملیات زمان‌بر بدون متوقف کردن کامل اجرای برنامه کار کند.
+
+اما این فقط بخشی از مسئله بود.
+
+اگر یک عملیات Asynchronous شروع شود و نتیجه آن بعداً آماده شود، یک سؤال مهم باقی می‌ماند:
+
+وقتی نتیجه آماده شد، چه چیزی تعیین می‌کند Callback آن چه زمانی و چگونه دوباره وارد اجرای JavaScript شود؟
+
+برای پاسخ به این سؤال باید چند بخش از Runtime را در کنار هم ببینیم.
+
+جریان اصلی این فصل چنین شکل می‌گیرد:
+
+Call Stack
+↓
+Host APIs
+↓
+Task Queues
+↓
+Microtasks
+↓
+Event Loop
+↓
+Task Scheduling
+↓
+Execution Order
+
+هدف فصل این نیست که این مفاهیم را به‌صورت اجزای جداگانه حفظ کنیم.
+
+هدف این است که بفهمیم این اجزا چگونه یک سیستم واحد برای مدیریت اجرای Asynchronous JavaScript تشکیل می‌دهند.
+
 مقدمه
 
-تا اینجا می‌دانیم که JavaScript Code در مسیر مشخصی اجرا می‌شود و Functionهای در حال اجرا در Call Stack قرار می‌گیرند.
+فرض کنید در یک برنامه مرورگر چنین Codeای داریم:
 
-این مدل برای Codeهای Synchronous کاملاً قابل درک است.
+console.log('Start');
 
-مثلاً در:
+setTimeout(() => {
+console.log('Timer finished');
+}, 0);
+
+console.log('End');
+
+ممکن است در نگاه اول انتظار داشته باشیم چون Timer مقدار 0 دارد، پیام آن بلافاصله بعد از Start اجرا شود.
+
+اما خروجی چنین نیست:
+
+Start
+End
+Timer finished
+
+این سؤال ایجاد می‌شود:
+
+اگر زمان Timer صفر است، چرا Callback آن قبل از End اجرا نشد؟
+
+برای پاسخ باید بین دو مفهوم تفاوت بگذاریم:
+
+Ready to execute
+
+و:
+
+Currently executing
+
+آماده بودن یک Callback به این معنا نیست که JavaScript همان لحظه آن را اجرا می‌کند.
+
+JavaScript باید ابتدا Code در حال اجرای خود را به پایان برساند و سپس Runtime مشخص کند کدام کار آماده اجرا باید وارد مسیر اجرای JavaScript شود.
+
+در اینجا دقیقاً به مرز میان Execution و Scheduling می‌رسیم.
+
+اجرای JavaScript از Call Stack شروع می‌شود
+
+در فصل Execution Context و Call Stack دیدیم که JavaScript برای مدیریت اجرای Functionها از یک Stack استفاده می‌کند.
+
+وقتی یک Function فراخوانی می‌شود، Execution Context مربوط به آن وارد Call Stack می‌شود.
+
+برای مثال:
 
 function calculateTotal(price, tax) {
 return price + tax;
@@ -28,188 +99,202 @@ return price + tax;
 
 const total = calculateTotal(100, 10);
 
-اجرای calculateTotal وارد Call Stack می‌شود، اجرا می‌شود و پس از پایان از Stack خارج می‌شود.
+هنگام اجرای calculateTotal، یک Frame مربوط به آن Function روی Call Stack قرار می‌گیرد.
 
-اما وقتی با یک عملیات زمان‌بر روبه‌رو می‌شویم، مسئله تغییر می‌کند.
+مدل ساده:
 
-فرض کنید Application باید یک HTTP Request ارسال کند.
+Call Stack
 
-اگر JavaScript تا زمان دریافت Response در Call Stack منتظر بماند، اجرای Code متوقف می‌شود.
+calculateTotal()
+global()
 
-در فصل قبل دیدیم که Asynchronous Programming برای جلوگیری از چنین Blockingای مطرح می‌شود.
+Function اجرا می‌شود.
 
-اما حالا یک سؤال جدید داریم:
+وقتی اجرای آن تمام شد، Frame مربوط به آن از Stack خارج می‌شود.
 
-اگر عملیات Asynchronous در Call Stack اجرا نمی‌شود، پس چه چیزی آن را مدیریت می‌کند؟
+بنابراین Call Stack را می‌توانیم نقطه‌ای بدانیم که JavaScript در آن Code در حال اجرای خود را مدیریت می‌کند.
 
-و سؤال مهم‌تر:
+اما همین موضوع یک محدودیت مهم ایجاد می‌کند.
 
-وقتی عملیات تمام شد، Callback آن چگونه دوباره به اجرای JavaScript بازمی‌گردد؟
+محدودیت Call Stack
 
-برای پاسخ، باید مدل Execution را که قبلاً ساخته‌ایم یک مرحله گسترش دهیم.
+فرض کنید Function زیر مدت زیادی CPU را درگیر کند:
 
-وقتی Call Stack کافی نیست
+function calculate() {
+for (let i = 0; i < 1_000_000_000; i++) {
+// Long-running work
+}
+}
 
-Call Stack برای یک کار اساسی طراحی شده است:
+calculate();
 
-مدیریت Codeای که همین حالا در حال اجرای JavaScript است.
+تا زمانی که این Function در Call Stack در حال اجرا است، JavaScript نمی‌تواند Function دیگری را روی همان مسیر اجرا کند.
 
-اگر Functionی فراخوانی شود، Execution Context آن وارد Stack می‌شود.
+مدل ذهنی ساده:
 
-اگر Function دیگری را فراخوانی کند، Context جدید روی آن قرار می‌گیرد.
+Call Stack
+↓
+Long-running JavaScript
+↓
+Stack remains busy
+↓
+Other JavaScript waits
 
-در نهایت Functionها به‌ترتیب مناسب از Stack خارج می‌شوند.
+این همان Blocking است که در فصل قبل درباره آن صحبت کردیم.
 
-اما یک عملیات Asynchronous لزوماً نمی‌تواند همین مسیر را دنبال کند.
+پس اگر قرار باشد JavaScript هم‌زمان با عملیات‌هایی مانند Timer، Network یا User Interaction کار کند، نمی‌توانیم همه این عملیات را مستقیماً داخل Call Stack اجرا کنیم.
+
+اینجاست که Runtime به بخش دیگری نیاز دارد.
+
+Host APIs
+
+مرورگر فقط یک JavaScript Engine نیست.
+
+Browser یک Host Environment است که امکانات مختلفی برای برنامه فراهم می‌کند.
+
+برای مثال:
+
+setTimeout(...)
+
+یک قابلیت مربوط به محیط اجرا است.
+
+همین موضوع درباره بسیاری از APIهای مرورگر نیز صدق می‌کند.
+
+وقتی JavaScript یک عملیات Asynchronous را درخواست می‌کند، لازم نیست آن عملیات در همان لحظه داخل Call Stack باقی بماند.
+
+برای مثال:
+
+setTimeout(() => {
+console.log('Done');
+}, 1000);
+
+هنگام اجرای این Code، JavaScript درخواست Timer را ثبت می‌کند.
+
+سپس اجرای Synchronous Code خود را ادامه می‌دهد.
+
+به‌صورت ساده:
+
+JavaScript
+↓
+Call Stack
+↓
+Request async operation
+↓
+Host APIs
+
+Host Environment مسئول مدیریت آن عملیات است.
+
+در مورد Timer، محیط اجرا زمان موردنظر را پیگیری می‌کند.
+
+در مورد عملیات دیگری مانند Network یا User Interaction نیز Host Environment مسئولیت مربوط به آن عملیات را بر عهده می‌گیرد.
+
+نکته مهم این است که:
+
+Host APIs محل اجرای معمول JavaScript Code نیستند.
+
+آن‌ها امکاناتی را فراهم می‌کنند که JavaScript از طریق آن‌ها می‌تواند با محیط اجرا تعامل کند.
+
+از Host API تا Queue
+
+اکنون مسئله دیگری ایجاد می‌شود.
+
+فرض کنید Timer تمام شده است.
+
+آیا Callback باید همان لحظه وارد Call Stack شود؟
+
+خیر.
+
+چون ممکن است JavaScript هنوز در حال اجرای Code دیگری باشد.
 
 مثلاً:
 
 console.log('Start');
 
 setTimeout(() => {
-console.log('Finished');
-}, 1000);
+console.log('Timer finished');
+}, 0);
 
 console.log('End');
 
-اگر Timer مستقیماً در Call Stack باقی بماند، باید اجرای JavaScript تا پایان یک ثانیه متوقف شود.
+هنگامی که Timer آماده می‌شود، Callback آن باید در جایی منتظر بماند تا زمان مناسب اجرای آن فرا برسد.
 
-اما خروجی واقعی چنین نیست:
+این نقطه، ما را به مفهوم Task Queue می‌رساند.
 
-Start
-End
-Finished
+Task Queue
 
-پس Timer نباید اجرای خود را در Call Stack نگه دارد.
+Task Queue محلی است که Taskهای آماده اجرای JavaScript می‌توانند در آن منتظر بمانند.
 
-اینجا اولین نیاز شکل می‌گیرد:
+مدل ساده:
 
-بخشی از Runtime باید بتواند عملیات Asynchronous را خارج از مسیر مستقیم اجرای JavaScript مدیریت کند.
-
-این نیاز ما را به Host APIs می‌رساند.
-
-Host APIs؛ وقتی Runtime بخشی از کار را بر عهده می‌گیرد
-
-JavaScript Language به‌تنهایی تمام قابلیت‌های محیط اجرا را تعریف نمی‌کند.
-
-Browser محیطی است که JavaScript در آن اجرا می‌شود و APIهایی در اختیار آن قرار می‌دهد.
-
-برای مثال:
-
-setTimeout(() => {
-console.log('Finished');
-}, 1000);
-
-در این مثال JavaScript درخواست یک Timer را ثبت می‌کند.
-
-مدل ساده اجرای آن چنین است:
-
-JavaScript
-↓
-Call Stack
-↓
 Host API
 ↓
-Timer
+Task becomes ready
+↓
+Task Queue
+↓
+Wait for execution opportunity
 
-نکته مهم این است که Timer در طول این یک ثانیه در Call Stack منتظر نمی‌ماند.
+در مثال Timer:
 
-Host Environment مسئول مدیریت آن عملیات است.
+setTimeout(() => {
+console.log('Timer finished');
+}, 0);
 
-به همین دلیل JavaScript می‌تواند بلافاصله ادامه دهد:
+پس از اینکه Timer آماده شد، Callback آن برای اجرای JavaScript در مسیر Queue قرار می‌گیرد.
 
-console.log('End');
+اما هنوز یک شرط وجود دارد:
 
-پس اکنون یک مشکل را حل کرده‌ایم:
+Call Stack باید برای اجرای آن آماده باشد.
 
-عملیات Asynchronous لازم نیست تا پایان خود، Call Stack را اشغال کند.
+اگر Call Stack هنوز مشغول اجرای Code دیگری باشد، Task منتظر می‌ماند.
 
-اما هنوز مشکل اصلی حل نشده است.
+Task با Execution یکی نیست
 
-وقتی عملیات تمام می‌شود، چه اتفاقی می‌افتد؟
+این تفاوت یکی از مهم‌ترین نکات Event Loop است.
 
 فرض کنید Timer تمام شده است.
 
-Callback زیر آماده اجرا است:
+این اتفاق فقط یعنی:
 
-() => {
-console.log('Finished');
-}
+Timer is ready
 
-اما یک سؤال مهم وجود دارد:
+نه:
 
-آیا این Callback می‌تواند مستقیماً وارد Call Stack شود؟
+Callback is executing
 
-خیر.
+بین این دو مرحله فاصله وجود دارد:
 
-ممکن است JavaScript هنوز در حال اجرای Code دیگری باشد.
-
-برای مثال:
-
-setTimeout(() => {
-console.log('Timer');
-}, 0);
-
-for (let i = 0; i < 1_000_000_000; i++) {
-// long-running synchronous work
-}
-
-حتی اگر Timer خیلی زود آماده شود، JavaScript هنوز مشغول اجرای Loop است.
-
-پس Callback باید جایی منتظر بماند تا شرایط اجرای آن فراهم شود.
-
-این نیاز، مفهوم Task Queue را ایجاد می‌کند.
-
-Task Queue؛ کار آماده است، اما هنوز نوبت اجرا نیست
-
-وقتی یک عملیات Asynchronous مانند Timer آماده می‌شود، Callback آن می‌تواند به‌عنوان یک Task برای اجرای JavaScript در نظر گرفته شود.
-
-به‌صورت ساده:
-
-Host API
+Timer completes
 ↓
-Operation completes
-↓
-Task
+Callback becomes ready
 ↓
 Task Queue
+↓
+Execution opportunity
+↓
+Call Stack
+↓
+Callback executes
 
-Task Queue محلی برای انتظار Taskهایی است که آماده ادامه اجرای JavaScript هستند.
+بنابراین مقدار 0 در:
 
-اما یک نکته بسیار مهم وجود دارد:
+setTimeout(callback, 0);
 
-قرار گرفتن یک Callback در Queue به معنای اجرای آن نیست.
+به معنای:
 
-این دو مفهوم باید کاملاً از هم جدا شوند:
+Callback را دقیقاً بعد از صفر میلی‌ثانیه اجرا کن.
 
-Ready
-≠
-Executing
+نیست.
 
-برای مثال:
+بلکه مفهوم آن به این نزدیک‌تر است:
 
-setTimeout(() => {
-console.log('Timer');
-}, 0);
+Timer را با تأخیر صفر ثبت کن و Callback را پس از فراهم شدن شرایط مناسب برای اجرای آن قرار بده.
 
-عدد 0 به این معنا نیست که Callback دقیقاً در همان لحظه اجرا می‌شود.
+این تفاوت برای تحلیل دقیق Asynchronous JavaScript بسیار مهم است.
 
-Callback باید:
+چرا Queue به تنهایی کافی نیست؟
 
-توسط Timer آماده شود.
-در مسیر مناسب قرار گیرد.
-منتظر فراهم شدن فرصت اجرای JavaScript بماند.
-سپس وارد Call Stack شود.
-
-پس:
-
-setTimeout(..., 0) یک زمان دقیق برای اجرای Callback تعیین نمی‌کند.
-
-این تفاوت یکی از پایه‌های درک Event Loop است.
-
-اما همه کارهای Asynchronous یکسان نیستند
-
-اکنون مدل ما چنین است:
+اکنون یک سیستم داریم:
 
 Call Stack
 ↑
@@ -219,46 +304,52 @@ Host APIs
 
 اما JavaScript فقط با Timerها کار نمی‌کند.
 
-برای مثال Promise نیز می‌تواند ادامه‌ای از Code را برای زمانی قرار دهد که نتیجه آن آماده شده است:
+Promiseها و برخی عملیات دیگر نیازمند نوع دیگری از کارهای Asynchronous هستند که باید با اولویت متفاوتی نسبت به Taskهای معمول مدیریت شوند.
 
-Promise.resolve().then(() => {
-console.log('Done');
-});
-
-Callback مربوط به then مانند Timer معمولی در Task Queue قرار نمی‌گیرد.
-
-این نوع کار یک Microtask است.
-
-در نتیجه Runtime به مسیر دیگری نیز نیاز دارد:
-
-Microtask
-↓
-Microtask Queue
-
-اکنون دو نوع کار آماده داریم:
-
-Task Queue
-Microtask Queue
-
-و اینجا مسئله مهم‌تری شکل می‌گیرد:
-
-اگر هم Task و هم Microtask آماده باشند، کدام‌یک باید زودتر اجرا شود؟
-
-Microtask؛ چرا Promise مسیر متفاوتی دارد؟
-
-Microtask نوعی کار Asynchronous با Scheduling مشخص در Runtime است.
-
-Promise Reactionها، مانند Callback مربوط به then، نمونه مهمی از Microtask هستند.
-
-مثلاً:
+برای مثال:
 
 Promise.resolve().then(() => {
 console.log('Promise');
 });
 
-پس از آماده شدن Promise، Callback آن در Microtask Queue قرار می‌گیرد.
+Callback مربوط به Promise مانند Timer معمولی در Task Queue قرار نمی‌گیرد.
 
-اکنون اگر Code زیر را اجرا کنیم:
+این نوع کار به Microtask مربوط می‌شود.
+
+Microtasks
+
+Microtaskها نوع خاصی از کارهای آماده اجرای JavaScript هستند.
+
+Promise Reactionها یکی از نمونه‌های مهم آن‌ها هستند.
+
+برای مثال:
+
+Promise.resolve().then(() => {
+console.log('Promise');
+});
+
+Callback مربوط به then پس از آماده شدن Promise در مسیر Microtask قرار می‌گیرد.
+
+مدل ساده:
+
+Promise settles
+↓
+Microtask
+↓
+Microtask Queue
+
+بنابراین اکنون Runtime حداقل دو مسیر مهم برای کارهای آماده اجرای JavaScript دارد:
+
+Task Queue
+Microtask Queue
+
+اما تفاوت آن‌ها فقط در نام نیست.
+
+ترتیب رسیدگی به آن‌ها اهمیت اساسی دارد.
+
+چرا Microtaskها مهم هستند؟
+
+فرض کنید Code زیر را داریم:
 
 console.log('Start');
 
@@ -272,27 +363,37 @@ console.log('Promise');
 
 console.log('End');
 
-ابتدا Codeهای Synchronous اجرا می‌شوند:
-
-Start
-End
-
-سپس Promise Callback آماده است و Timer نیز Task خود را دارد.
-
-اگر Runtime صرفاً بین Queueها به‌صورت تصادفی انتخاب می‌کرد، Execution Order قابل پیش‌بینی نبود.
-
-اما چنین نیست.
-
-Microtaskها در Scheduling جایگاه مشخصی دارند.
-
-نتیجه:
+خروجی:
 
 Start
 End
 Promise
 Timer
 
-پس اکنون می‌توانیم علت این ترتیب را توضیح دهیم:
+ممکن است سؤال ایجاد شود:
+
+چرا Timer قبل از Promise اجرا نشد، در حالی که هر دو Asynchronous هستند؟
+
+پاسخ در مدل Scheduling قرار دارد.
+
+ابتدا Codeهای Synchronous اجرا می‌شوند:
+
+Start
+End
+
+سپس Runtime به Microtaskها می‌رسد.
+
+بنابراین:
+
+Promise
+
+اجرا می‌شود.
+
+بعد نوبت Task مربوط به Timer می‌رسد:
+
+Timer
+
+در نتیجه:
 
 Synchronous Code
 ↓
@@ -300,48 +401,54 @@ Microtasks
 ↓
 Tasks
 
-این ترتیب چیزی نیست که باید حفظ شود.
+این ترتیب، بخش مهمی از مدل Event Loop است.
 
-باید آن را از مدل Runtime استنتاج کنیم.
+Event Loop
 
-چرا هنوز به Event Loop نیاز داریم؟
-
-اکنون اجزای اصلی را داریم:
+اکنون تمام قطعات موردنیاز را داریم:
 
 Call Stack
 Host APIs
 Task Queue
 Microtask Queue
 
-اما هنوز یک سؤال بی‌پاسخ داریم:
+اما هنوز یک سؤال مهم باقی مانده است:
 
-چه چیزی بررسی می‌کند Call Stack چه زمانی برای اجرای کار جدید آماده است؟
+چه چیزی بررسی می‌کند که Call Stack چه زمانی خالی شده و کدام کار باید وارد آن شود؟
 
-و:
+پاسخ:
 
-چه چیزی هماهنگ می‌کند Task و Microtask چگونه دوباره وارد مسیر اجرای JavaScript شوند؟
+Event Loop
 
-اینجاست که Event Loop وارد مدل می‌شود.
-
-Event Loop را می‌توان یک سازوکار هماهنگ‌کننده در Runtime دانست که وضعیت اجرای JavaScript و کارهای آماده را دنبال می‌کند.
+Event Loop یک Loop هماهنگ‌کننده در Runtime است که وضعیت اجرای JavaScript و کارهای آماده را بررسی می‌کند و تعیین می‌کند چه زمانی کار بعدی می‌تواند برای اجرا انتخاب شود.
 
 مدل ذهنی ساده:
 
-Host APIs
-↓
-Queues
-↓
-Event Loop
-↓
-Call Stack
+             ┌──────────────┐
+             │   Host APIs  │
+             └──────┬───────┘
+                    ↓
+             ┌──────────────┐
+             │    Queues    │
+             └──────┬───────┘
+                    ↓
+             ┌──────────────┐
+             │  Event Loop  │
+             └──────┬───────┘
+                    ↓
+             ┌──────────────┐
+             │  Call Stack  │
+             └──────────────┘
 
-Event Loop محل اجرای Callback نیست.
+Event Loop خودش محل اجرای Callback نیست.
 
-بلکه بخشی از سازوکاری است که تعیین می‌کند کار آماده چه زمانی می‌تواند وارد مسیر اجرای JavaScript شود.
+وظیفه اصلی آن هماهنگ کردن مسیر ورود کارهای آماده به اجرای JavaScript است.
 
-Event Loop چگونه مسئله را حل می‌کند؟
+مدل ذهنی کامل Event Loop
 
-اکنون همان مثال را دوباره ببینیم:
+اکنون می‌توانیم کل جریان را یکجا ببینیم.
+
+فرض کنید:
 
 console.log('Start');
 
@@ -355,158 +462,185 @@ console.log('Promise');
 
 console.log('End');
 
-در ابتدا:
+Runtime را می‌توان به‌صورت مفهومی چنین دنبال کرد:
+
+مرحله اول: اجرای Synchronous Code
+
+ابتدا:
 
 console.log('Start');
 
 اجرا می‌شود.
 
-سپس Timer توسط Host Environment مدیریت می‌شود.
+خروجی:
 
-Promise نیز Microtask مربوط به خود را آماده می‌کند.
+Start
 
-بعد:
+سپس setTimeout ثبت می‌شود و Timer توسط Host Environment مدیریت می‌شود.
+
+بعد Promise آماده می‌شود و Reaction مربوط به آن به Microtask Queue می‌رود.
+
+در نهایت:
 
 console.log('End');
 
 اجرا می‌شود.
 
-در این مرحله Code اصلی Synchronous تمام شده است.
+اکنون خروجی:
 
-اکنون Runtime باید کارهای آماده را مدیریت کند.
+Start
+End
 
-Microtask مربوط به Promise آماده است:
+است.
 
+مرحله دوم: بررسی Microtasks
+
+Code اصلی به پایان رسیده و Call Stack آماده است.
+
+Microtask مربوط به Promise آماده اجرا است.
+
+پس:
+
+console.log('Promise');
+
+اجرا می‌شود.
+
+خروجی:
+
+Start
+End
 Promise
+مرحله سوم: Task
 
-پس اجرا می‌شود.
+اکنون نوبت Task مربوط به Timer است.
 
-سپس Task مربوط به Timer اجرا می‌شود:
+Callback آن وارد مسیر اجرای JavaScript می‌شود:
 
-Timer
+console.log('Timer');
 
-در نتیجه:
+خروجی نهایی:
 
 Start
 End
 Promise
 Timer
 
-اکنون دیگر فقط خروجی را نمی‌بینیم.
+این ترتیب تصادفی نیست.
 
-می‌توانیم علت خروجی را نیز توضیح دهیم.
+نتیجه مستقیم Scheduling Runtime است.
 
-از Call Stack تا Event Loop
+Event Loop و Task Scheduling
 
-اکنون می‌توانیم تمام مسیر را در یک مدل واحد ببینیم.
+اکنون مفهوم مهم‌تری شکل می‌گیرد.
 
-وقتی JavaScript یک عملیات Asynchronous را آغاز می‌کند:
+Event Loop فقط نمی‌گوید:
 
-Call Stack
+آیا چیزی در Queue وجود دارد؟
+
+بلکه Runtime باید تعیین کند:
+
+چه کاری در چه زمانی اجازه ورود به مسیر اجرای JavaScript را دارد؟
+
+این همان Task Scheduling است.
+
+مدل ذهنی ساده:
+
+Call Stack busy?
+│
+├── Yes → Wait
+│
+└── No
 ↓
-Host API
-
-Host Environment عملیات را مدیریت می‌کند.
-
-وقتی نتیجه آماده شد، کار مربوطه وارد مسیر Queue می‌شود:
-
-Host API
+Check pending work
 ↓
-Task Queue
-
-یا:
-
-Host API
+Process Microtasks
 ↓
-Microtask Queue
+Select next Task
+↓
+Execute
 
-سپس Runtime باید این کار آماده را در زمان مناسب وارد اجرای JavaScript کند.
+در این مدل، خالی شدن Call Stack شرط مهمی برای ادامه اجرای کارهای آماده است.
 
-اینجا Event Loop نقش هماهنگ‌کننده دارد:
+اما خالی بودن Stack به‌تنهایی به معنای انتخاب تصادفی یک Callback نیست.
 
-Call Stack
-↑
-Event Loop
-↑
-Queues
-↑
-Host APIs
+Runtime باید قواعد Scheduling خود را رعایت کند.
 
-این همان مدلی است که باید در ذهن باقی بماند.
+چرا Event Loop به Call Stack وابسته است؟
 
-Task Scheduling؛ مسئله فقط «چه چیزی آماده است» نیست
+فرض کنید Code زیر اجرا می‌شود:
 
-ممکن است تصور کنیم Event Loop فقط یک کار ساده انجام می‌دهد:
-
-اگر Stack خالی بود، چیزی از Queue بردار.
-
-اما برای تحلیل دقیق‌تر، مسئله Scheduling اهمیت پیدا می‌کند.
-
-فرض کنید:
+function heavyWork() {
+for (let i = 0; i < 1_000_000_000; i++) {}
+}
 
 setTimeout(() => {
 console.log('Timer');
 }, 0);
 
-console.log('Start');
+heavyWork();
 
-for (let i = 0; i < 1_000_000_000; i++) {
-// synchronous work
-}
+Timer ممکن است خیلی زود آماده شود.
 
-Timer ممکن است آماده شود، اما Loop طولانی هنوز در حال اجرا است.
+اما تا زمانی که:
 
-در نتیجه:
+heavyWork();
 
-Timer ready
+در حال اجرا است، Call Stack آزاد نیست.
+
+پس Callback Timer نمی‌تواند وسط اجرای آن وارد JavaScript شود.
+
+مدل:
+
+heavyWork()
 ↓
-Call Stack busy
+Call Stack Busy
 ↓
-Timer waits
+Timer becomes ready
 ↓
-Synchronous work finishes
+Task waits
 ↓
-Execution can continue
+heavyWork finishes
+↓
+Call Stack becomes available
+↓
+Task can execute
 
-پس آماده بودن یک Task کافی نیست.
+این مثال نشان می‌دهد:
 
-وضعیت Call Stack نیز اهمیت دارد.
+Asynchronous بودن یک عملیات به معنای اجرای هم‌زمان JavaScript نیست.
 
-این همان جایی است که Task Scheduling از یک مفهوم ساده Queue فراتر می‌رود.
+JavaScript همچنان Code خود را از طریق مسیر اجرای مشخصی پردازش می‌کند.
 
-Execution Order را چگونه پیش‌بینی کنیم؟
+Execution Order
 
-وقتی Code Asynchronous می‌بینیم، نباید فقط خطوط را از بالا به پایین بخوانیم.
+اکنون می‌توانیم مهم‌ترین نتیجه عملی Event Loop را بررسی کنیم:
 
-باید مسیر Runtime را بازسازی کنیم.
+برای پیش‌بینی خروجی Asynchronous Code، باید ترتیب ورود و اجرای کارها را تحلیل کنیم.
 
-برای هر عملیات این سؤال‌ها را بپرسید:
+به‌جای اینکه Code را فقط از بالا به پایین بخوانیم، باید بپرسیم:
 
-۱. آیا این Code Synchronous است؟
+کدام بخش Synchronous است؟
+کدام عملیات به Host Environment واگذار می‌شود؟
+نتیجه آن عملیات چگونه به Queue بازمی‌گردد؟
+آیا Callback یک Task است یا Microtask؟
+Call Stack چه زمانی آزاد می‌شود؟
+Runtime در آن نقطه کدام کار را انتخاب می‌کند؟
 
-اگر بله، مستقیماً در مسیر اجرای JavaScript قرار می‌گیرد.
+این روش تحلیل بسیار دقیق‌تر از این است که بگوییم:
 
-۲. اگر Asynchronous است، چه چیزی آن را مدیریت می‌کند؟
+«این Function چون Async است، بعداً اجرا می‌شود.»
 
-ممکن است Host Environment مسئول آن باشد.
+کلمه «بعداً» برای تحلیل حرفه‌ای کافی نیست.
 
-۳. پس از آماده شدن، کار در کدام مسیر قرار می‌گیرد؟
+ما باید بدانیم:
 
-Task یا Microtask؟
+بعد از چه چیزی؟
+در کدام Queue؟
+با چه Scheduling Rule؟
+در چه نقطه‌ای از اجرای Stack؟
+یک مثال تحلیلی
 
-۴. Call Stack چه زمانی آزاد می‌شود؟
-
-تا زمانی که اجرای Synchronous ادامه دارد، Callback نمی‌تواند وسط آن وارد اجرای JavaScript شود.
-
-۵. وقتی اجرای فعلی تمام شد، Scheduling چگونه ادامه پیدا می‌کند؟
-
-در این مرحله تفاوت Microtask و Task اهمیت پیدا می‌کند.
-
-این روش باعث می‌شود Execution Order را استنتاج کنیم، نه حفظ.
-
-یک تحلیل کوتاه
-
-Code زیر را در نظر بگیرید:
+مثال زیر را در نظر بگیرید:
 
 console.log('A');
 
@@ -520,46 +654,49 @@ console.log('C');
 
 console.log('D');
 
-برای تحلیل آن:
-
-ابتدا:
+ابتدا فقط Code Synchronous را اجرا می‌کنیم:
 
 A
 D
 
-چون این دو Synchronous هستند.
+Timer یک Task ایجاد می‌کند.
 
-سپس دو کار آماده داریم:
+Promise یک Microtask ایجاد می‌کند.
 
-Microtask → C
-Task → B
+پس از پایان Code اصلی:
 
-Microtask پیش از Task پردازش می‌شود.
+Microtask
+↓
+Promise callback
 
-پس:
+قبل از Task Timer قرار می‌گیرد.
 
-C
-
-و سپس:
-
-B
-
-خروجی نهایی:
+در نتیجه:
 
 A
 D
 C
 B
 
-نکته مهم این نیست که این چهار حرف را حفظ کنیم.
+نکته مهم این است که این خروجی را نباید حفظ کنیم.
 
-نکته این است که بتوانیم برای هر مثال مشابه، همین فرآیند تحلیل را تکرار کنیم.
+باید آن را از مدل ذهنی استخراج کنیم:
 
-Microtaskها و زنجیره اجرا
+Synchronous
+↓
+Microtasks
+↓
+Tasks
 
-Microtask می‌تواند Microtask دیگری ایجاد کند.
+این دقیقاً همان نوع دانشی است که در Debugging واقعی اهمیت دارد.
 
-برای مثال:
+Microtask Queue می‌تواند اجرای Task را عقب بیندازد
+
+Microtaskها یک ویژگی مهم دارند.
+
+پس از پایان یک Task، Runtime Microtaskهای آماده را پردازش می‌کند و Microtaskها می‌توانند Microtaskهای جدید ایجاد کنند.
+
+مثلاً:
 
 Promise.resolve().then(() => {
 console.log('A');
@@ -569,207 +706,338 @@ console.log('B');
 });
 });
 
-اجرای Microtask اول باعث ایجاد Microtask دوم می‌شود.
+Microtask دوم در نتیجه اجرای Microtask اول ایجاد می‌شود.
 
-پس Runtime باید Microtaskهای آماده را طبق قواعد Scheduling خود پردازش کند.
+بنابراین:
 
-این رفتار اهمیت عملی دارد.
+Microtask A
+↓
+creates
+↓
+Microtask B
 
-اگر Application تعداد بسیار زیادی Microtask پشت سر هم ایجاد کند، رسیدگی به Taskهای دیگر می‌تواند به تأخیر بیفتد.
+در مدل اجرای Microtaskها، Runtime باید Microtaskهای آماده را تا رسیدن به نقطه مناسب پردازش کند.
 
-بنابراین Microtask فقط یک اصطلاح مربوط به Promise نیست.
+از دید مهندسی، این موضوع یک هشدار مهم ایجاد می‌کند:
 
-Microtask بخشی از مدل Scheduling است و می‌تواند روی رفتار قابل مشاهده Application اثر بگذارد.
+ایجاد زنجیره بسیار طولانی Microtaskها می‌تواند رسیدن Runtime به Taskهای دیگر را به تأخیر بیندازد.
 
-مدل ذهنی نهایی
+بنابراین Microtaskها «فقط Promiseهای کوچک» نیستند؛ آن‌ها بخشی از Scheduling Runtime هستند.
 
-اکنون می‌توانیم کل فصل را در یک جریان واحد خلاصه کنیم:
+Event Loop و Browser Rendering
+
+در Browser یک مسئله دیگر نیز وجود دارد.
+
+Browser فقط JavaScript اجرا نمی‌کند.
+
+باید UI را نیز به‌روزرسانی کند.
+
+برای مثال:
+
+تغییرات DOM باید نمایش داده شوند.
+صفحه باید دوباره Paint شود.
+تعامل کاربر باید پاسخ داده شود.
+
+به همین دلیل Scheduling در Browser فقط به اجرای JavaScript محدود نیست.
+
+Runtime و Browser باید فرصت‌هایی برای رسیدگی به سایر کارهای محیط اجرا نیز داشته باشند.
+
+این موضوع به ما کمک می‌کند بفهمیم چرا یک JavaScript Application با Codeهای طولانی یا Microtaskهای بیش از حد می‌تواند باعث کند شدن پاسخ‌گویی UI شود.
+
+اما نکته اصلی این فصل همچنان همان است:
+
+JavaScript Execution
++
+Runtime Scheduling
++
+Browser Responsibilities
+
+Event Loop بخشی از این هماهنگی را شکل می‌دهد.
+
+Event Loop یک Thread جدید ایجاد نمی‌کند
+
+یک سوءبرداشت رایج این است:
+
+Event Loop باعث می‌شود JavaScript چند کار را هم‌زمان اجرا کند.
+
+این مدل ذهنی دقیق نیست.
+
+Event Loop خودش Thread جدیدی برای اجرای JavaScript ایجاد نمی‌کند.
+
+JavaScript همچنان Code خود را در مسیر اجرای JavaScript پردازش می‌کند.
+
+آنچه Asynchronous Programming را ممکن می‌کند، همکاری چند بخش است:
 
 JavaScript Execution
 ↓
+Host Environment
+↓
+Queues
+↓
+Event Loop
+↓
+JavaScript Execution
+
+بنابراین باید بین:
+
+Concurrency
+
+و:
+
+Parallel Execution
+
+تفاوت بگذاریم.
+
+Event Loop به Runtime اجازه می‌دهد کارهای مختلف را بدون قرار دادن همه آن‌ها در یک اجرای طولانی Synchronous هماهنگ کند.
+
+این به معنای اجرای هم‌زمان چند قطعه JavaScript روی یک Call Stack نیست.
+
+Event Loop را چگونه در Debugging استفاده کنیم؟
+
+وقتی رفتار Asynchronous یک Application غیرمنتظره است، به‌جای حدس زدن، باید مسیر اجرا را بازسازی کنیم.
+
+برای مثال اگر انتظار داریم:
+
+A
+B
+C
+
+اما خروجی:
+
+A
+C
+B
+
+است، سؤال درست این نیست:
+
+چرا JavaScript ترتیب Code را رعایت نکرد؟
+
+بلکه باید بپرسیم:
+
+A → Synchronous؟
+
+B → Task یا Microtask؟
+
+C → Task یا Microtask؟
+
+چه چیزی قبل از B وارد Queue شد؟
+
+Call Stack چه زمانی خالی شد؟
+
+این روش، Debugging Asynchronous Code را از حد آزمون و خطا خارج می‌کند.
+
+یک مدل ذهنی مهندسی
+
+تا اینجا می‌توانیم Event Loop را با یک مدل واحد توضیح دهیم:
+
+                 JavaScript Code
+                       │
+                       ▼
+                 ┌───────────┐
+                 │ Call Stack│
+                 └─────┬─────┘
+                       │
+             Async Operation
+                       │
+                       ▼
+                 ┌───────────┐
+                 │ Host APIs │
+                 └─────┬─────┘
+                       │
+              Operation completes
+                       │
+             ┌─────────┴─────────┐
+             ▼                   ▼
+        Task Queue         Microtask Queue
+             │                   │
+             └─────────┬─────────┘
+                       ▼
+                 ┌───────────┐
+                 │ Event Loop│
+                 └─────┬─────┘
+                       ▼
+                 ┌───────────┐
+                 │ Call Stack│
+                 └───────────┘
+
+این Diagram یک مدل ساده‌شده آموزشی است.
+
+هدف آن نمایش تمام جزئیات داخلی Browser نیست.
+
+هدف این است که رابطه علت و معلولی مفاهیم را ببینیم:
+
 Call Stack
 ↓
-Async Operation
+JavaScript Execution
+
+Host APIs
+↓
+Async Work
+
+Queues
+↓
+Waiting Work
+
+Event Loop
+↓
+Coordination
+
+Execution Order
+↓
+Observable Behavior
+Best Practices
+1. Asynchronous بودن را با اجرای هم‌زمان اشتباه نگیرید
+
+یک عملیات Asynchronous الزاماً به این معنا نیست که JavaScript آن را هم‌زمان با Code فعلی اجرا می‌کند.
+
+2. به setTimeout(..., 0) به‌عنوان اجرای فوری نگاه نکنید
+
+صفر بودن Delay به معنای اجرای فوری Callback نیست.
+
+Callback باید وارد مسیر Scheduling شود و منتظر فرصت مناسب اجرای JavaScript بماند.
+
+3. Execution Order را از روی مدل Runtime تحلیل کنید
+
+به‌جای حفظ کردن خروجی مثال‌ها، مسیر زیر را بررسی کنید:
+
+Synchronous Code
+↓
+Microtasks
+↓
+Tasks
+
+و سپس شرایط واقعی مثال را تحلیل کنید.
+
+4. Microtaskها را دست‌کم نگیرید
+
+Microtaskهای زیاد یا زنجیره‌ای می‌توانند رسیدگی به Taskهای دیگر را به تأخیر بیندازند.
+
+5. برای Debugging، Queue را فراموش نکنید
+
+وقتی یک Callback «زودتر» یا «دیرتر» از انتظار اجرا می‌شود، فقط خود Callback را بررسی نکنید.
+
+بپرسید:
+
+این Callback از کدام مسیر به Execution رسیده است؟
+
+اشتباهات رایج
+اشتباه اول: Event Loop را محل اجرای JavaScript بدانیم
+
+Event Loop خودش محل اجرای Callback نیست.
+
+وظیفه آن هماهنگی بین اجرای JavaScript و کارهای آماده است.
+
+اشتباه دوم: setTimeout(..., 0) را اجرای فوری بدانیم
+
+صفر بودن Delay فقط باعث نمی‌شود Callback بلافاصله اجرا شود.
+
+Call Stack و Scheduling همچنان باید در نظر گرفته شوند.
+
+اشتباه سوم: Promise Callback را مانند Timer بدانیم
+
+Promise Reaction در مسیر Microtask قرار می‌گیرد و Scheduling متفاوتی با Taskهای معمول دارد.
+
+اشتباه چهارم: خالی شدن Timer را مساوی اجرای Callback بدانیم
+
+آماده شدن یک عملیات با اجرای Callback آن یکی نیست.
+
+Ready
+≠
+Executing
+اشتباه پنجم: Event Loop را Thread جدید بدانیم
+
+Event Loop برای هماهنگی Runtime است، نه ایجاد یک مسیر مستقل برای اجرای هم‌زمان JavaScript.
+
+اشتباه ششم: خروجی مثال‌های Asynchronous را حفظ کنیم
+
+اگر فقط خروجی:
+
+A
+C
+B
+
+را حفظ کنیم، در اولین مثال متفاوت دچار مشکل می‌شویم.
+
+باید دلیل این ترتیب را بدانیم.
+
+Summary
+
+JavaScript برای اجرای Code از Call Stack استفاده می‌کند.
+
+وقتی یک عملیات Asynchronous به Host Environment واگذار می‌شود، نتیجه آن لزوماً مستقیماً وارد Call Stack نمی‌شود.
+
+پس از آماده شدن نتیجه، Callback می‌تواند در Queue مناسب قرار گیرد.
+
+در اینجا دو مسیر مهم داریم:
+
+Task Queue
+Microtask Queue
+
+Microtaskها برای برخی عملیات Asynchronous مانند Promise Reactions استفاده می‌شوند.
+
+Event Loop وضعیت Call Stack و کارهای آماده را هماهنگ می‌کند تا کار مناسب در زمان مناسب وارد مسیر اجرای JavaScript شود.
+
+در نتیجه ترتیب اجرای Asynchronous Code را نمی‌توان فقط با ترتیب نوشته شدن خطوط پیش‌بینی کرد.
+
+باید Runtime را نیز در نظر گرفت:
+
+Call Stack
 ↓
 Host APIs
 ↓
-┌──────┴──────┐
-↓             ↓
-Task       Microtask
-Queue        Queue
-└──────┬──────┘
+Task Queues
+↓
+Microtasks
 ↓
 Event Loop
 ↓
 Task Scheduling
 ↓
-Call Stack
-↓
 Execution Order
 
-این Diagram قرار نیست تمام جزئیات داخلی Browser را مدل کند.
-
-هدف آن ساختن یک Mental Model قابل استفاده برای تحلیل رفتار Asynchronous JavaScript است.
-
-از این مدل می‌توان برای پاسخ به سؤال‌هایی مانند این استفاده کرد:
-
-چرا این Callback زودتر اجرا شد؟
-
-چرا setTimeout(..., 0) فوراً اجرا نشد؟
-
-چرا Promise Callback قبل از Timer اجرا شد؟
-
-چرا یک عملیات Synchronous طولانی باعث تأخیر در Callback شد؟
-
-پاسخ این سؤال‌ها دیگر حدس نیست.
-
-آن‌ها از رابطه میان:
-
-Call Stack
-Host APIs
-Queues
-Event Loop
-Scheduling
-
-به‌دست می‌آیند.
-
-Best Practices
-رفتار Async را از روی مدل تحلیل کنید
-
-به‌جای حفظ کردن خروجی مثال‌ها، مسیر اجرای آن‌ها را دنبال کنید.
-
-Synchronous
-→ Microtask
-→ Task
-setTimeout(..., 0) را اجرای فوری تصور نکنید
-
-صفر بودن Delay به معنای اجرای فوری Callback نیست.
-
-Callback باید وارد مسیر Scheduling شود.
-
-Task و Microtask را از هم جدا نگه دارید
-
-این دو اصطلاح فقط نام دو Queue نیستند؛ تفاوت آن‌ها روی Execution Order اثر می‌گذارد.
-
-Call Stack را در تحلیل Async فراموش نکنید
-
-حتی اگر یک Callback آماده باشد، اجرای Synchronous فعلی باید مسیر خود را طی کند.
-
-Event Loop را با Call Stack یکی ندانید
-
-Call Stack محل مدیریت Execution است.
-
-Event Loop بخشی از سازوکار هماهنگی Runtime است.
-
-اشتباهات رایج
-۱. «Async یعنی هم‌زمان»
-
-Asynchronous بودن به معنای اجرای هم‌زمان چند قطعه JavaScript در یک Call Stack نیست.
-
-۲. «Timer صفر یعنی اجرای فوری»
-
-0 به معنای اجرای فوری Callback نیست.
-
-Callback هنوز تابع Scheduling Runtime است.
-
-۳. «Callback آماده یعنی Callback در حال اجرا»
-
-آماده بودن و اجرا شدن دو مرحله متفاوت هستند:
-
-Ready
-≠
-Executing
-۴. «همه Callbackها در یک Queue قرار می‌گیرند»
-
-برای تحلیل Event Loop باید حداقل تفاوت Task و Microtask را در نظر گرفت.
-
-۵. «خروجی مثال‌ها را حفظ می‌کنم»
-
-حفظ کردن:
-
-A
-D
-C
-B
-
-دانش قابل اتکایی ایجاد نمی‌کند.
-
-باید بتوانید توضیح دهید چرا این ترتیب ایجاد شده است.
-
-Summary
-
-JavaScript Code در مسیر اجرای خود از Call Stack استفاده می‌کند.
-
-اما عملیات Asynchronous نباید لزوماً Call Stack را تا زمان پایان خود اشغال کند.
-
-به همین دلیل Host Environment بخشی از این عملیات را مدیریت می‌کند.
-
-وقتی عملیات آماده ادامه می‌شود، Callback آن مستقیماً و بدون قاعده وارد Call Stack نمی‌شود؛ بلکه باید در مسیر Scheduling مناسب قرار گیرد.
-
-در اینجا Task Queue و Microtask Queue وارد مدل می‌شوند.
-
-Task و Microtask از نظر Scheduling یکسان نیستند و همین تفاوت می‌تواند Execution Order را تغییر دهد.
-
-در نهایت Event Loop سازوکاری است که اجرای JavaScript را با کارهای آماده در Queueها هماهنگ می‌کند.
-
-پس مدل اصلی فصل چنین است:
-
-Call Stack
-↓
-Host APIs
-↓
-Task Queue
-↓
-Microtask Queue
-↓
-Event Loop
-↓
-Scheduling
-↓
-Execution Order
-
-این مدل به ما اجازه می‌دهد رفتار Asynchronous JavaScript را از روی علت‌ها تحلیل کنیم، نه اینکه خروجی مثال‌ها را حفظ کنیم.
+این مدل ذهنی به ما اجازه می‌دهد رفتار Asynchronous JavaScript را تحلیل کنیم، نه اینکه خروجی مثال‌ها را حفظ کنیم.
 
 Key Takeaways
-Call Stack مسیر اصلی اجرای JavaScript Code است.
-عملیات Asynchronous می‌تواند برای مدیریت شدن به Host Environment واگذار شود.
-آماده شدن یک Async Operation به معنای اجرای فوری Callback آن نیست.
-Taskهای آماده می‌توانند در Task Queue منتظر بمانند.
-Promise Reactionها نمونه‌ای از Microtask هستند.
-Microtask و Task Scheduling یکسانی ندارند.
-Call Stack باید در تحلیل Execution Order همیشه در نظر گرفته شود.
-Event Loop وظیفه هماهنگ کردن اجرای JavaScript با کارهای آماده Runtime را بر عهده دارد.
+Call Stack مسیر اجرای JavaScript Code را مدیریت می‌کند.
+Host APIs امکانات محیط اجرا برای مدیریت عملیات خارج از اجرای مستقیم JavaScript را فراهم می‌کنند.
+آماده شدن یک عملیات Asynchronous به معنای اجرای فوری Callback آن نیست.
+Callbackهای آماده باید از مسیر Queue و Scheduling وارد اجرای JavaScript شوند.
+Task Queue محل انتظار Taskهای آماده اجرای JavaScript است.
+Microtask نوع دیگری از کارهای Asynchronous است که Scheduling متفاوتی دارد.
+Promise Reactionها نمونه مهمی از Microtaskها هستند.
+Microtaskها در ترتیب اجرای Code نسبت به Taskهای معمول اهمیت دارند.
+Event Loop هماهنگ‌کننده بین Call Stack و کارهای آماده Runtime است.
 setTimeout(..., 0) به معنای اجرای فوری Callback نیست.
-Asynchronous بودن با اجرای هم‌زمان چند قطعه JavaScript یکسان نیست.
-Execution Order باید از مدل Runtime استنتاج شود، نه حفظ شود.
+Event Loop به معنای اجرای هم‌زمان چند قطعه JavaScript روی یک Call Stack نیست.
+برای تحلیل حرفه‌ای Asynchronous Code باید Execution Order را از روی Runtime Model استنتاج کرد.
 Technical Interview
 Junior
-سؤال ۱: Event Loop چیست؟
+سؤال 1: Event Loop چیست؟
 
 پاسخ:
 
-Event Loop سازوکاری در Runtime است که اجرای JavaScript را با کارهای آماده در Queueها هماهنگ می‌کند.
+Event Loop سازوکاری در Runtime است که اجرای JavaScript را با کارهای آماده در Queueها هماهنگ می‌کند و زمانی که شرایط اجرای کار جدید فراهم باشد، آن را وارد مسیر اجرای JavaScript می‌کند.
 
-سؤال ۲: چرا setTimeout(fn, 0) بلافاصله اجرا نمی‌شود؟
-
-پاسخ:
-
-چون Callback باید پس از آماده شدن وارد مسیر Scheduling شود و اجرای آن به وضعیت Call Stack و Runtime Scheduling وابسته است.
-
-سؤال ۳: Call Stack چه نقشی در Async JavaScript دارد؟
+سؤال 2: چرا setTimeout(fn, 0) فوراً اجرا نمی‌شود؟
 
 پاسخ:
 
-Call Stack مسیر اجرای JavaScript را مدیریت می‌کند. تا زمانی که Code Synchronous در حال اجرا باشد، Callback جدید نمی‌تواند در همان مسیر وارد اجرا شود.
+زیرا صفر بودن Delay فقط زمان آماده شدن Timer را مشخص می‌کند. Callback باید بعد از آماده شدن در مسیر Queue قرار گیرد و زمانی اجرا شود که Call Stack و Scheduling Runtime اجازه دهند.
+
+سؤال 3: Call Stack چه نقشی دارد؟
+
+پاسخ:
+
+Call Stack محل مدیریت Execution Contextهای مربوط به Code در حال اجرای JavaScript است. تا زمانی که اجرای جاری Stack تمام نشده باشد، Callback جدید نمی‌تواند در همان مسیر اجرای JavaScript اجرا شود.
 
 Mid-Level
-سؤال ۴: تفاوت Task و Microtask چیست؟
+سؤال 4: تفاوت Task و Microtask چیست؟
 
 پاسخ:
 
-هر دو کار آماده اجرای JavaScript هستند، اما Scheduling آن‌ها متفاوت است. Microtaskها مانند Promise Reactionها در ترتیب اجرای خود پیش از Task بعدی پردازش می‌شوند.
+هر دو نماینده کارهای آماده اجرای Asynchronous هستند، اما در Scheduling یکسان نیستند. Microtaskها، مانند Promise Reactionها، در نقطه‌ای پیش از رسیدگی به Task بعدی پردازش می‌شوند و بنابراین می‌توانند روی Execution Order اثر بگذارند.
 
-سؤال ۵: خروجی Code زیر چیست؟
+سؤال 5: خروجی Code زیر چیست و چرا؟
 console.log('A');
 
 setTimeout(() => {
@@ -789,94 +1057,68 @@ D
 C
 B
 
-A و D Synchronous هستند. Callback مربوط به Promise یک Microtask است و پیش از Task مربوط به Timer پردازش می‌شود.
+زیرا A و D به‌صورت Synchronous اجرا می‌شوند. Callback مربوط به Promise یک Microtask است و قبل از Task مربوط به Timer پردازش می‌شود.
 
-سؤال ۶: آیا setTimeout(..., 0) تضمین می‌کند Callback بعد از صفر میلی‌ثانیه اجرا شود؟
+سؤال 6: آیا setTimeout(..., 0) تضمین می‌کند Callback بعد از صفر میلی‌ثانیه اجرا شود؟
 
 پاسخ:
 
-خیر. صفر بودن Delay به معنای اجرای فوری Callback نیست. Callback پس از آماده شدن باید در مسیر Scheduling قرار گیرد و اجرای آن به شرایط Runtime وابسته است.
+خیر. 0 حداقل Delay مربوط به Timer را مشخص می‌کند، نه زمان دقیق اجرای Callback. اجرای Callback به وضعیت Call Stack و Scheduling Runtime نیز وابسته است.
 
 Senior
-سؤال ۷: آیا Event Loop باعث اجرای هم‌زمان JavaScript می‌شود؟
+سؤال 7: آیا Event Loop باعث اجرای هم‌زمان JavaScript می‌شود؟
 
 پاسخ:
 
-خیر. Event Loop وظیفه هماهنگی کارهای آماده با مسیر اجرای JavaScript را دارد. خودش مسیر مستقلی برای اجرای هم‌زمان JavaScript ایجاد نمی‌کند.
+خیر. Event Loop وظیفه هماهنگ کردن کارهای آماده با مسیر اجرای JavaScript را بر عهده دارد. اجرای JavaScript در یک Call Stack انجام می‌شود و Event Loop به‌تنهایی Thread جدیدی برای اجرای هم‌زمان JavaScript ایجاد نمی‌کند.
 
-سؤال ۸: چرا یک عملیات Synchronous طولانی می‌تواند اجرای Timer را به تأخیر بیندازد؟
-
-پاسخ:
-
-زیرا تا زمانی که Code Synchronous در Call Stack در حال اجرا است، Callback Timer نمی‌تواند وارد مسیر اجرای JavaScript شود؛ حتی اگر Timer از قبل آماده شده باشد.
-
-سؤال ۹: برای تحلیل Execution Order یک Code Asynchronous چه مراحلی را بررسی می‌کنید؟
+سؤال 8: چرا Microtaskها می‌توانند اجرای Task بعدی را به تأخیر بیندازند؟
 
 پاسخ:
 
-ابتدا Code Synchronous را مشخص می‌کنم، سپس عملیات واگذارشده به Host Environment را بررسی می‌کنم، بعد مشخص می‌کنم Callback در Task یا Microtask قرار می‌گیرد و در نهایت وضعیت Call Stack و Scheduling را برای تعیین Execution Order تحلیل می‌کنم.
+زیرا Runtime قبل از رسیدگی به Task بعدی، Microtaskهای آماده را پردازش می‌کند. اگر اجرای یک Microtask باعث ایجاد Microtaskهای بیشتری شود، این زنجیره می‌تواند ادامه پیدا کند و رسیدن Runtime به Taskهای دیگر را عقب بیندازد.
+
+سؤال 9: برای تحلیل یک رفتار غیرمنتظره در Asynchronous JavaScript چه مدل ذهنی استفاده می‌کنید؟
+
+پاسخ:
+
+ابتدا Code Synchronous را مشخص می‌کنم، سپس بررسی می‌کنم عملیات Asynchronous به کدام Host API واگذار شده و Callback آن در کدام Queue قرار می‌گیرد. سپس وضعیت Call Stack و Scheduling Microtaskها و Taskها را بررسی می‌کنم تا Execution Order را از روی Runtime Model استنتاج کنم.
 
 Golden Answers
-Event Loop چیست؟
+Event Loop در یک جمله چیست؟
 
 Event Loop سازوکاری برای هماهنگ کردن اجرای JavaScript با کارهای آماده در Queueهای Runtime است.
 
-چرا setTimeout(..., 0) فوری اجرا نمی‌شود؟
+چرا Timer صفر بلافاصله اجرا نمی‌شود؟
 
-زیرا آماده شدن Timer با اجرای Callback یکی نیست؛ Callback باید وارد مسیر Scheduling شود و منتظر فرصت اجرای JavaScript بماند.
+چون آماده شدن Timer با اجرای Callback یکسان نیست؛ Callback باید وارد مسیر Queue و Scheduling شود و منتظر فرصت اجرای JavaScript بماند.
 
-چرا Promise Callback می‌تواند قبل از Timer اجرا شود؟
+چرا Promise معمولاً قبل از Timer اجرا می‌شود؟
 
-زیرا Promise Reaction یک Microtask است و Microtaskها در Scheduling پیش از Task بعدی پردازش می‌شوند.
+زیرا Promise Reaction در مسیر Microtask قرار می‌گیرد و Microtaskها پیش از Task بعدی پردازش می‌شوند.
 
-مهم‌ترین مدل ذهنی فصل چیست؟
+مهم‌ترین مدل ذهنی این فصل چیست؟
 
-عملیات Async از مسیر مستقیم Call Stack خارج می‌شود، Host Environment آن را مدیریت می‌کند، نتیجه در مسیر Queue مناسب قرار می‌گیرد و Event Loop ورود آن به اجرای JavaScript را هماهنگ می‌کند.
+Asynchronous Code مستقیماً Call Stack را کنترل نمی‌کند؛ عملیات به Runtime واگذار می‌شود، نتیجه وارد Queue مناسب می‌شود و Event Loop ورود آن کار به اجرای JavaScript را هماهنگ می‌کند.
 
 Conclusion
 
-درک Event Loop زمانی ساده می‌شود که آن را به‌عنوان یک مفهوم مستقل حفظ نکنیم.
+در این فصل، Event Loop را به‌عنوان یک مفهوم منفرد بررسی نکردیم.
 
-ما از Call Stack شروع کردیم؛ زیرا JavaScript برای اجرای Code به یک مسیر مشخص نیاز دارد.
+از Call Stack شروع کردیم؛ زیرا JavaScript باید محلی برای اجرای Code داشته باشد.
 
-اما Call Stack نمی‌تواند درگیر یک عملیات زمان‌بر بماند و هم‌زمان انتظار داشته باشیم Application پاسخ‌گو باقی بماند.
+سپس به Host APIs رسیدیم؛ زیرا عملیات Asynchronous نباید اجرای مستقیم JavaScript را برای تمام مدت خود متوقف کند.
 
-پس بخشی از کار به Host APIs واگذار می‌شود.
+بعد Task Queues را دیدیم؛ زیرا نتیجه یک عملیات آماده نمی‌تواند بدون توجه به وضعیت اجرای فعلی وارد Call Stack شود.
 
-وقتی عملیات تمام می‌شود، Callback نمی‌تواند بدون توجه به وضعیت اجرای JavaScript وارد Call Stack شود.
+سپس Microtasks را وارد مدل کردیم؛ زیرا همه کارهای Asynchronous از یک مسیر Scheduling عبور نمی‌کنند.
 
-پس به Queues نیاز داریم.
+در نهایت Event Loop را دیدیم؛ سازوکاری که این اجزا را در یک سیستم Scheduling به هم متصل می‌کند.
 
-اما همه کارها یکسان نیستند.
+اکنون می‌توانیم یک سؤال مهم‌تر مطرح کنیم.
 
-Promise Reactionها در قالب Microtask وارد مدل می‌شوند و همین موضوع باعث می‌شود Scheduling آن‌ها با Taskهای معمول متفاوت باشد.
+اگر Browser عملیات Network را نیز به Host Environment واگذار می‌کند، نتیجه این عملیات چگونه از Server به Application بازمی‌گردد و JavaScript چگونه با یک Server ارتباط برقرار می‌کند؟
 
-در نهایت Event Loop این اجزا را در یک مدل هماهنگ قرار می‌دهد.
+این سؤال ما را به مفهوم بعدی می‌رساند:
 
-بنابراین وقتی در یک Application با رفتار غیرمنتظره‌ای مانند این مواجه می‌شویم:
-
-Why did this run before that?
-
-نباید پاسخ را در حد «چون Async است» نگه داریم.
-
-باید مسیر Runtime را دنبال کنیم:
-
-Call Stack
-↓
-Host APIs
-↓
-Queues
-↓
-Event Loop
-↓
-Scheduling
-↓
-Execution Order
-
-اکنون یک سؤال طبیعی باقی می‌ماند:
-
-اگر Browser می‌تواند یک عملیات Asynchronous را به Host Environment واگذار کند، در یک HTTP Request دقیقاً چه چیزی بین Browser و Server اتفاق می‌افتد؟
-
-این سؤال ما را به فصل بعد می‌رساند:
-
-AJAX and HTTP Communication.
+Browser چگونه با Server ارتباط برقرار می‌کند؟
